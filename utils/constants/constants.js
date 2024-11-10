@@ -1,0 +1,9 @@
+export const SERVER_BASEURL = "https://essentialkonjacskinfoods.com/api/v1/en/";
+export const PRODUCT_IMAGE_BASEURL = "https://admin.essentialkonjacskinfoods.com/assets/img/";
+export const ACCESS_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ";
+export const GOOGLE_API_KEY = "AIzaSyA34QjlATndVGfvl_RwqZuyepTMYyhoB6I";
+export const VIDEOS_PLAYLIST_ID = "PLmLDpkciAl3o0BDtNSl8_cluQuyYfoTv-";
+export const SHORTS_PLAYLIST_ID = "PLmLDpkciAl3oOmlvIxbccpUgAKA3VKXmq";
+export const YOUTUBE_URL = "https://www.googleapis.com/youtube/v3/playlistItems";
+export const FACEBOOK_ACCESS_TOKEN = "IGQWRPRC01djdyYTVoWnhBVkozRXNZAWTZA0cmpNcXBGSUhkVTF1SE4zcThreFQ1NWN4WlJpb01MbmE3UXp0VUJCXzhjS1dhQnRCWTBvemR3UWtaOXhlcUdxNmdpdFJxbmEwQmJ4cDVEcmFKdlAyOG1EVTlydWtiXzgZD";
+export const INSTAGRAM_URL = "https://graph.instagram.com/me/media?fields=id,media_type,media_url,caption,thumbnail_url,permalink,timestamp,username"
