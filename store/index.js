@@ -10,13 +10,16 @@ import modalReducer from '~/store/modal';
 import wishlistReducer from '~/store/wishlist';
 import demoReducer from '~/store/demo';
 
+import { productReducer } from './productReducer';
+
 const sagaMiddleware = createSagaMiddleWare();
 
 const rootReducers = combineReducers({
     cart: cartReducer,
     modal: modalReducer,
     wishlist: wishlistReducer,
-    demo: demoReducer
+    demo: demoReducer,
+    product: productReducer,
 })
 
 export const makeStore = (context) => {

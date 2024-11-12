@@ -207,7 +207,7 @@
         display: flex;
         align-items: center;
     }
-
+height: 140px;
     .inner-wrap {
         @include print_css( header, inner-wrap );
         width: 100%;
@@ -248,8 +248,10 @@
 .header-left {
     flex: 1;
 }
+
 .header-left,
 .header-right,
+
 .header-center {
     display: flex;
     align-items: center;
@@ -1009,4 +1011,26 @@
     .mobile-link {
         display: none;
     }
+}
+
+
+
+.wishlist {
+    position: relative;
+    display: inline-block;
+}
+
+.wishlist-count {
+    position: absolute;
+    top: -4px; // Adjusted value
+    right: 45px; // Adjusted value
+    background-color: red; // Adjusted color
+    color: white;
+    border-radius: 50%;
+    width: 18px; // Adjusted size
+    height: 18px; // Adjusted size
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px; // Font size
 }

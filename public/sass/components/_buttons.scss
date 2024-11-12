@@ -419,17 +419,21 @@
         border-color: $primary-color;
         background-color: $primary-color; 
     }
+
+
     &.btn-outline {
-        color: #fff;
+        color:rgb(84, 84, 84);
+        border-color:rgb(84, 84, 84);
         background-color: transparent;
-        border-color: #fff;
         &:hover,
         &:active,
         &:focus {
-            color: $primary-color;
-            background-color: #fff;
+            background-color:rgb(84, 84, 84);
+            color: #fff;
         }
     }
+
+
     &.btn-link {
         color: #fff;
         background-color: transparent;

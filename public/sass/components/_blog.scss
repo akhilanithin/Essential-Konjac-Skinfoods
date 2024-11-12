@@ -94,6 +94,7 @@
 
 // Default
 .post {
+    height: 'auto';
     @include print_css( post );
     .btn {
         i {
@@ -113,7 +114,14 @@
     justify-content: center;
     flex-direction: column;
     z-index: 2;
-    @include print_css( post, calendar );
+    width: 4.5rem;
+    height: 4.7rem;
+    background: rgb(255, 102, 153);
+    color:#fff;
+    font-weight: 600;
+    line-height: 1;
+    border-radius: 0;
+    @include print_css( calendar );
     .post-day {
         display: block;
         margin-bottom: 1px;
@@ -136,6 +144,9 @@
         width: 100%;
         height: auto;
         transition: transform .3s;
+        object-fit: cover;
+        align-items: center;
+        height: 206px;
     }
     .post-calendar {
         position: absolute;

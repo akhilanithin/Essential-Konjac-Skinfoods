@@ -434,7 +434,7 @@ export const productSlider2 = {
     nav: false,
     dots: false,
     margin: 20,
-    loop: false,
+    loop: true,
     responsive: {
         0: {
             items: 2
@@ -447,7 +447,6 @@ export const productSlider2 = {
         }
     }
 }
-
 export const bannerSlider = {
     items: 1,
     loop: false,

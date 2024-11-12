@@ -40,7 +40,9 @@
                 ),
                 sale: (
                     color: false,
-                    background: $secondary-color
+                    background: $primary-color
+                    // background: #a3d2a2
+                   
                 ),
                 top: (
                     color: false,
@@ -150,10 +152,31 @@
     margin-bottom: 2rem;
 }
 
+// .product {
+//     position: relative;
+//     @include print_css( product );
+//     transition: .3s;
+//     background-color: rgba(252, 237, 234, 0.9);
+//     border-radius: 3rem;
+//     padding: 6%;
+
+//     &:hover {
+//         .product-action,
+//         .product-action-vertical {
+//             visibility: visible;
+//             opacity: 1;
+//         }
+//     }
+// }
+
+
+
+
 .product {
     position: relative;
     @include print_css( product );
     transition: .3s;
+    background-color: rgba(252, 237, 234, 0.9);
 
     &:hover {
         .product-action,
@@ -170,10 +193,65 @@
 }
 
 
+// // Product Media
+// .product-media {
+//     position: relative;
+//     margin-bottom: 0;
+   
+//     overflow:hidden; 
+//     object-fit: cover;
+//     display: flex;
+  
+
+//     &:not(.pure-media)::before {
+//         content: '';
+//         display: block;
+//         padding-top: 100%;
+//         background-color: #f4f4f4;
+//     }
+
+//                 img {
+//                     display: block;
+//                     transition: all .5s;
+//                     object-fit: cover;
+//                     align-items: center;
+//                     width: 100%;
+//                     height: 250px;
+//                 }
+
+//     span {
+//         position: absolute;
+//         left: 0;
+//         right: 0;
+//         top: 0;
+//         left: 0;
+//         transition: all .5s;
+//     }
+
+//     span:last-child {
+//         opacity: 0;
+//         // object-fit: cover;
+//     }
+
+//     span:first-child {
+//         // position: relative;
+//         opacity: 1;
+//     }
+
+//     transition: box-shadow .3s;
+// }
+
+
 // Product Media
 .product-media {
     position: relative;
     margin-bottom: 0;
+
+       
+    overflow:hidden; 
+    object-fit: cover;
+    display: flex;
+  
 
     &:not(.pure-media)::before {
         content: '';
@@ -187,7 +265,23 @@
         width: 100%;
         height: auto;
         transition: all .5s;
+        object-fit: cover;
+        align-items: center;
+        height: 250px;
     }
+
+    video {
+        display: block;
+        width: 100%;
+        height: auto;
+        transition: all .5s;
+        object-fit: cover;
+        align-items: center;
+        height: 250px;
+    }
+
+
+
 
     span {
         position: absolute;
@@ -252,6 +346,9 @@
     top: 1.8rem;
     max-width: 10rem;
 }
+
+
+
 .product-label {
     display: block;
     text-align: center;
@@ -292,6 +389,7 @@
     &.btn-wishlist i {
         margin-top: .3rem;
         margin-left: .1rem;
+        color: red;
     }
 
     &:hover {
@@ -311,6 +409,7 @@
         font-size: 1.8rem;
     }
 }
+
 
 .product-list .btn-product-icon i {
     margin-bottom: 1px;
@@ -364,6 +463,21 @@
     }
 }
 
+// // Product Action Vertical Container
+// .product-action-vertical {
+//     position: absolute;
+//     top: 15px;
+//     right: 15px;
+//     transition: opacity .3s, visibility .3s;
+//     opacity: 0;
+//     visibility: hidden;
+
+//     .btn-wishlist.loading {
+//         overflow: hidden;
+//     }
+// }
+
+
 // Product Action Vertical Container
 .product-action-vertical {
     position: absolute;
@@ -378,6 +492,9 @@
     }
 }
 
+
+
+
 // Product Action Container
 .product-action {
     position: absolute;
@@ -391,6 +508,8 @@
     transition: opacity .3s, visibility .3s;
     opacity: 0;
 }
+
+
 
 // Product Details
 .product-details {
@@ -428,6 +547,12 @@
     }
 }
 
+
+
+
+
+
+
 // Product Category
 .product-cat {
     @include print_css( product, category );
@@ -441,9 +566,10 @@
 // Product Name
 .product-name {
     @include print_css( product, name );
-    white-space: nowrap;
+    white-space: normal;
     overflow: hidden;
     text-overflow: ellipsis;
+    height:45px;
     a {
         // transition: color .3s;
         &:hover {
@@ -462,9 +588,12 @@
     .old-price {
         color: #aaa;
         margin-left: 1rem;
+        font-weight: 400;
     }
     .new-price {
         text-decoration: none;
+        font-weight: 700;
+
     }
 }
 

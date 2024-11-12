@@ -63,6 +63,33 @@ export const mainMenu = {
             }
         ]
     },
+
+
+
+
+
+    "aesthetics": [
+        {
+            "title": "aesthetics",
+            "url": "aesthetics/aesthetics"
+        },
+    ],
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     "product": {
         "pages": [
             {
@@ -161,6 +188,8 @@ export const mainMenu = {
             "url": "pages/coming-soon"
         }
     ],
+
+
     "blog": [
         {
             "title": "Classic",
@@ -233,6 +262,9 @@ export const mainMenu = {
             "url": "blog/single/pellentesque-fusce-suscipit"
         }
     ],
+
+
+
     "element": [
         {
             "title": "Products",
@@ -289,6 +321,10 @@ export const mainMenu = {
         {
             "title": "Icons",
             "url": "elements/icons"
+        },
+        {
+            "title": "youtube",
+            "url": "elements/youtube"
         }
     ]
 }

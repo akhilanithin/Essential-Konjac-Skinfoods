@@ -3,7 +3,7 @@
 ------------------------------------------- */
 
 // 1. Colors
-$primary-color: #6ea641 !default;
+$primary-color: rgb(255,102,153) !default;
 $primary-color-dark:  #222 !default;
 $secondary-color: #EE8379 !default;
 $alert-color: #b10001 !default; 
@@ -15,6 +15,8 @@ $grey-color: #999 !default;
 $border-color: #e1e1e1 !default;
 $border-color-light: #eee !default;
 $white-color: #fff !default;
+$custom-pink:#d05278;
+
 
 // 2. Font-families
 $alt-font-family: sans-serif !default;
