@@ -58,7 +58,7 @@ const ProductListOne: React.FC<ProductListProps> = ({ itemsPerRow = 3, type = "l
                 const response = await fetch(`https://api.eksfc.com/api/products?page=${page}&limit=${perPage}&sortField=id&sortOrder=DESC&search=${query.search || ''}&filterName=status&filterValue=0`, {
                     method: 'GET',
                     headers: {
-                        'Authorization': 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsImlhdCI6MTczMTM5MDY4MiwiZXhwIjoxNzMxNDc3MDgyfQ.qlO9KH4RxJsszJm1e31H_huOwKJKQC31tBXywmTOD948GQY2kfIlkGTIyAhBjjfrZwqTKxMVoIqgsnDHtqKKUA',
+                        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_PRODUCT_TOKEN}`,
                         'konjac-version': '1.0.1'
                     }
                 });
@@ -125,7 +125,7 @@ const ProductListOne: React.FC<ProductListProps> = ({ itemsPerRow = 3, type = "l
                     {gridType === 'grid' ? (
                         <div className={`row product-wrapper ${gridClasses[itemsPerRow]}`}>
                             {products.data.map(item => (
-                                <div className="product-wrap" key={`shop-${item.slug}`}>
+                                <div className="product-wrap" key={`shop-${item?.name}`}>
                                     <ProductTwo product={item} />
                                 </div>
                             ))}
@@ -135,7 +135,7 @@ const ProductListOne: React.FC<ProductListProps> = ({ itemsPerRow = 3, type = "l
                             {products.data.map(item => (
                               
                                 
-                                <ProductEight product={item} key={`shop-list-${item.slug}`} />
+                                <ProductEight product={item} key={`shop-list-${item?.name}`} />
                             ))}
                         </div>
                     )}

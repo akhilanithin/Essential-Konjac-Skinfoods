@@ -72,6 +72,11 @@ export const mainMenu = {
         {
             "title": "aesthetics",
             "url": "aesthetics/aesthetics"
+        },  
+        
+        {
+            "title": "Simpl Product",
+            "url": "aesthetics/bodycare-smooth-perfume"
         },
     ],
 

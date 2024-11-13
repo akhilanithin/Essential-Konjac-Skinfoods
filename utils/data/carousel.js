@@ -227,7 +227,8 @@ export const mainSlider13 = {
         992: {
             items: 3,
             dots: false
-        }
+        },
+        
     }
 }
 
