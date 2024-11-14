@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import Helmet from 'react-helmet';
 import CountUp from 'react-countup';
 import Reveal from 'react-awesome-reveal';
@@ -36,6 +36,16 @@ const AboutUs: React.FC = () => {
         });
     };
 
+
+
+    const [isPlaying, setIsPlaying] = useState(false);
+
+    const handlePlay = () => {
+      setIsPlaying(true);
+    };
+  
+
+
     return (
         <main className="main about-us">
             <Helmet>
@@ -44,23 +54,30 @@ const AboutUs: React.FC = () => {
 
             <h1 className="d-none">Riode React eCommerce Template - About Us</h1>
 
-            <nav className="breadcrumb-nav">
-                <div className="container">
-                    <ul className="breadcrumb">
-                        <li><ALink href="/"><i className="d-icon-home"></i></ALink></li>
-                        <li>About Us</li>
-                    </ul>
-                </div>
-            </nav>
+            <div className="page-header shop" style={{ backgroundImage: `url(https://eksfc.com/assets/img/detail-main-bg.jpg)`, backgroundColor: "#E4EAEA" }}>
+            <h1 className="page-title text-dark ls-m font-weight-bold mb-2">ABOUT</h1>
+            <ul className="breadcrumb">
+                    <li>
+                        <ALink href="/">
+                            <i className="d-icon-home"></i>
+                        </ALink>
+                    </li>
+                    <li className="delimiter">/</li>
+                    <li>
+                        <a href="/elements/"></a>
+                    </li>
+                    <li className="delimiter">/</li>
+                    <li>About</li>
+                </ul>
+        
+        </div>
 
-            <div
-                className="page-header pl-4 pr-4"
-                style={{ backgroundImage: `url(./images/page-header/about-us.jpg)`, backgroundColor: "#3C63A4" }}
-            >
-                <h3 className="page-subtitle font-weight-bold">Welcome to Riode</h3>
-                <h1 className="page-title font-weight-bold lh-1 text-white text-capitalize">Our Services</h1>
-                <p className="page-desc text-white mb-0">Lorem quis bibendum auctor, nisi elit consequat ipsum,<br /> nec sagittis sem nibh id elit.</p>
-            </div>
+  
+
+
+      
+
+            
 
             <div className="page-content mt-10 pt-10">
                 <Reveal keyframes={fadeIn} delay="50" duration="1000" triggerOnce>

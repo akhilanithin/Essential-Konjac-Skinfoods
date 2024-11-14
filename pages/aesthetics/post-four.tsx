@@ -85,7 +85,7 @@ const PostFour: React.FC<PostFourProps> = ({
 
 
             <div className="post-details">
-                <ALink href={`/blog/single/${post?.id}`} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+                <ALink href={`/aesthetics/${post?.id}`} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
                     <img
                         src={`${post?.clinic?.logo}`}
                         alt=""

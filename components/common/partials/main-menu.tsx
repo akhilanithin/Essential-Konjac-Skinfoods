@@ -39,7 +39,7 @@ function MainMenu() {
                 {/* Aesthetics */}
 
                 <li>
-                    <ALink href="aesthetics/aesthetics">AESTHETICS</ALink>
+                    <ALink href="/aesthetics">AESTHETICS</ALink>
                 </li>
               
 

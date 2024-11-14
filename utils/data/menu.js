@@ -69,10 +69,10 @@ export const mainMenu = {
 
 
     "aesthetics": [
-        {
-            "title": "aesthetics",
-            "url": "aesthetics/aesthetics"
-        },  
+        // {
+        //     "title": "aesthetics",
+        //     "url": "aesthetics/aesthetics"
+        // },  
         
         {
             "title": "Simpl Product",
