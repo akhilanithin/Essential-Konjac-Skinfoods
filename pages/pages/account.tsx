@@ -1,10 +1,28 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import Helmet from 'react-helmet';
 import { Tabs, Tab, TabList, TabPanel } from 'react-tabs';
 
 import ALink from '~/components/features/custom-link';
 
 const Account: React.FC = () => {
+
+
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+        }
+    }, []);
+
+
+
+
+console.log(user);
+
+
+
     return (
         <main className="main account">
             <Helmet>
