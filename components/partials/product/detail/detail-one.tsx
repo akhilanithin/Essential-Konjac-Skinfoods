@@ -80,6 +80,8 @@ const DetailOne: React.FC<Props> = ({
 
     // const isWishlisted = wishlist.findIndex(item => item.slug === product.data.slug) > -1;
 
+    const isWishlisted = wishlist.some(item => item.name === product?.name);
+
     // Initialize colors and sizes arrays
     const colors: Array<{ name: string; value: string }> = [];
     const sizes: Array<{ name: string; value: string }> = [];
@@ -152,6 +154,23 @@ const DetailOne: React.FC<Props> = ({
     //         router.push('/pages/wishlist');
     //     }
     // };
+
+    const wishlistHandler = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        if (toggleWishlist && !isWishlisted) {
+            let currentTarget = e.currentTarget;
+            currentTarget.classList.add('load-more-overlay', 'loading');
+            toggleWishlist(product);
+
+            setTimeout(() => {
+                currentTarget.classList.remove('load-more-overlay', 'loading');
+            }, 1000);
+        } else {
+            router.push('/pages/wishlist');
+        }
+    };
+
+   
 
 
 
@@ -483,6 +502,17 @@ const DetailOne: React.FC<Props> = ({
                     <i className={isWishlisted ? "d-icon-heart-full" : "d-icon-heart"}></i>
                     {isWishlisted ? 'Browse wishlist' : 'Add to Wishlist'}
                 </a> */}
+
+
+                <a
+                    href="#"
+                    className={`btn-product btn-wishlist`}
+                    title={isWishlisted ? 'Browse wishlist' : 'Add to wishlist'}
+                    onClick={wishlistHandler}
+                >
+                    <i className={isWishlisted ? 'd-icon-heart-full' : 'd-icon-heart'}></i>
+                    {isWishlisted ? 'Browse wishlist' : 'Add to Wishlist'}
+                </a>
 
             </div> 
 

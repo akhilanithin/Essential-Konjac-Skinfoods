@@ -32,8 +32,7 @@ const ProductListOne: React.FC<ProductListProps> = ({ itemsPerRow = 3, type = "l
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-
-
+    
 
 
     // Determine items per page based on filterId
@@ -66,20 +65,11 @@ const ProductListOne: React.FC<ProductListProps> = ({ itemsPerRow = 3, type = "l
                 if (!response.ok) throw new Error('Failed to fetch products');
 
                 const data: ProductsResponse = await response.json();
-                const filteredData = data.data.filter(product => product.status === 0); // Filter active products
+                const filteredData = data.data.filter(product => product?.status === 0); // Filter active products
 
-                // setProducts(data);
-
-
-                
-                
-
+                // setProducts(data);         
                 setProducts({ data: filteredData, total: data.total });
-                setLoading(false);
-
-
-
-               
+                setLoading(false);               
                 
             } catch (err) {
                 console.error(err);
@@ -90,14 +80,18 @@ const ProductListOne: React.FC<ProductListProps> = ({ itemsPerRow = 3, type = "l
         };
 
         fetchProducts();
-    }, [page, perPage, query.search, query.filterId]);
+    }, []);
+
+
+
+
 
 
 
 
 
     
-    const totalPage = Math.ceil(products.total / perPage) || 1;
+    const totalPage = Math.ceil(products?.total / perPage) || 1;
 
 
 
@@ -132,9 +126,7 @@ const ProductListOne: React.FC<ProductListProps> = ({ itemsPerRow = 3, type = "l
                         </div>
                     ) : (
                         <div className="product-lists product-wrapper">
-                            {products.data.map(item => (
-                              
-                                
+                            {products.data.map(item => (                               
                                 <ProductEight product={item} key={`shop-list-${item?.name}`} />
                             ))}
                         </div>
