@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-const secretKey = '1234' // Store this in an environment variable
+const secretKey = '1234'|| 'your-secret-key'; // Store this in an environment variable
 
 // Dummy users for testing (use a database in a real application)
 const users = [

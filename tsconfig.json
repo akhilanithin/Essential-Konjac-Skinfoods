@@ -27,7 +27,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "pages/api/auth/login.js", "pages/api/auth/register.js"  ],
+, "pages/api/auth/login.js", "pages/api/auth/register.js", "pages/api/auth/tost.js"  ],
   "exclude": [
     "node_modules"
   ]

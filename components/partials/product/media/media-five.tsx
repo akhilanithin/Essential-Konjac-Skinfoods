@@ -125,8 +125,15 @@ const MediaOne: React.FC<Props> = ({ product, adClass = '' }) => {
                                 mouseActivation="hover"
                                 cursorStyleActive="crosshair"
                                 className="product-image large-image"
-
+                                style={{
+                                    width: '100%', 
+                                    display: 'inline-block',
+                                    height: '570px', 
+                                    objectFit: 'cover', 
+                              
+                                }}
                             />
+          
                         </div>
                 ))}
 

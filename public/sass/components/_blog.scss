@@ -133,20 +133,23 @@
         @include print_css( post, calendar, month );
     }
 }
+
+
+
+
 .post-media {
     position: relative;
-    width: 100%;
+//    width: 100%;
+
     margin-bottom: 0;
     overflow: hidden;
     border-radius: 3px;
     img {
         display: block;
-        width: 100%;
-        height: auto;
+        // width: 100%;
+        //  width:280px;
+        // height: 200px;
         transition: transform .3s;
-        object-fit: cover;
-        align-items: center;
-        height: 100%;
     }
     .post-calendar {
         position: absolute;
@@ -167,6 +170,7 @@
         } 
     }
 }
+
 
 .post-details {
     @include print_css( post, detail );

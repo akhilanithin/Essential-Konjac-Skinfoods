@@ -1,0 +1,113 @@
+.banner-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.video-main {
+  position: relative;
+  height: 100%;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 20px solid white;
+  cursor: pointer;
+  transition: transform 0.3s;
+
+  &:hover {
+      transform: scale(1.05);
+  }
+
+  iframe {
+      height: 100%;
+      width: 100%;
+      border-radius: 0.5rem;
+  }
+
+  .play-icon {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      border-radius: 0.5rem;
+  }
+
+  .thumbnail {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+  }
+}
+
+.video-sub {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.3s;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+      transform: scale(1.05);
+  }
+
+  .play-icon {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+  }
+
+  .thumbnail {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.3s;
+  }
+}
+
+.video-layout {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  padding-right: 1rem;
+  padding-left: 1rem;
+
+  .background {
+      position: absolute;
+      top: -4rem;
+      bottom: -2em;
+      right: -2rem;
+      width: 66.67%; // Equivalent to 2/3
+      border-radius: 0.5rem;
+      background-color: rgba(252, 237, 234, 0.9);
+      z-index: 0;
+  }
+
+  .main-video {
+      flex-grow: 1;
+      padding-bottom: 1rem;
+      padding-right: 2rem;
+      height: 550px;
+  }
+
+  .sub-videos {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(1, 1fr);
+      flex-shrink: 0;
+      width: 20rem; // Equivalent to lg:w-36
+      padding-left: 1rem;
+      padding-top: 1rem;
+  }
+}

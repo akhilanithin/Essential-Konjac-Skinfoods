@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 
-const secretKey='1234'
+
+const secretKey = '1234'|| 'your-secret-key'; 
 
 // Dummy users for testing (use a database in a real application)
 const users = [

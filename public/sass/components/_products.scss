@@ -177,6 +177,8 @@
     @include print_css( product );
     transition: .3s;
     background-color: rgba(252, 237, 234, 0.9);
+    border-radius: 1rem;
+    padding: 2%;
 
     &:hover {
         .product-action,

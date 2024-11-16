@@ -85,8 +85,14 @@ const ToolBox: React.FC<ToolBoxProps> = ({ type = "left" }) => {
 
     return (
         <nav className={`toolbox sticky-toolbox sticky-content fix-top ${type === "horizontal" ? 'toolbox-horizontal' : ''}`}>
+
+{/* toolbox left */}
+
             {type === "horizontal" && <SidebarFilterThree />}
             <div className="toolbox-left">
+
+                {/* sort  */}
+                
                 {(type === "left" || type === "off-canvas" || type === "navigation" || type === "horizontal") && (
                     <ALink href="#" className={`toolbox-item left-sidebar-toggle btn btn-outline btn-primary btn-rounded ${type === "navigation" ? "btn-icon-left btn-sm" : "btn-sm btn-icon-right"} ${type === "off-canvas" || type === "navigation" ? '' : "d-lg-none"}`} onClick={showSidebar}>
                         {type === "navigation" && <i className="d-icon-filter-2"></i>}
@@ -94,6 +100,8 @@ const ToolBox: React.FC<ToolBoxProps> = ({ type = "left" }) => {
                         {type !== "navigation" && <i className="d-icon-arrow-right"></i>}
                     </ALink>
                 )}
+
+                {/* filter */}
 
                 <div className={`toolbox-item toolbox-sort ${type === "boxed" || type === "banner" ? "select-box text-dark" : "select-menu"}`}>
                     {type === "boxed" || type === "banner" && <label>Sort By :</label>}
@@ -108,6 +116,11 @@ const ToolBox: React.FC<ToolBoxProps> = ({ type = "left" }) => {
                     </select>
                 </div>
             </div>
+
+
+
+{/* toolbox Right */}
+
             <div className="toolbox-right">
                 <div className="toolbox-item toolbox-show select-box text-dark">
                     <label>Show :</label>

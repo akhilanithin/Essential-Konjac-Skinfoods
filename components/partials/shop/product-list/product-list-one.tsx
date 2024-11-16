@@ -113,7 +113,7 @@ const ProductListOne: React.FC<ProductListProps> = ({ itemsPerRow = 3, type = "l
 
     return (
         <>
-            {isToolbox && <ToolBox type={type} />}
+            {isToolbox && <ToolBox type={type}  />}
             {loading ? (
                 <div className={`row product-wrapper ${gridClasses[itemsPerRow]}`}>
                     {[...Array(perPage)].map((_, index) => (

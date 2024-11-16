@@ -4,6 +4,8 @@ import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
 import Modal from 'react-modal';
 import ALink from '~/components/features/custom-link';
 
+import { showSuccessToast, showWarningToast, showInfoToast, showErrorToast } from '~/pages/api/auth/tost'
+
 const customStyles = {
     overlay: {
         backgroundColor: 'rgba(0,0,0,0.4)',
@@ -58,11 +60,11 @@ const LoginModal: React.FC = () => {
                 // Redirect to the account page
                 router.push('/pages/account/');
             } else {
-                alert(data.message || 'Login failed!');
+                showWarningToast(data.message || 'Login failed!');
             }
         } catch (error) {
             console.error('Error logging in:', error);
-            alert('Something went wrong. Please try again.');
+            showInfoToast('Something went wrong. Please try again.');
         }
     };
 
@@ -78,15 +80,15 @@ const LoginModal: React.FC = () => {
             });
             const data = await response.json();
             if (response.ok) {
-                alert('Registration successful! Please log in.');
+                showSuccessToast('Registration successful! Please log in.');
                 index = 0; // Switch to login tab
                 setEmail(registerEmail); // Prefill email
             } else {
-                alert(data.message || 'Registration failed!');
+                showWarningToast(data.message || 'Registration failed!');
             }
         } catch (error) {
             console.error('Error registering:', error);
-            alert('Something went wrong. Please try again.');
+            showInfoToast('Something went wrong. Please try again.');
         }
     };
 
