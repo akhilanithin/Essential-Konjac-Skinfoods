@@ -47,7 +47,7 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
     };
 
 
-    console.log(cartItems[0]?.variation[0]?.stock);
+    // console.log(cartItems[0]?.variation[0]?.stock);
 
 
 

@@ -82,7 +82,7 @@ function ProductMasonry() {
     }, [loading, data])
 
 
-    // console.log(product);
+   
     
 
     return (
@@ -109,7 +109,7 @@ function ProductMasonry() {
                                 </div>
                             </div>
 
-                            {/* <RelatedProducts products={related} /> */}
+                            <RelatedProducts products={product} />
                         </div>
                     </div> : ''
             }

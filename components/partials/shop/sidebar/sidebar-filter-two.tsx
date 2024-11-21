@@ -49,6 +49,8 @@ const SidebarFilterTwo: React.FC = () => {
         }
     };
 
+    
+
     const getUrlForAttrs = (type: string, value: string) => {
         let currentQueries = query[type] ? (query[type] as string).split(',') : [];
         if (type === 'min_price' || type === 'max_price') {
@@ -92,41 +94,111 @@ const SidebarFilterTwo: React.FC = () => {
         document.querySelector('body')?.classList.remove("sidebar-active");
     };
 
+
+    const [category, setCategory] = useState<null>(null);
+
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await fetch(`https://api.eksfc.com/api/categories?page=1&limit=100&sortField=id&sortOrder=DESC&filterName=status&filterValue=0`, {
+                    headers: {
+                        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_PRODUCT_TOKEN}`,
+                        'konjac-version': '1.0.1'
+                    }
+                });
+                if (!response.ok) throw new Error('Failed to fetch categories');
+                const data = await response.json();
+                setCategory(data.data.filter(category => category?.status === 0)); // Filter active categories
+            } catch (error) {
+                // console.error('Error fetching categories:', error);
+            }
+        };
+    
+        fetchCategories();
+    }, []);
+    
+
+
+    const [brand, setBrand] = useState<null>(null);
+
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await fetch(`https://api.eksfc.com/api/brands?page=1&limit=100&sortField=id&sortOrder=DESC`, {
+                    headers: {
+                        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_PRODUCT_TOKEN}`,
+                        'konjac-version': '1.0.1'
+                    }
+                });
+                if (!response.ok) throw new Error('Failed to fetch Brands');
+                const data = await response.json();
+                setBrand(data.data.filter(brand => brand?.status === 0)); 
+            } catch (error) {
+                // console.error('Error fetching categories:', error);
+            }
+        };
+    
+        fetchCategories();
+    }, []);
+    
+
+
+
     return (
         <aside className="sidebar shop-sidebar sidebar-fixed">
+            
             <div className="sidebar-overlay" onClick={hideSidebar}></div>
+
+
             <ALink className="sidebar-close" href="#" onClick={hideSidebar}><i className="d-icon-times"></i></ALink>
 
             <div className="sidebar-content pb-0 pb-lg-4">
+
+
                 <div>
+
+
                     <div className="filter-actions">
                         <a href="#" className="sidebar-toggle-btn toggle-remain btn btn-sm btn-outline btn-rounded btn-primary" onClick={toggleSidebar}>
                             Filter<i className="d-icon-arrow-left"></i>
                         </a>
                         <ALink href={{ pathname: router.pathname, query: { type: router.query.type || null } }} className="filter-clean" scroll={false}>Clean All</ALink>
                     </div>
+
+                    
                     <div className="row cols-lg-4">
+
+                        {/* Category  */}
+
+
+
                         <div className="widget">
-                            <h3 className="widget-title border-no">Size</h3>
+                            <h3 className="widget-title border-no">Category</h3>
+
                             <ul className="widget-body filter-items">
-                                {filterData.sizes.map((item, index) => (
-                                    <li className={containsAttrInUrl('sizes', item.slug) ? 'active' : ''} key={`${item.slug}-${index}`}>
-                                        <ALink href={{ pathname: router.pathname, query: { ...query, page: 1, sizes: getUrlForAttrs('sizes', item.slug), type: router.query.type || null } }} scroll={false}>{item.name}</ALink>
-                                    </li>
-                                ))}
+                                {
+                                    category?.map((item, index) =>
+                                        <li
+                                            className={containsAttrInUrl('category', item?.name) ? 'active' : ''}
+                                            key={item + ' - ' + index}
+                                        >
+                                            <ALink href={{ pathname: router.pathname, query: { ...query, page: 1, category: getUrlForAttrs('category', item?.name), type: router.query.type ? router.query.type : null } }} scroll={false}>{item?.name}
+                                            </ALink>
+                                        </li>
+                                    )
+                                }
                             </ul>
                         </div>
 
-                        <div className="widget">
-                            <h3 className="widget-title border-no">Color</h3>
-                            <ul className="widget-body filter-items">
-                                {filterData.colors.map((item, index) => (
-                                    <li className={containsAttrInUrl('colors', item.slug) ? 'active' : ''} key={`${item.slug}-${index}`}>
-                                        <ALink href={{ pathname: router.pathname, query: { ...query, page: 1, colors: getUrlForAttrs('colors', item.slug), type: router.query.type || null } }} scroll={false}>{item.name}</ALink>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
+
+
+          
+
+
+
+{/* Price */}
 
                         <div className="widget price-with-count">
                             <h3 className="widget-title border-no">Price</h3>
@@ -143,16 +215,60 @@ const SidebarFilterTwo: React.FC = () => {
                             </ul>
                         </div>
 
-                        <div className="widget">
-                            <h3 className="widget-title border-no">Tags</h3>
-                            <div className="widget-body pt-2">
-                                {filterData.tag.map((item, index) => (
-                                    <ALink scroll={false} href={{ pathname: router.pathname, query: { ...query, page: 1, tag: getUrlForAttrs('tag', item.slug), type: router.query.type || null } }} className={`${containsAttrInUrl('tag', item.slug) ? 'active' : ''} tag`} key={`tag-${index}`}>
-                                        {item.name}
-                                    </ALink>
+
+
+
+
+                        {/* <div className="widget">
+                            <h3 className="widget-title border-no">Brand</h3>
+                            <ul className="widget-body filter-items">
+                                {brand?.map((item, index) => (
+                                    <li className={containsAttrInUrl('colors', item?.name) ? 'active' : ''} key={`${item?.name}-${index}`}>
+                                        <ALink href={{ pathname: router.pathname, query: { ...query, page: 1, colors: getUrlForAttrs('colors', item.name), type: router.query.type || null } }} scroll={false}>{item.name}</ALink>
+                                    </li>
                                 ))}
-                            </div>
+                            </ul>
                         </div>
+ */}
+
+
+
+
+
+{/* Brand */}
+
+                        <div className="widget">
+                            <h3 className="widget-title border-no">Brand</h3>
+                            <ul className="widget-body filter-items" style={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(2, 1fr)',
+
+                            }}>
+                                {brand?.map((item, index) => (
+                                    <li
+                                        className={containsAttrInUrl('colors', item?.name) ? 'active' : ''}
+                                        key={`${item?.name}-${index}`}
+                                    >
+                                        <ALink
+                                            href={{
+                                                pathname: router.pathname,
+                                                query: {
+                                                    ...query,
+                                                    page: 1,
+                                                    colors: getUrlForAttrs('colors', item.name),
+                                                    type: router.query.type || null
+                                                }
+                                            }}
+                                            scroll={false}
+                                        >
+                                            {item.name}
+                                        </ALink>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        
                     </div>
                 </div>
             </div>

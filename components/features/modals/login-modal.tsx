@@ -63,7 +63,7 @@ const LoginModal: React.FC = () => {
                 showWarningToast(data.message || 'Login failed!');
             }
         } catch (error) {
-            console.error('Error logging in:', error);
+            // console.error('Error logging in:', error);
             showInfoToast('Something went wrong. Please try again.');
         }
     };
@@ -87,7 +87,7 @@ const LoginModal: React.FC = () => {
                 showWarningToast(data.message || 'Registration failed!');
             }
         } catch (error) {
-            console.error('Error registering:', error);
+            // console.error('Error registering:', error);
             showInfoToast('Something went wrong. Please try again.');
         }
     };

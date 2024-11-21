@@ -49,17 +49,34 @@ const Wishlist: React.FC<Props> = ({ wishlist, addToCart, removeFromWishlist }) 
         removeFromWishlist(item);
     };
 
-    function getOfferPrice(productData: WishlistItem): number[] {
-        if (productData && productData.variation) {
-            return productData.variation.map(variation => {
-                if (variation.offers && variation.offers.length > 0) {
-                    return variation.offers[0].price;
-                }
-                return 0; // or any default value
-            });
-        }
-        return [];
-    }
+    // function getOfferPrice(productData: WishlistItem): number[] {
+    //     if (productData && productData.variation) {
+    //         return productData.variation.map(variation => {
+    //             if (variation.offers && variation.offers.length > 0) {
+    //                 return variation.offers[0].price;
+    //             }
+    //             return 0; // or any default value
+    //         });
+    //     }
+    //     return [];
+    // }
+
+
+
+
+    const calculateDiscountedPrice = (item: WishlistItem): number => {
+        const variations = Array.isArray(item.variation) ? item.variation : [item.variation];
+
+        const discounts = variations.flatMap(variation => 
+            variation && Array.isArray(variation.offers) ? variation.offers : []
+        );
+
+        const discount = discounts.length > 0 ? discounts[0] : null;
+        const basePrice = variations[0]?.price || 0;
+        const discountPrice = discount ? discount.price : null;
+
+        return discountPrice && discountPrice < basePrice ? discountPrice : basePrice; // Final price logic
+    };
 
     return (
         <main className="main">
@@ -120,7 +137,8 @@ const Wishlist: React.FC<Props> = ({ wishlist, addToCart, removeFromWishlist }) 
                                         </td>
 
                                         {/* Product Price  */}
-                                        <td className="product-price">
+
+                                        {/* <td className="product-price">
                                             {item?.variation[0].price !== getOfferPrice(item)[0] ? (
                                                 <span className="amount">AED {toDecimal(item?.variation[0].price)}</span>
                                             ) : item?.variation[0].offers[0].discount > 0 && item?.variation.length > 0 ? (
@@ -131,7 +149,15 @@ const Wishlist: React.FC<Props> = ({ wishlist, addToCart, removeFromWishlist }) 
                                             ) : (
                                                 <span className="amount">AED {toDecimal(item?.variation[0].price)}</span>
                                             )}
-                                        </td>
+                                        </td> */}
+
+
+
+
+                                            <td className="product-price">
+                                                <span className="amount">AED {toDecimal(calculateDiscountedPrice(item))}</span>
+                                            </td>
+
 
 
                                         {/* Product Stock status */}

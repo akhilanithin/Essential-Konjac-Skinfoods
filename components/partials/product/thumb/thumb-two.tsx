@@ -72,7 +72,7 @@ function ThumbTwo(props: ThumbTwoProps) {
                 {thumbs?.map((thumb, index) => (
                              
                     <div
-                        className={`product-thumb ${index === 0 ? 'active' : ''}`}
+                        className={`product-thumb ${index === 0 ? 'active' : ''} ` }
                         onClick={(e) => thumbActiveHandler(e, index)}
                         key={`${thumb?.id}-2-${index}`}
                     >

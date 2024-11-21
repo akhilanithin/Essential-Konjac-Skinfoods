@@ -43,7 +43,7 @@ function Aesthetics(): JSX.Element {
                 setData(result);
             } catch (err) {
                 setError(`An error occurred: ${err.message}`);
-                console.error('Error fetching data:', err);
+                // console.error('Error fetching data:', err);
             } finally {
                 setLoading(false);
             }

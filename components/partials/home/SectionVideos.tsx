@@ -53,7 +53,7 @@ const SectionVideos: FC<SectionVideosProps> = ({ className = "" }) => {
 
         setFilteredItems(items);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        // console.error('Error fetching data:', error);
         setError('Failed to fetch videos. Please try again later.');
       } finally {
         setLoading(false);

@@ -15,7 +15,7 @@ function PostEight(props) {
 //   console.log(post.thumbnails);
 
     // console.log(post.image);
-console.log(post?.id);
+// console.log(post?.id);
 
     
     

@@ -15,15 +15,21 @@ interface RelatedProductsProps {
     adClass?: string;
 }
 
+
+
+
 const RelatedProducts: React.FC<RelatedProductsProps> = ({ products, adClass = "pt-3 mt-10" }) => {
+
+
+    
     return (
-        products.length > 0 ? (
+        products?.variation?.length > 1 ? (
             <section className={`${adClass}`}>
                 <h2 className="title justify-content-center">Related Products</h2>
 
                 <OwlCarousel adClass="owl-carousel owl-theme owl-nav-full" options={mainSlider17}>
                     {
-                        products.slice(0, 5).map((item, index) => (
+                        products?.variation?.slice(0, 5).map((item, index) => (
                             <ProductTwo product={item} key={`product-two-${index}`} adClass='text-center shadow-media' />
                         ))
                     }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { connect, ConnectedProps } from 'react-redux';
 import ALink from '~/components/features/custom-link';
@@ -6,6 +6,7 @@ import { cartActions } from '~/store/cart';
 import { modalActions } from '~/store/modal';
 import { wishlistActions } from '~/store/wishlist';
 import { toDecimal } from '~/utils';
+import { useRouter } from 'next/router';
 
 // Define the types for the product and props
 interface Variation {
@@ -54,6 +55,8 @@ const ProductTwo: React.FC<ProductTwoProps> = ({
 }) => {
     const [isHovered, setIsHovered] = useState(false);
 
+    const router = useRouter();
+
     const variations = Array.isArray(product.variation) ? product.variation : [product.variation];
     const getDiscounts = () => variations.flatMap(variation => variation?.offers || []);
     const discounts = getDiscounts();
@@ -62,10 +65,16 @@ const ProductTwo: React.FC<ProductTwoProps> = ({
     const discountValue = discount ? discount.discount : 0;
     const discountPrice = discount ? discount.price : null;
 
-    const basePrice = variations[0]?.price || 0;
+    // const basePrice = variations[0]?.price || 0;
+
+    const basePrice = product?.price || variations[0]?.price || 0;
+
     const showDiscountedPrice = discountPrice && discountPrice < basePrice;
 
     const isWishlisted = wishlist.some(item => item.name === product.name);
+
+
+
 
     const showQuickviewHandler = () => {
         openQuickview(product?.id);
@@ -88,18 +97,88 @@ const ProductTwo: React.FC<ProductTwoProps> = ({
         addToCart({ ...product, qty: 1, price: basePrice });
     };
 
-    const renderCategories = () => {
-        if (!product.category) return null;
-        const categories = Array.isArray(product.category) ? product.category : [product.category];
-        return categories.map((item, index) => (
-            <React.Fragment key={`${item.name}-${index}`}>
-                <ALink href={{ pathname: '/shop', query: { category: item.name } }}>
-                    {item.name}
-                    {index < categories.length - 1 ? ', ' : ""}
+    // const renderCategories = () => {
+    //     if (!product.category) return null;
+    //     const categories = Array.isArray(product.category) ? product.category : [product.category];
+    //     return categories.map((item, index) => (
+    //         <React.Fragment key={`${item.name}-${index}`}>
+    //             <ALink href={{ pathname: '/shop', query: { category: item.name } }}>
+    //                 {item.name}
+    //                 {index < categories.length - 1 ? ', ' : ""}
+    //             </ALink>
+    //         </React.Fragment>
+    //     ));
+    // };
+
+
+    const [category, setCategory] = useState<null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<Error | null>(null);
+
+
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const response = await fetch(`https://api.eksfc.com/api/categories?page=1&limit=100&sortField=id&sortOrder=DESC&filterName=status&filterValue=0`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_PRODUCT_TOKEN}`,
+                        'konjac-version': '1.0.1'
+                    }
+                });
+
+                if (!response.ok) throw new Error('Failed to fetch products');
+
+                const data= await response.json();
+                const filteredData = data.data.filter(product => product?.status === 0); // Filter active products
+                setCategory(filteredData );
+                setLoading(false);                            
+            } catch (err) {
+                // console.error(err);
+                setError(err.message || 'An error occurred while fetching products. Please try again later.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, []);
+
+
+
+// console.log(product);
+
+
+
+const renderCategories = () => {
+    if (!product?.c_id) return null; // Ensure `product.c_id` exists
+    const categoriesArray = Array.isArray(category) ? category : [category]; 
+
+    const matchedCategory = categoriesArray.find(cat => cat?.id === product?.c_id); 
+    const categoryName = matchedCategory ? matchedCategory.name : "Category Not Found";
+
+    // console.log(categoryName.replace(/\+/g, "-").toLowerCase());
+    
+
+    // Render category name as a link
+    return (
+        <React.Fragment key={`category-${product?.c_id}`}>
+            {matchedCategory ? (
+                <ALink href={{ pathname: '/shop', query: { category: categoryName } }}>
+                    {categoryName}
                 </ALink>
-            </React.Fragment>
-        ));
-    };
+            ) : (
+                "Category Not Found"
+            )}
+        </React.Fragment>
+    );
+};
+
+
+
 
     const calculateAverageRating = () => {
         const reviews = Array.isArray(product.review) ? product.review : [product.review];
@@ -110,6 +189,12 @@ const ProductTwo: React.FC<ProductTwoProps> = ({
     const averageRating = calculateAverageRating();
     const review = Array.isArray(product.review) ? product.review : [product.review];
 
+    
+
+
+
+
+
     return (
         <div 
             className={`product text-left ${adClass}`}
@@ -117,7 +202,7 @@ const ProductTwo: React.FC<ProductTwoProps> = ({
             onMouseLeave={() => setIsHovered(false)}
         >
             <figure className="product-media">
-                <ALink href={`/product/default/${product.id}`}>
+                <ALink href={`/product/default/${product?.id}`}>
                     <LazyLoadImage
                         alt="product"
                         src={`https://admin.essentialkonjacskinfoods.com/assets/img/products/${product?.image}`}
@@ -139,7 +224,7 @@ const ProductTwo: React.FC<ProductTwoProps> = ({
                 <div className="product-action-vertical">
                     {variations.length > 1 ? (
                         <ALink
-                            href={`/product/${product.id}`}
+                        href={`/product/default/${product.id}`}
                             className="btn-product-icon btn-cart"
                             title="Go to product"
                         >
@@ -210,9 +295,11 @@ const ProductTwo: React.FC<ProductTwoProps> = ({
 
                     {review.length > 0 && (
                         <ALink href={`/product/default/${product.id}`} className="rating-reviews">
-                            ({review.length} reviews{review.length > 1 ? 's' : ''})
+                            ({review?.length} reviews)
                         </ALink>
                     )}
+
+
                 </div>
             </div>
         </div>

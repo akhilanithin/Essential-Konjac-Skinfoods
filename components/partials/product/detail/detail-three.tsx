@@ -16,33 +16,41 @@ import { cartActions } from '~/store/cart';
 import { toDecimal } from '~/utils';
 import { log } from 'console';
 
-interface Variant {
-    color?: { name: string; color: string };
-    size?: { name: string; size: string };
+
+interface ProductVariant {
     price?: number;
     sale_price?: number;
 }
 
-interface ProductData {
-    name: string;
-    sku: string;
-    categories: { name: string; slug: string }[];
-    price: number[];
-    ratings: number;
-    reviews: number;
-    short_description: string;
-    stock: number;
-    variants: Variant[];
+interface Product {
+    data: {
+        name: string;
+        sku: string;
+        category: { name: string; slug: string }[];
+        variation: ProductVariant[];
+        price: number[];
+        status: number;
+        ratings: number;
+        reviews: number;
+        description: string;
+        discount?: number;
+        categories: { name: string; slug: string }[];
+
+    };
 }
 
-interface ProductProps {
-    data: { product: { data: ProductData } };
+interface Props {
+    data: { product: Product };
     isSticky?: boolean;
     isDesc?: boolean;
     adClass?: string;
-    // toggleWishlist: (product: ProductData) => void;
-    addToCart: (product: Product & { qty: number; price: number }) => void;
-    // wishlist: { slug: string }[];
+    toggleWishlist: (product: Product['data']) => void;
+    addToCart: (item: { name: string; qty: number; price: number }) => void;
+    wishlist: { slug: string }[];
+    category: { name: string; slug: string }[];
+    categories: { name: string; slug: string }[];
+
+
 }
 
 const DetailOne: React.FC<ProductProps> = (props) => {
@@ -68,12 +76,8 @@ const DetailOne: React.FC<ProductProps> = (props) => {
     const product=data?.data?.product
 
 
-    console.log(data);
-
-    
-    // const isWishlisted = wishlist?.some(item => item?.id === product.id);
-
-    
+ 
+    const isWishlisted = wishlist?.some(item => item?.name === product?.name);
 
     const colors: { name: string; value: string }[] = [];
     const sizes: { name: string; value: string }[] = [];
@@ -95,97 +99,21 @@ const DetailOne: React.FC<ProductProps> = (props) => {
     }, [product]);
 
 
+    const wishlistHandler = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
 
-    // useEffect(() => {
-    //     if (product?.data?.variants?.length > 0) {
-    //         if (
-    //             (curSize !== 'null' && curColor !== 'null') ||
-    //             (curSize === 'null' && product.data.variants[0].size === null && curColor !== 'null') ||
-    //             (curColor === 'null' && product.data.variants[0].color === null && curSize !== 'null')
-    //         ) {
-    //             setCartActive(true);
-    //             setCurIndex(product.data.variants.findIndex(item => (
-    //                 (item.size !== null && item.color !== null && item.color.name === curColor && item.size.name === curSize) ||
-    //                 (item.size === null && item.color.name === curColor) ||
-    //                 (item.color === null && item.size.name === curSize)
-    //             )));
-    //         } else {
-    //             setCartActive(false);
-    //         }
-    //     } else {
-    //         setCartActive(true);
-    //     }
+        if (toggleWishlist && !isWishlisted) {
+            const currentTarget = e.currentTarget as HTMLElement;
+            currentTarget.classList.add('load-more-overlay', 'loading');
+            toggleWishlist(product);
 
-    //     if (product?.stock === 0) {
-    //         setCartActive(false);
-    //     }
-    // }, [curColor, curSize, product]);
-
-
-
-
-
-    // const wishlistHandler = (e: React.MouseEvent) => {
-    //     e.preventDefault();
-
-    //     if (toggleWishlist && !isWishlisted) {
-    //         const currentTarget = e.currentTarget as HTMLAnchorElement;
-    //         currentTarget.classList.add('load-more-overlay', 'loading');
-    //         toggleWishlist(product?.data);
-
-    //         setTimeout(() => {
-    //             currentTarget.classList.remove('load-more-overlay', 'loading');
-    //         }, 1000);
-    //     } else {
-    //         router.push('/pages/wishlist');
-    //     }
-    // };
-
-
-    // const wishlistHandler = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    //     e.preventDefault();
-    //     if (toggleWishlist) {
-    //         toggleWishlist(product);
-    //     }
-    //     const currentTarget = e.currentTarget;
-    //     currentTarget.classList.add('load-more-overlay', 'loading');
-    //     setTimeout(() => {
-    //         currentTarget.classList.remove('load-more-overlay', 'loading');
-    //     }, 1000);
-    // };
-
-
-
-
-
-    const toggleColorHandler = (color: { name: string }) => {
-        if (!isDisabled(color.name, curSize)) {
-            setCurColor(curColor === color.name ? 'null' : color.name);
+            setTimeout(() => {
+                currentTarget.classList.remove('load-more-overlay', 'loading');
+            }, 1000);
+        } else {
+            router.push('/pages/wishlist');
         }
     };
-
-    const toggleSizeHandler = (size: { name: string }) => {
-        if (!isDisabled(curColor, size.name)) {
-            setCurSize(curSize === size.name ? 'null' : size.name);
-        }
-    };
-
-    // const addToCartHandler = () => {
-    //     if (product?.data.stock > 0 && cartActive) {
-    //         if (product.data.variants.length > 0) {
-    //             let tmpName = product.data.name;
-    //             tmpName += curColor !== 'null' ? `-${curColor}` : '';
-    //             tmpName += curSize !== 'null' ? `-${curSize}` : '';
-
-    //             const tmpPrice =
-    //                 product.data.variants[curIndex]?.sale_price ?? product.data.variants[curIndex]?.price ?? product.data.price[0];
-
-    //             addToCart({ ...product.data, name: tmpName, qty: quantity, price: tmpPrice });
-    //         } else {
-    //             addToCart({ ...product.data, qty: quantity, price: product.data.price[0] });
-    //         }
-    //     }
-    // };
 
 
 
@@ -270,8 +198,10 @@ const DetailOne: React.FC<ProductProps> = (props) => {
                     <li><ALink href="#" className="active">Products</ALink></li>
                     <li>Detail</li>
                 </ul>
+
             {/* Navigation next  */}
-                <ProductNav product={product} />
+                {/* <ProductNav product={product} /> */}
+
             </div>
             {/* Product Name  */}
 
@@ -334,7 +264,7 @@ const DetailOne: React.FC<ProductProps> = (props) => {
                         <span className="tooltiptext tooltip-top">{averageRating.toFixed(1)}</span>
                     </div>
                     {review?.length > 0 && (
-                        <ALink href={`/product/${product?.id}`} className="rating-reviews">
+                        <ALink href='#' className="rating-reviews">
                             ({review?.length} {review?.length > 1 ? 'reviews' : 'review'})
                         </ALink>
                     )}
@@ -346,65 +276,96 @@ const DetailOne: React.FC<ProductProps> = (props) => {
             <p className="product-short-desc">{product?.description}</p>
 
 
-{/* Color */}
-
-            {product && product?.variation?.length > 0 && (
-                <>
-                    {product?.variation[0]?.colors && (
-                        <div className='product-form product-color'>
-                            <label>Color:</label>
-                            <div className="product-variations">
-                                {product?.variation[0]?.colors?.map(item => (
-                                    <ALink
-                                        href="#"
-                                        className={`color ${curColor === item?.name ? 'active' : ''} ${isDisabled(item?.name, curSize) ? 'disabled' : ''}`}
-                                        key={`color-${item?.name}`}
-                                        style={{ backgroundColor: item?.value }}
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            toggleColorHandler(item);
-                                        }}
-                                    ></ALink>
-                                ))}
-                            </div>
-                        </div>
-                    )}
+{/* Size & Color */}
 
 
+{/* 
+            {
+                product && product.data.variants.length > 0 ?
+                    <>
+                        {
+                            product.data.variants[0].color ?
+                                <div className='product-form product-color'>
+                                    <label>Color:</label>
 
-
-                        {/* product variation price */}
-
-
-                    <div className='product-variation-price'>
-                        <Collapse in={cartActive && curIndex > -1}>
-                            <div className="card-wrapper">
-                                {curIndex > -1 && (
-                                    <div className="single-product-price">
-                                        {/* {product?.variants[f]?.price ? (
-                                            product.variants[curIndex]?.sale_price ? (
-                                                <div className="product-price mb-0">
-                                                    <ins className="new-price">${toDecimal(product?.variants[curIndex]?.sale_price)}</ins>
-                                                    <del className="old-price">${toDecimal(product?.variants[curIndex].price)}</del>
-                                                </div>
-                                            ) : (
-                                                <div className="product-price mb-0">
-                                                    <ins className="new-price">${toDecimal(product?.variants[curIndex].price)}</ins>
-                                                </div>
-                                            )
-                                        ) : null} */}
+                                    <div className="product-variations">
+                                        {
+                                            colors.map(item =>
+                                                <ALink href="#" className={`color ${curColor === item.name ? 'active' : ''} ${isDisabled(item.name, curSize) ? 'disabled' : ''}`} key={"color-" + item.name} style={{ backgroundColor: `${item.value}` }} onClick={(e) => toggleColorHandler(item)}></ALink>)
+                                        }
                                     </div>
-                                )}
-                            </div>
-                        </Collapse>
+                                </div> : ''
+                        }
 
-                        
-                    </div>
+                        {
+                            product.data.variants[0].size ?
+                                <div className='product-form product-size mb-0 pb-2'>
+                                    <label>Size:</label>
+
+                                    <div className="product-form-group">
+                                        <div className="product-variations">
+                                            {
+                                                sizes.map(item =>
+                                                    <ALink href="#" className={`size ${curSize === item.name ? 'active' : ''} ${isDisabled(curColor, item.name) ? 'disabled' : ''}`} key={"size-" + item.name} onClick={(e) => toggleSizeHandler(item)}>{item.value}</ALink>)
+                                            }
+                                        </div>
+
+                                        <Collapse in={'null' !== curColor || 'null' !== curSize}>
+                                            <div className="card-wrapper overflow-hidden reset-value-button w-100 mb-0">
+                                                <ALink href='#' className='product-variation-clean' onClick={resetValueHandler}>Clean All</ALink>
+                                            </div>
+                                        </Collapse>
+                                    </div>
+                                </div> : ''
+                        }
+
+                        <div className='product-variation-price'>
+                            <Collapse in={cartActive && curIndex > -1}>
+                                <div className="card-wrapper">
+                                    {
+                                        curIndex > -1 ?
+                                            <div className="single-product-price">
+                                                {
+                                                    product.data.variants[curIndex].price ?
+                                                        product.data.variants[curIndex].sale_price ?
+                                                            <div className="product-price mb-0">
+                                                                <ins className="new-price">${toDecimal(product.data.variants[curIndex].sale_price)}</ins>
+                                                                <del className="old-price">${toDecimal(product.data.variants[curIndex].price)}</del>
+                                                            </div>
+                                                            : <div className="product-price mb-0">
+                                                                <ins className="new-price">${toDecimal(product.data.variants[curIndex].price)}</ins>
+                                                            </div>
+                                                        : ""
+                                                }
+                                            </div> : ''
+                                    }
+                                </div>
+                            </Collapse>
+                        </div>
+
+                    </>
+                    : ''
+            } */}
 
 
 
-                </>
-            )} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -419,9 +380,10 @@ const DetailOne: React.FC<ProductProps> = (props) => {
                     <Quantity max={product?.variation[0]?.stock} product={product} onChangeQty={changeQty} />
 
                     {/* Add to cart */}
-                    <button className={`btn-product btn-cart text-normal ls-normal font-weight-semi-bold ${cartActive ? '' : 'disabled'}`} onClick={addToCartHandler}>
+                    <button className={`btn-product btn-cart text-normal ls-normal font-weight-semi-bold $`} onClick={addToCartHandler}>
                         <i className='d-icon-bag'></i>Add to Cart
                     </button>
+                    
                 </div>
             </div>
 
@@ -443,12 +405,11 @@ const DetailOne: React.FC<ProductProps> = (props) => {
 
                 <span className="divider d-lg-show"></span>
 
-             
-{/* 
                 <a href="#" className={`btn-product btn-wishlist`} title={isWishlisted ? 'Browse wishlist' : 'Add to wishlist'} onClick={wishlistHandler}>
-                    <i className={isWishlisted ? "d-icon-heart-full " : "d-icon-heart"}></i>
+                    <i className={isWishlisted ? "d-icon-heart-full" : "d-icon-heart"}></i>
                     {isWishlisted ? 'Browse wishlist' : 'Add to Wishlist'}
-                </a> */}
+                </a>
+
 
             </div>
 
@@ -459,7 +420,7 @@ const DetailOne: React.FC<ProductProps> = (props) => {
 
 const mapStateToProps = (state: any) => {
     return {
-        // wishlist: state.wishlist.data || []
+        wishlist: state.wishlist.data || []
     };
 };
 

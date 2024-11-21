@@ -41,13 +41,27 @@ const MediaLightBox: React.FC<MediaLightBoxProps> = (props) => {
         setIndex((index + images.length - 1) % images.length);
     };
 
+
+    
+    const lgImages = product?.variation[0]?.images ? product?.variation[0]?.images : product?.pictures;
+
+
+    // console.log(lgImages[0]?.image);
+    
+    // console.log(index);
+
+    const PRODUCT_IMAGE_BASEURL = process.env.NEXT_PUBLIC_PRODUCT_IMAGE_BASEURL;
+    
+
+    // {`${PRODUCT_IMAGE_BASEURL}/products/${image?.image}`}
+
     return (
         <>
             {isOpen && (
                 <Lightbox
-                    mainSrc={`${process.env.NEXT_PUBLIC_ASSET_URI}${images[index].url}`}
-                    nextSrc={`${process.env.NEXT_PUBLIC_ASSET_URI}${images[(index + 1) % images.length].url}`}
-                    prevSrc={`${process.env.NEXT_PUBLIC_ASSET_URI}${images[(index + images.length - 1) % images.length].url}`}
+                    mainSrc={`${PRODUCT_IMAGE_BASEURL}/products/${lgImages[index]?.image}`}
+                    nextSrc={`${PRODUCT_IMAGE_BASEURL}/products/${lgImages[(index + 1) % images?.length]}`}
+                    prevSrc={`${PRODUCT_IMAGE_BASEURL}/products/${lgImages[(index + images?.length - 1) % images?.length]}`}
                     onCloseRequest={closeLightBox}
                     onMovePrevRequest={setPrevHandler}
                     onMoveNextRequest={setNextHandler}

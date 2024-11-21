@@ -14,7 +14,7 @@ const initialState = {
 function wishlistReducer( state = initialState, action ) {
     switch ( action.type ) {
         case actionTypes.TOGGLE_WISHLIST:
-            let index = state.data.findIndex( item => item?.name === action.payload.product.name );
+            let index = state.data.findIndex( item => item?.name === action?.payload?.product?.name );
             let tmpData = [ ...state.data ];
 
             if ( index === -1 ) {

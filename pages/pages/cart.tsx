@@ -7,6 +7,12 @@ import { toDecimal, getTotalPrice } from '~/utils';
 import { RootState } from '~/store'; // Adjust the import based on your store setup
 import { CartItem } from '~/types'; // Define a type for CartItem
 
+
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import { toast } from 'react-toastify'; // Import toast
+import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
+
 interface CartProps {
     cartList: CartItem[];
     removeFromCart: (item: CartItem) => void;
@@ -43,12 +49,125 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
     };
 
 
-  console.log(cartItems[0]?.variation[0]?.stock);
+    //   console.log(cartItems[0]?.variation[0]?.stock);
+
+
+
+
+    // Coupon state
+    const [couponCode, setCouponCode] = useState<string>("");
+    const [discount, setDiscount] = useState<string>("");
+
+    const applyCoupon = async () => {
+        if (!couponCode.trim()) {
+            toast.error("Please enter a valid coupon code."); // Toast error if no coupon is entered
+            return;
+        }
+
+        try {
+            const response = await fetch("/api/coupon/apply-coupon", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ couponCode }),
+            });
+
+            const data = await response.json();
+
+            setDiscount(data?.discountAmount)
+
+
+            if (response.ok && data.success) {
+                toast.success(`Coupon applied! You saved ${data?.discountAmount}.`); // Success toast
+            } else {
+                toast.error(data.message || "Invalid coupon code."); // Error toast if coupon fails
+            }
+        } catch (error) {
+            toast.error("Something went wrong. Please try again."); // Error toast for network issues
+        }
+    };
+
+
+
+    //    console.log(discount);
+
+
+
+    const [totalPrice, setTotalPrice] = useState(0);
+
+    useEffect(() => {
+        // Calculate total price after discount when cartItems or discount changes
+        const total = cartItems.reduce((acc, item) => {
+            const discountedPrice = applyDiscount(item.price, item.qty, discount || '');
+            return acc + discountedPrice;
+        }, 0);
+
+        setTotalPrice(total);
+    }, [discount]);
+
+
+    console.log(totalPrice);
+
+
+
+
+    // Helper functions
+    const toDecimal = (value: number): string => {
+        return value.toFixed(2);
+    };
+
+
+
+
+    const applyDiscount = (price: number, qty: number, discount: string) => {
+        const totalPrice = price * qty;
+        if (discount.includes('%')) {
+            const percentage = parseFloat(discount.replace('%', '').trim());
+            return totalPrice - (totalPrice * (percentage / 100));
+        } else if (discount.includes('AED')) {
+            const amount = parseFloat(discount.replace('AED', '').trim());
+            return totalPrice - amount;
+        }
+        return totalPrice;
+    };
+
+
+
+
+
+    // function applyDiscount(price: number, qty: number, discount: string) {
+    //     const totalPrice = price * qty;
+
+    //     if (discount.includes('%')) {
+    //         // Discount is a percentage
+    //         const percentage = parseFloat(discount.replace('%', '').trim());
+    //         return totalPrice - (totalPrice * (percentage / 100));
+    //     } else if (discount.includes('AED')) {
+    //         // Discount is a fixed amount (e.g., AED 10)
+    //         const amount = parseFloat(discount.replace('AED', '').trim());
+    //         return totalPrice - amount;
+    //     }
+
+    //     return totalPrice; // No discount applied if the discount format is not recognized
+    // }
+
+
+
+const deliveryCharge=25.00
+
+const calculateTotalPrice = (cartItems, totalPrice, deliveryCharge, discount) => {
+    const basePrice = discount ? totalPrice : getTotalPrice(cartItems);
+    const vat = basePrice * 0.05;
+    return basePrice + vat + deliveryCharge;
+  };
+
+
+
+  const [value, setValue] = useState()
+
 
   
-
-  
-    
 
     return (
         <div className="main cart">
@@ -69,6 +188,9 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
                     <div className="row">
                         {cartItems.length > 0 ? (
                             <>
+
+                                {/* Table  */}
+
                                 <div className="col-lg-8 col-md-12 pr-lg-4">
                                     <table className="shop-table cart-table">
                                         <thead>
@@ -83,7 +205,7 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
                                         <tbody>
                                             {cartItems.map(item => (
 
-                                                console.log(item?.name),     
+                                                // console.log(item?.name),     
 
                                                 <tr key={'cart' + item.name}>
                                                     <td className="product-thumbnail">
@@ -109,9 +231,17 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
                                                     <td className="product-quantity">
                                                         <Quantity qty={item?.qty} max={item?.variation[0]?.stock} onChangeQty={qty => onChangeQty(item?.name, qty)} />
                                                     </td>
-                                                    <td className="product-price">
+                                                    {/* <td className="product-price">
                                                         <span className="amount">AED {toDecimal(item.price * item.qty)}</span>
+                                                    </td> */}
+
+
+                                                    <td className="product-price">
+                                                        <span className="amount">
+                                                            AED {toDecimal(applyDiscount(item.price, item.qty, discount || ''))}
+                                                        </span>
                                                     </td>
+
                                                     <td className="product-close">
                                                         <ALink href="#" className="product-remove" title="Remove this product" onClick={() => removeFromCart(item)}>
                                                             <i className="fas fa-times"></i>
@@ -122,10 +252,15 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
                                             ))}
                                         </tbody>
                                     </table>
+
+
                                     <div className="cart-actions mb-6 pt-4">
+                                        {/* Redirection of shop */}
                                         <ALink href="/shop" className="btn btn-dark btn-md btn-rounded btn-icon-left mr-4 mb-4">
                                             <i className="d-icon-arrow-left"></i>Continue Shopping
                                         </ALink>
+
+                                        {/* Update Cart */}
                                         <button
                                             type="button"
                                             className={`btn btn-outline btn-dark btn-md btn-rounded ${compareItems() ? 'btn-disabled' : ''}`}
@@ -134,55 +269,133 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
                                             Update Cart
                                         </button>
                                     </div>
+
+
+                                    {/* Apply Coupon */}
+
                                     <div className="cart-coupon-box mb-8">
                                         <h4 className="title coupon-title text-uppercase ls-m">Coupon Discount</h4>
-                                        <input type="text" name="coupon_code" className="input-text form-control text-grey ls-m mb-4" id="coupon_code" placeholder="Enter coupon code here..." />
-                                        <button type="submit" className="btn btn-md btn-dark btn-rounded btn-outline">Apply Coupon</button>
+                                        <input
+                                            type="text"
+                                            name="coupon_code"
+                                            className="input-text form-control text-grey ls-m mb-4"
+                                            id="coupon_code"
+                                            placeholder="Enter coupon code here..."
+                                            value={couponCode}
+                                            onChange={(e) => setCouponCode(e.target.value)}
+                                        />
+                                        <button
+                                            type="button"
+                                            className="btn btn-md btn-dark btn-rounded btn-outline"
+                                            onClick={applyCoupon}
+                                        >
+                                            Apply Coupon
+                                        </button>
+
+                                        <div>
+                                            <h1 className="title coupon-title text-uppercase ls-m">How to get a promo code?</h1>
+                                            <p>
+                                                Follow our news on the website, as well as subscribe to our social networks. So you will not only be able to receive up-to-date codes, but also learn about new products and promotional items.
+                                            </p>
+                                        </div>
+                                        <div className="social-links share-on">
+                                            <h5 className="text-uppercase font-weight-bold mb-0 mr-4 ls-s">Find us here:</h5>
+
+                                            <ALink href="https://www.facebook.com/konjacskinfood/" className="social-link social-icon social-facebook" title="Facebook"><i className="fab fa-facebook-f"></i></ALink>
+
+                                            <ALink href="https://twitter.com/KonjacSkin" className="social-link social-icon social-twitter" title="Twitter"><i className="fab fa-twitter"></i></ALink>
+
+                                            <ALink href="https://www.instagram.com/konjacskinfood/" className="social-link social-icon social-instagram" title="Instagram"><i className="fab fa-instagram"></i></ALink>
+
+                                            <ALink href="https://ae.linkedin.com/company/essential-konjac-skin-food" className="social-link social-icon social-pinterest" title="Linkdin"><i className="fab fa-linkedin-in"></i></ALink>
+                                        </div>
+
                                     </div>
                                 </div>
+
+
                                 <aside className="col-lg-4 sticky-sidebar-wrapper">
                                     <div className="sticky-sidebar" data-sticky-options="{'bottom': 20}">
                                         <div className="summary mb-4">
                                             <h3 className="summary-title text-left">Cart Totals</h3>
                                             <table className="shipping">
+
                                                 <tbody>
+
+                                                    {/* Subtotal */}
                                                     <tr className="summary-subtotal">
                                                         <td>
                                                             <h4 className="summary-subtitle">Subtotal</h4>
                                                         </td>
                                                         <td>
-                                                            <p className="summary-subtotal-price">AED {toDecimal(getTotalPrice(cartItems))}</p>
+                                                            <p className="summary-subtotal-price">AED {discount ? toDecimal(totalPrice) : toDecimal(getTotalPrice(cartItems))}</p>
+
+
                                                         </td>
                                                     </tr>
-                                                    <tr className="sumnary-shipping shipping-row-last">
-                                                        <td colSpan={2}>
-                                                            <h4 className="summary-subtitle">Calculate Shipping</h4>
-                                                            <ul>
-                                                                <li>
-                                                                    <div className="custom-radio">
-                                                                        <input type="radio" id="flat_rate" name="shipping" className="custom-control-input" defaultChecked />
-                                                                        <label className="custom-control-label" htmlFor="flat_rate">Flat rate</label>
-                                                                    </div>
-                                                                </li>
-                                                                <li>
-                                                                    <div className="custom-radio">
-                                                                        <input type="radio" id="free-shipping" name="shipping" className="custom-control-input" />
-                                                                        <label className="custom-control-label" htmlFor="free-shipping">Free shipping</label>
-                                                                    </div>
-                                                                </li>
-                                                                <li>
-                                                                    <div className="custom-radio">
-                                                                        <input type="radio" id="local_pickup" name="shipping" className="custom-control-input" />
-                                                                        <label className="custom-control-label" htmlFor="local_pickup">Local pickup</label>
-                                                                    </div>
-                                                                </li>
-                                                            </ul>
+
+
+                                                    {/* Discount on promo code  */}
+
+
+                                                    <tr className="summary-subtotal">
+                                                        <td>
+                                                            <h4 className="summary-subtitle">Discount on promo code</h4>
+                                                        </td>
+                                                        <td>
+                                                            <p className="summary-subtotal-price">AED {discount && discount ? toDecimal(getTotalPrice(cartItems) - toDecimal(totalPrice)) : 0}</p>
+
+
                                                         </td>
                                                     </tr>
+
+                                                    {/* VAT calaculations  */}
+
+
+                                                    <tr className="summary-subtotal">
+                                                        <td>
+                                                            <h4 className="summary-subtitle">VAT (+5%)</h4>
+                                                        </td>
+                                                        <td>
+                                                            <p className="summary-subtotal-price">AED {toDecimal((discount ? totalPrice : getTotalPrice(cartItems)) * 0.05)}</p>
+
+
+                                                        </td>
+                                                    </tr>
+
+                                                    {/* Delivery charge */}
+                                                    <tr className="summary-subtotal">
+                                                        <td>
+                                                            <h4 className="summary-subtitle">Delivery Charge</h4>
+                                                        </td>
+                                                        <td>
+                                                            <p className="summary-subtotal-price">AED {`${toDecimal(deliveryCharge)}`}</p>
+
+
+                                                        </td>
+                                                    </tr>
+
                                                 </tbody>
                                             </table>
+
+
+{/* Delivery Details */}
+
                                             <div className="shipping-address">
-                                                <label>Shipping to <strong>CA.</strong></label>
+                                                <label>Shipping <strong></strong></label>
+                                                <div className="form-control">
+                                                 
+                                                    <PhoneInput
+                                                        placeholder="Enter phone number"
+                                                        country={""}
+                                                        autoFormat={true}
+                                                        value={value}
+                                                        onChange={setValue}
+                                                        onlyCountries={[ "ae","sa", "qa", "kw","bh","om"]}
+                                                         />
+
+
+                                                </div>                      
                                                 <div className="select-box">
                                                     <select name="country" className="form-control" defaultValue="us">
                                                         <option value="us">United States (US)</option>
@@ -201,8 +414,16 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
                                                 </div>
                                                 <input type="text" className="form-control" name="city" placeholder="Town / City" />
                                                 <input type="text" className="form-control" name="zip" placeholder="ZIP" />
-                                                <ALink href="#" className="btn btn-md btn-dark btn-rounded btn-outline">Update totals</ALink>
+                                                <ALink href="#" className="btn btn-md btn-dark btn-rounded btn-outline">Update Details</ALink>
                                             </div>
+
+
+
+
+
+
+{/* Total */}
+
                                             <table className="total">
                                                 <tbody>
                                                     <tr className="summary-subtotal">
@@ -210,11 +431,14 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
                                                             <h4 className="summary-subtitle">Total</h4>
                                                         </td>
                                                         <td>
-                                                            <p className="summary-total-price ls-s">AED {toDecimal(getTotalPrice(cartItems))}</p>
+                                                            <p className="summary-total-price ls-s">  AED {toDecimal(calculateTotalPrice(cartItems, totalPrice, deliveryCharge, discount))}</p>
                                                         </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
+
+
+
                                             <ALink href="/pages/checkout" className="btn btn-dark btn-rounded btn-checkout">Proceed to checkout</ALink>
                                         </div>
                                     </div>

@@ -55,7 +55,7 @@ const Header: React.FC<HeaderProps> = (props) => {
 
 // const itemCount=10
 
-const itemCount = useSelector(state => state.wishlist?.data?.length);
+const itemCount = useSelector(state => state?.wishlist?.data.length);
 
 
 
@@ -87,15 +87,27 @@ const itemCount = useSelector(state => state.wishlist?.data?.length);
                         </ALink>    */}
 
 
-                        <ALink href="/pages/wishlist" className="wishlist">
+                        {/* <ALink href="/pages/wishlist" className="wishlist">
                             <i className="d-icon-heart"></i>
+
                             {itemCount > 0 ? (
                                 <span className="wishlist-count">{itemCount}</span>
                             ) : (
                                 <span className="wishlist-count" style={{ display: 'none' }}></span>
                             )}
+
+
                             Wishlist
-                        </ALink>
+                        </ALink> */}
+
+
+                            <ALink href="/pages/wishlist" className="wishlist">
+                                <i className="d-icon-heart"></i>
+                                {itemCount > 0 && (
+                                    <span className="wishlist-count">{itemCount}</span>
+                                )}
+                                Wishlist
+                            </ALink>
 
                         <LoginModal />
                         <CartMenu />

@@ -21,7 +21,7 @@
                 letter-spacing: -.025em
             ),
             price: (
-                color: $secondary-color,
+                color: #222,
                 font-size: 3rem,
                 font-weight: 700,
                 letter-spacing: -.025em
@@ -150,6 +150,9 @@
     position: relative;
     margin: 0 .5rem;
     cursor: pointer;
+    height: 130px;
+    overflow: hidden;
+    object-fit: cover;
 
     &::before {
         content: '';
@@ -612,6 +615,9 @@
 
 .product-image.large-image img {
     max-width: none;
+    height:auto;
+    object-fit: cover;
+    overflow: hidden;
 }
 
 .product-details.sticky {

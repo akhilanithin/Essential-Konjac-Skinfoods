@@ -19,7 +19,7 @@ const Account: React.FC = () => {
 
 
 
-console.log(user);
+// console.log(user);
 
 
 

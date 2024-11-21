@@ -85,7 +85,7 @@ const ProductEight: React.FC<ProductEightProps> = (props) => {
     const review = Array.isArray(product.review) ? product.review : [product.review];
 
 
-console.log(product);
+// console.log(product);
 
     
     const calculateAverageRating = () => {

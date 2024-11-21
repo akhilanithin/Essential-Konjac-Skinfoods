@@ -72,7 +72,7 @@ const DetailOne: React.FC<Props> = ({
 
  const product=data?.data?.product
 
-    console.log(product);
+    // console.log(product);
     
 
     // Check if the product is wishlisted
@@ -348,7 +348,7 @@ const DetailOne: React.FC<Props> = ({
                         <span className="tooltiptext tooltip-top">{averageRating.toFixed(1)}</span>
                     </div>
                     {review?.length > 0 && (
-                        <ALink href={`/product/${product?.id}`} className="rating-reviews">
+                        <ALink href={`/product/default/${product?.id}`} className="rating-reviews">
                             ({review?.length} {review?.length > 1 ? 'reviews' : 'review'})
                         </ALink>
                     )}

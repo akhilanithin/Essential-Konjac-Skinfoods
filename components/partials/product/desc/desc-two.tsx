@@ -56,6 +56,7 @@ const DescTwo: React.FC<DescTwoProps> = ({ product, adClass = '' }) => {
 
 
 
+
     const colors: Color[] = [];
 
 
@@ -104,22 +105,17 @@ const DescTwo: React.FC<DescTwoProps> = ({ product, adClass = '' }) => {
 //    console.log( products?.review );
    
 
-
+// console.log(products?.productbenefit);
 
     return (
         <div className={`product-details ${adClass}`}>
             <Accordion adClass="accordion-simple">
-                <Card title="Description" expanded={true} adClass="card-description">
-                    <div className="row">
-                        <div className="col-12 mb-8">
-                            <p className="mb-6">
-                                {products?.detaildescription}
-                            </p>
-                        </div>
-                    </div>
-                </Card>
 
-                <Card title="Additional information" adClass="card-additional">
+
+
+
+                
+            <Card title="Additional information"  expanded={true}  adClass="card-additional">
                     <ul>
 
 
@@ -182,126 +178,129 @@ const DescTwo: React.FC<DescTwoProps> = ({ product, adClass = '' }) => {
                 </Card>
 
 
+                <Card title="Description"adClass="card-description">
+                    <div className="row">
+                        <div className="col-12 mb-8">
+                            <p className="mb-6">
+                                {products?.detaildescription}
+                            </p>
+                        </div>
+                    </div>
+                </Card>
+
+                <Card title="Benefits" adClass="card-additional" >
+                    <ul  >
+                        {products?.productbenefit.map((benefitItem) => (
+                            <li key={benefitItem.id}>
+                                <p>
+                                    &#8226; {benefitItem.benefit}
+                                </p>
+                            </li>
+                        ))}
+                    </ul>
+                </Card>
 
 
 
-                <Card title={ `Reviews (${ products?.review?.length })` } adClass="card-reviews">
+                <Card title="How to Use" adClass="card-additional" >
+                    <ul  >
+                        {products?.productuse?.map((benefitItem) => (
+                            <li key={benefitItem.id}>
+                                <p>
+                                    &#8226; {benefitItem?.step}
+                                </p>
+                            </li>
+                        ))}
+                    </ul>
+                </Card>
 
 
 
-                    {
-                       products?.review?.length  === 0 ?
-                            <div className="comments mb-2 pt-2 pb-2 border-no">
-                                There are no reviews yet.
-                                    </div> :
-                            <div className="comments mb-8 pt-2 pb-2 border-no">
-                                <ul>
-                                    <li>
-                                        <div className="comment">
 
-                                          {/* img Section */}
-
-                                          <figure className="comment-media">
-                                                <ALink href="#">
-                                                    <img src="./images/blog/comments/1.jpg" alt="avatar" width="100" height="100" />
-                                                </ALink>
-                                            </figure>
-
-                                            <div className="comment-body">
-
-
-                                                 {/* Rating and review */}
-
-                                                <div className="comment-rating ratings-container mb-0">
-                                                    <div className="ratings-full">
-                                                        <span className="ratings" style={{ width: products.ratings * 20 + '%' }}></span>
-                                                        <span className="tooltiptext tooltip-top">{toDecimal(products.ratings)}</span>
-                                                    </div>
-                                                </div>
-
-                                                        {/* Reviews */}
-                                                {products?.review?.map((review, index) => (
-
-                                                    // date
-                                                    <div className="comment-user" key={review.id || index}>
-                                                        <span className="comment-date text-body">
-                                                            {new Date(review.created_on).toLocaleDateString("en-US", {
-                                                                year: 'numeric',
-                                                                month: 'long',
-                                                                day: 'numeric',
-                                                                hour: '2-digit',
-                                                                minute: '2-digit'
-                                                            })}
-                                                        </span>
-
-                                                    {/* name of reviewer */}
-                                                        <h4><ALink href="#">{review.name}</ALink></h4>
-                                                        {/* comment */}
-                                                        <div className="comment-content">
-                                                    <p>{review?.message}</p>
-                                                </div>
-                                                    </div>
-                                                ))}
-                                               
-                                            </div>
-                                        </div>
-                                    </li>
+                
 
 
 
-{/* 
-                                    {
-                                        product.reviews > 1 ?
-                                            <li>
-                                                <div className="comment">
-                                                    <figure className="comment-media">
-                                                        <ALink href="#">
-                                                            <img src="./images/blog/comments/2.jpg" alt="avatar" width="100" height="100" />
-                                                        </ALink>
-                                                    </figure>
+                <Card title={`Reviews (${products?.review?.length})`}>
 
-                                                    <div className="comment-body">
-                                                        <div className="comment-rating ratings-container mb-0">
-                                                            <div className="ratings-full">
-                                                                <span className="ratings" style={ { width: product.ratings * 20 + '%' } }></span>
-                                                                <span className="tooltiptext tooltip-top">{ toDecimal( product.ratings ) }</span>
+                    <div className="comments-section">
+
+                        {products?.review?.length === 0 ? (
+                            <div className="no-reviews text-center">
+                                <p>There are no reviews yet.</p>
+                            </div>
+                        ) : (
+                            <div className="reviews-container">
+                                <ul className="list-unstyled">
+                                    {products?.review?.map((review, index) => (
+                                        <li key={review.id || index} className="mb-4">
+                                            <div className="card">
+                                                <div className="card-body">
+                                                    <div className="d-flex">
+                                                        {/* Avatar Section */}
+                                                        <figure className="mr-3">
+                                                            <ALink href="#">
+                                                                <img
+                                                                    src="./images/blog/comments/1.jpg" // You can make this dynamic based on the reviewer's image if available
+                                                                    alt="avatar"
+                                                                    className="rounded-circle"
+                                                                    width="80"
+                                                                    height="80"
+                                                                />
+                                                            </ALink>
+                                                        </figure>
+
+                                                        {/* Review Content */}
+                                                        <div className="flex-fill">
+                                                            {/* Rating */}
+                                                            <div className="comment-rating mb-2">
+                                                                <div className="ratings-container">
+                                                                    <span
+                                                                        className="ratings"
+                                                                        style={{ width: review.rating * 20 + "%" }} // Convert rating to percentage
+                                                                    ></span>
+                                                                    {/* <span className="tooltiptext">{review.rating.toFixed(1)}</span> */}
+                                                                </div>
+                                                            </div>
+
+                                                            {/* Reviewer Name and Date */}
+                                                            <div className="review-meta mb-2">
+                                                                <h5 className="card-title">
+                                                                    <ALink href="#">{review.name}</ALink>
+                                                                </h5>
+                                                                <span className="text-muted">
+                                                                    {new Date(review.created_on).toLocaleDateString("en-US", {
+                                                                        year: "numeric",
+                                                                        month: "long",
+                                                                        day: "numeric",
+                                                                        hour: "2-digit",
+                                                                        minute: "2-digit",
+                                                                    })}
+                                                                </span>
+                                                            </div>
+
+                                                            {/* Review Message */}
+                                                            <div className="review-content">
+                                                                <p>{review?.message}</p>
                                                             </div>
                                                         </div>
-                                                        <div className="comment-user">
-                                                            <span className="comment-date text-body">September 22, 2020 at 9:42
-															pm</span>
-                                                            <h4><ALink href="#">John Doe</ALink></h4>
-                                                        </div>
-
-                                                        <div className="comment-content">
-                                                            <p>Sed pretium, ligula sollicitudin laoreet viverra, tortor
-                                                            libero sodales leo, eget blandit nunc tortor eu nibh. Nullam
-                                                            mollis.
-                                                            Ut justo. Suspendisse potenti. Sed egestas, ante et
-                                                            vulputate volutpat,
-                                                            eros pede semper est, vitae luctus metus libero eu augue.
-                                                            Morbi purus libero,
-                                                            faucibus adipiscing, commodo quis, avida id, est. Sed
-                                                            lectus. Praesent elementum
-                                                            hendrerit tortor. Sed semper lorem at felis. Vestibulum
-															volutpat.</p>
-                                                        </div>
                                                     </div>
                                                 </div>
-                                            </li>
-                                            : ""
-                                    } */}
-
-
-
+                                            </div>
+                                        </li>
+                                    ))}
                                 </ul>
                             </div>
-                    }
+                        )}
+                    </div>
+
+                </Card>
 
 
 
 
 
+                <Card title={ `Comments` } adClass="card-reviews">
 
 {/* comment section */}
 

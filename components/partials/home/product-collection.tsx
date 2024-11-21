@@ -85,12 +85,12 @@ export default function ProductCollection() {
         if (isoRef.current) {
             isoRef.current.arrange({
                 filter: (itemElem: Element) => {
-                    console.log('Item Element:', itemElem); // Debugging output
+                    // console.log('Item Element:', itemElem); // Debugging output
 
                     if (cat === 'all') return true;
 
                     if (!itemElem || !itemElem.classList) {
-                        console.error('Item element or classList is undefined', itemElem);
+                        // console.error('Item element or classList is undefined', itemElem);
                         return false;
                     }
 

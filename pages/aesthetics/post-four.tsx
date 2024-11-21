@@ -42,7 +42,7 @@ const PostFour: React.FC<PostFourProps> = ({
 }) => {
     const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 
-    console.log(post?.imageUrls);
+    // console.log(post?.imageUrls);
 
 
     return (

@@ -91,11 +91,15 @@ const SidebarFilterThree: React.FC = () => {
     };
 
     return (
+
+
         <aside className="sidebar shop-sidebar sidebar-fixed">
             <div className="sidebar-overlay" onClick={hideSidebar}></div>
             <ALink className="sidebar-close" href="#" onClick={hideSidebar}><i className="d-icon-times"></i></ALink>
 
             <div className="sidebar-content toolbox-left">
+
+{/* size */}
                 <div className="toolbox-item select-menu">
                     <a className="select-menu-toggle" href="#" onClick={selectOptionHandler}>Select Size</a>
                     <ul className="filter-items">
@@ -112,6 +116,9 @@ const SidebarFilterThree: React.FC = () => {
                         ))}
                     </ul>
                 </div>
+
+{/* color */}
+
 
                 <div className="toolbox-item select-menu">
                     <a className="select-menu-toggle" href="#" onClick={selectOptionHandler}>Select Color</a>
@@ -130,6 +137,8 @@ const SidebarFilterThree: React.FC = () => {
                     </ul>
                 </div>
 
+
+{/* price */}
                 <div className="toolbox-item select-menu price-with-count">
                     <a className="select-menu-toggle" href="#" onClick={selectOptionHandler}>Select Price</a>
                     <ul className="filter-items filter-price">
@@ -150,6 +159,8 @@ const SidebarFilterThree: React.FC = () => {
                 </div>
             </div>
         </aside>
+
+        
     );
 };
 

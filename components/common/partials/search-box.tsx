@@ -188,13 +188,37 @@ function SearchForm() {
 
     const PRODUCT_IMAGE_BASEURL = process.env.NEXT_PUBLIC_PRODUCT_IMAGE_BASEURL;
 
-    const variations = Array.isArray(filteredResults?.variation) ? filteredResults.variation : [filteredResults.variation];
-    const discounts = variations.flatMap(variation => variation?.offers || []);
-    const discount = discounts.length > 0 ? discounts[0] : null;
-    const discountValue = discount ? discount.discount : 0;
-    const discountPrice = discount ? discount.price : null;
-    const basePrice = variations[0]?.price || 0;
-    const showDiscountedPrice = discountPrice && discountPrice < basePrice;
+// console.log(filteredResults);
+
+
+    const eachVariations=filteredResults?.map(cat => cat?.variation);
+
+    const variations = Array.isArray(eachVariations) ?eachVariations : [eachVariations];
+    
+
+    // console.log(filteredResults);
+    // console.log(variations);
+
+    const result = variations?.flatMap(group =>
+        group.map(item => ({
+          mainPrice: item.price, 
+          offerPrice: item.offers.length > 0 ? item.offers[0].price : null 
+        }))
+      );
+    
+
+    //   console.log(result[0]?.offerPrice);
+
+    //   result[0]?.mainPrice
+    
+    // const discounts = variations.flatMap(variation => variation?.offers || []);
+    // const discount = discounts.length > 0 ? discounts[0] : null;
+    // const discountValue = discount ? discount.discount : 0;
+    // const discountPrice = discount ? discount.price : null;
+    // const basePrice = variations[0]?.price || 0;
+
+    
+    const showDiscountedPrice = result[0]?.mainPrice && result[0]?.mainPrice < result[0]?.offerPrice;
 
 
     return (      
@@ -220,30 +244,53 @@ function SearchForm() {
                             <div className="search-name" dangerouslySetInnerHTML={removeXSSAttacks(matchEmphasize(product.name))}></div>
                             <span className="search-price">
 
+
+
 {/* 
+
+
                                 {
-                                    product.price[0] !== product.price[1] ?
-                                        product.variants.length === 0 ?
+                                    result[0]?.mainPrice !== result[0]?.offerPrice ? (
+                                        filteredResults?.variation?.length === 1 ? (
                                             <>
-                                                <span className="new-price mr-1">${toDecimal(product.price[0])}</span>
-                                                <span className="old-price">${toDecimal(product.price[1])}</span>
+                                                <ins className="new-price">AED {toDecimal(result[0]?.mainPrice)}</ins>
+                                                <del className="old-price">AED {toDecimal(result[0]?.offerPrice)}</del>
                                             </>
-                                            :
-                                            < span className="new-price">${toDecimal(product.price[0])} – ${toDecimal(product.price[1])}</span>
-                                        : <span className="new-price">${toDecimal(product.price[0])}</span>
+                                        ) : (
+                                            <ins className="new-price">
+                                                AED {toDecimal(result[0]?.mainPrice)}
+                                            </ins>
+                                        )
+                                    ) : (
+                                        <ins className="new-price">AED {toDecimal(result[0]?.mainPrice)}</ins>
+                                    )
                                 } */}
 
 
+
+
+
+
+
+
+
+{/* 
                                 {showDiscountedPrice ? (
                                     <>
-                                        <del className="old-price"> AED {toDecimal(basePrice)}</del>
-                                        <ins className="new-price"> AED {toDecimal(discountPrice)}</ins>
+                                        <del className="old-price"> AED {toDecimal(result[0]?.mainPrice)}</del>
+                                        <ins className="new-price"> AED {toDecimal(result[0]?.offerPrice)}</ins>
                                     </>
                                 ) : (
-                                    <ins className="new-price">AED {toDecimal(basePrice)}</ins>
-                                )}
+                                    <ins className="new-price">AED {toDecimal(result[0]?.offerPrice)}</ins>
+                                    
+                                )}  */}
+
+
+
+                                
 
                             </span>
+                            
                         </ALink>
 
 
