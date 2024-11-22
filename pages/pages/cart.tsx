@@ -7,7 +7,7 @@ import { toDecimal, getTotalPrice } from '~/utils';
 import { RootState } from '~/store'; // Adjust the import based on your store setup
 import { CartItem } from '~/types'; // Define a type for CartItem
 
-
+import { countries, states } from './countries';
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { toast } from 'react-toastify'; // Import toast
@@ -21,6 +21,8 @@ interface CartProps {
 
 function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
+    const [selectedCountry, setSelectedCountry] = useState<string>('');
+    const [statesList, setStatesList] = useState<string[]>([]);
 
     const PRODUCT_IMAGE_BASEURL = process.env.NEXT_PUBLIC_PRODUCT_IMAGE_BASEURL;
 
@@ -49,7 +51,7 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
     };
 
 
-    //   console.log(cartItems[0]?.variation[0]?.stock);
+
 
 
 
@@ -90,7 +92,6 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
 
 
 
-    //    console.log(discount);
 
 
 
@@ -107,7 +108,6 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
     }, [discount]);
 
 
-    console.log(totalPrice);
 
 
 
@@ -154,20 +154,26 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
 
 
 
-const deliveryCharge=25.00
+    const deliveryCharge = 25.00
 
-const calculateTotalPrice = (cartItems, totalPrice, deliveryCharge, discount) => {
-    const basePrice = discount ? totalPrice : getTotalPrice(cartItems);
-    const vat = basePrice * 0.05;
-    return basePrice + vat + deliveryCharge;
-  };
-
-
-
-  const [value, setValue] = useState()
+    const calculateTotalPrice = (cartItems, totalPrice, deliveryCharge, discount) => {
+        const basePrice = discount ? totalPrice : getTotalPrice(cartItems);
+        const vat = basePrice * 0.05;
+        return basePrice + vat + deliveryCharge;
+    };
 
 
-  
+
+    const [value, setValue] = useState()
+    const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const countryCode = e.target.value;
+        setSelectedCountry(countryCode);
+        setStatesList(states[countryCode] || []);
+    };
+
+
+
+
 
     return (
         <div className="main cart">
@@ -379,42 +385,81 @@ const calculateTotalPrice = (cartItems, totalPrice, deliveryCharge, discount) =>
                                             </table>
 
 
-{/* Delivery Details */}
+                                            {/* Delivery Details */}
 
                                             <div className="shipping-address">
                                                 <label>Shipping <strong></strong></label>
+                                                {/* Name */}
+                                                <input type="text" className="form-control" name="name" placeholder="Enter full name" />
+
+
+
+
+
+                                                {/* Phone Number */}
                                                 <div className="form-control">
-                                                 
+
                                                     <PhoneInput
                                                         placeholder="Enter phone number"
-                                                        country={""}
+                                                        country={"ae"}
                                                         autoFormat={true}
                                                         value={value}
                                                         onChange={setValue}
-                                                        onlyCountries={[ "ae","sa", "qa", "kw","bh","om"]}
-                                                         />
-
-
-                                                </div>                      
-                                                <div className="select-box">
-                                                    <select name="country" className="form-control" defaultValue="us">
-                                                        <option value="us">United States (US)</option>
-                                                        <option value="uk">United Kingdom</option>
-                                                        <option value="fr">France</option>
-                                                        <option value="aus">Austria</option>
-                                                    </select>
+                                                        onlyCountries={["ae", "sa", "qa", "kw", "bh", "om"]}
+                                                    />
                                                 </div>
-                                                <div className="select-box">
-                                                    <select name="state" className="form-control" defaultValue="ca">
-                                                        <option value="ca">California</option>
-                                                        <option value="ak">Alaska</option>
-                                                        <option value="de">Delaware</option>
-                                                        <option value="hi">Hawaii</option>
-                                                    </select>
-                                                </div>
+
+                                                {/* Email */}
+                                                <input type="text" className="form-control" name="email" placeholder="Enter Email" />
+{/* Address */}
+
+                                                <input type="text" className="form-control" name="address" placeholder="Enter address" />
+{/* City */}
                                                 <input type="text" className="form-control" name="city" placeholder="Town / City" />
+                                                {/* Zip */}
                                                 <input type="text" className="form-control" name="zip" placeholder="ZIP" />
+
+                                                {/* Country */}
+                                                <div className="select-box">
+                                                    <select
+                                                        id="country"
+                                                        name="country"
+                                                        value={selectedCountry}
+                                                        onChange={handleCountryChange}
+                                                        className="form-control"
+                                                    >
+                                                        <option value="">Select Country</option>
+                                                        {countries.map((country) => (
+                                                            <option key={country.code} value={country.code}>
+                                                                {country.name}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                </div>
+
+
+                                                {/* state */}
+                                                <div className="select-box">
+
+                                                    <select id="state" name="state" className="form-control" >
+
+                                                        <option value="">Select State</option>
+                                                        {statesList.map((state, index) => (
+                                                            <option key={index} value={state}>
+                                                                {state}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                </div>
+
+
+
+
+
+                                          
                                                 <ALink href="#" className="btn btn-md btn-dark btn-rounded btn-outline">Update Details</ALink>
+
+                                                
                                             </div>
 
 
@@ -422,7 +467,7 @@ const calculateTotalPrice = (cartItems, totalPrice, deliveryCharge, discount) =>
 
 
 
-{/* Total */}
+                                            {/* Total */}
 
                                             <table className="total">
                                                 <tbody>
