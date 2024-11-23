@@ -62,6 +62,8 @@ const LoginModal: React.FC = () => {
             } else {
                 showWarningToast(data.message || 'Login failed!');
             }
+
+            
         } catch (error) {
             // console.error('Error logging in:', error);
             showInfoToast('Something went wrong. Please try again.');

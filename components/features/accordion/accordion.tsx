@@ -1,39 +1,27 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 
-interface AccordionProps {
-    adClass?: string; // Optional prop for additional classes
-    children: ReactNode; // Accepts any valid React node as children
-}
+function Accordion( props ) {
+    const { adClass } = props;
 
-const Accordion: React.FC<AccordionProps> = (props) => {
-    const { adClass, children } = props;
-
-    const onHandleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-        const target = e.target as HTMLElement;
-
-        if (target.classList.contains("toggle-button") || target.querySelector(".toggle-button")) {
-            const toggleButton = target.classList.contains("toggle-button") ? target : target.querySelector(".toggle-button");
-
-            if (toggleButton && (toggleButton.classList.contains("collapsed") || toggleButton.classList.contains("collapsing"))) {
-                const expandedButton = e.currentTarget.querySelector(".toggle-button.expanded") as HTMLElement;
-                const expandingButton = e.currentTarget.querySelector(".toggle-button.expanding") as HTMLElement;
-
-                if (expandedButton) {
-                    expandedButton.click();
+    function onHandleClick( e ) {
+        if ( e.target.classList.contains( "toggle-button" ) || e.target.querySelector( ".toggle-button" ) ) {
+            if ( e.target.classList.contains( "collapsed" ) || ( e.target.querySelector( ".toggle-button" ) && e.target.querySelector( ".toggle-button" ).classList.contains( "collapsed" ) ) || e.target.classList.contains( "collapsing" ) || ( e.target.querySelector( ".toggle-button" ) && e.target.querySelector( ".toggle-button" ).classList.contains( "collapsing" ) ) ) {
+                if ( e.currentTarget.querySelector( ".toggle-button.expanded" ) ) {
+                    e.currentTarget.querySelector( ".toggle-button.expanded" ).click();
                 }
 
-                if (expandingButton) {
-                    expandingButton.click();
+                if ( e.currentTarget.querySelector( ".toggle-button.expanding" ) ) {
+                    e.currentTarget.querySelector( ".toggle-button.expanding" ).click();
                 }
             }
         }
-    };
+    }
 
     return (
-        <div className={`accordion ${adClass}`} onClick={onHandleClick}>
-            {children}
+        <div className={ `accordion ${ adClass }` } onClick={ onHandleClick }>
+            { props.children }
         </div>
-    );
-};
+    )
+}
 
 export default Accordion;

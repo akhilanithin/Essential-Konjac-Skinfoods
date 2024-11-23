@@ -2,16 +2,35 @@ import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import SlideToggle from 'react-slide-toggle';
-import Collapse from 'react-bootstrap/Collapse';
+import Collapse from 'react-bootstrap/collapse';
 
 import ALink from '~/components/features/custom-link';
 import Card from '~/components/features/accordion/card';
 
 import { toDecimal, getTotalPrice } from '~/utils';
 
+import { useRouter } from 'next/router';
+
 function Checkout(props) {
     const { cartList } = props;
+
+   
+    
     const [isFirst, setFirst] = useState(false);
+
+
+    const [shippingData, setShippingData] = useState(null);
+
+    useEffect(() => {
+        // Get the data from localStorage
+        const storedShippingData = localStorage.getItem('shippingData');
+        if (storedShippingData) {
+            setShippingData(JSON.parse(storedShippingData));
+        }
+    }, []);
+
+ console.log(shippingData);
+ 
 
     return (
         <main className="main checkout">
@@ -29,15 +48,17 @@ function Checkout(props) {
                 </div>
                 <div className="container mt-7">
                     {
-                        cartList.length > 0 ?
+                        cartList?.length > 0 ?
                             <>
+
                                 {/* <div className="card accordion">
                                     <Card type="parse" title="<div class='alert alert-light alert-primary alert-icon mb-4 card-header'>
-                            <i class='fas fa-exclamation-circle'></i> <span class='text-body'>Returning customer?</span> <a href='#' class='text-primary collapse'>Click here to login</a>
+                            <i class='fas fa-exclamation-circle'></i> 
+                            <span class='text-body'>Returning customer?</span> <a href='#' class='text-primary collapse'>Click here to login</a>
                         </div>">
                                         <div className="alert-body collapsed">
                                             <p>If you have shopped with us before, please enter your details below.
-                            If you are a new customer, please proceed to the Billing section.</p>
+                                                If you are a new customer, please proceed to the Billing section.</p>
                                             <div className="row cols-md-2">
                                                 <form className="mb-4 mb-md-0">
                                                     <label htmlFor="username">Username Or Email *</label>
@@ -53,21 +74,24 @@ function Checkout(props) {
                                                     <input type="checkbox" className="custom-checkbox" id="signin-remember"
                                                         name="signin-remember" />
                                                     <label className="form-control-label" htmlFor="signin-remember">Remember
-                                    Me</label>
+                                                        Me</label>
                                                 </div>
                                                 <ALink href="#" className="lost-link">Lost your password?</ALink>
                                             </div>
                                             <div className="link-group">
                                                 <ALink href="#" className="btn btn-dark btn-rounded mb-4">Login</ALink> <span className="d-inline-block text-body font-weight-semi-bold">or Login With</span> <div className="social-links mb-4">
                                                     <ALink href="#" className="social-link social-google fab fa-google"></ALink>
-                                                    <ALink href="https://www.facebook.com/konjacskinfood/" className="social-link social-facebook fab fa-facebook-f"></ALink>
-                                                    <ALink href="https://twitter.com/KonjacSkin" className="social-link social-twitter fab fa-twitter"></ALink>
+                                                    <ALink href="#" className="social-link social-facebook fab fa-facebook-f"></ALink>
+                                                    <ALink href="#" className="social-link social-twitter fab fa-twitter"></ALink>
                                                 </div>
                                             </div>
                                         </div>
                                     </Card>
-                                </div>
-                                <div className="card accordion">
+                                </div> */}
+
+
+                                
+                                {/* <div className="card accordion">
                                     <Card title="
                                             <div class='alert alert-light alert-primary alert-icon mb-4 card-header'>
                                                 <i class='fas fa-exclamation-circle'></i>
@@ -85,59 +109,79 @@ function Checkout(props) {
                                         </div>
                                     </Card>
                                 </div> */}
+
+
+
+
                                 <form action="#" className="form">
                                     <div className="row">
                                         <div className="col-lg-7 mb-6 mb-lg-0 pr-lg-4">
                                             <h3 className="title title-simple text-left text-uppercase">Billing Details</h3>
                                             <div className="row">
-                                                <div className="col-xs-6">
-                                                    <label>First Name *</label>
-                                                    <input type="text" className="form-control" name="first-name" required />
+
+                                                {/* Full Name */}
+
+                                                <div className="col-xs-12">
+                                                    <label>Full Name *</label>
+                                                    <input type="text" className="form-control" name="first-name" required value={shippingData?.name} />
                                                 </div>
-                                                <div className="col-xs-6">
-                                                    <label>Last Name *</label>
-                                                    <input type="text" className="form-control" name="last-name" required />
-                                                </div>
+
                                             </div>
-                                            <label>Company Name (Optional)</label>
-                                            <input type="text" className="form-control" name="company-name" required />
+
+                                            {/* <label>Company Name (Optional)</label>
+                                            <input type="text" className="form-control" name="company-name" required /> */}
+
+
+                                            {/* Country/Region */}
+
                                             <label>Country / Region *</label>
-                                            <div className="select-box">
-                                                <select name="country" className="form-control" defaultValue="us">
-                                                    <option value="us">United States (US)</option>
-                                                    <option value="uk"> United Kingdom</option>
-                                                    <option value="fr">France</option>
-                                                    <option value="aus">Austria</option>
-                                                </select>
-                                            </div>
+                                            <input type="text" className="form-control" name="address1" required
+                                                placeholder="House number and street name" value={shippingData?.country} />
+
+                                            
+                                            {/* Address */}
+
                                             <label>Street Address *</label>
                                             <input type="text" className="form-control" name="address1" required
-                                                placeholder="House number and street name" />
-                                            <input type="text" className="form-control" name="address2" required
-                                                placeholder="Apartment, suite, unit, etc. (optional)" />
+                                                placeholder="House number and street name" value={shippingData?.address} />
+
+                                       
+                                       {/* City */}
+
                                             <div className="row">
                                                 <div className="col-xs-6">
                                                     <label>Town / City *</label>
-                                                    <input type="text" className="form-control" name="city" required />
+                                                    <input type="text" className="form-control" name="city" required  value={shippingData?.city}/>
                                                 </div>
+
+{/* State */}
+
                                                 <div className="col-xs-6">
-                                                    <label>State *</label>
-                                                    <input type="text" className="form-control" name="state" required />
+                                                    <label>State/Emirates *</label>
+                                                    <input type="text" className="form-control" name="state" required   value={shippingData?.state}/>
                                                 </div>
+
+
                                             </div>
+
+
                                             <div className="row">
+                                                {/* Zip */}
                                                 <div className="col-xs-6">
                                                     <label>ZIP *</label>
-                                                    <input type="text" className="form-control" name="zip" required />
+                                                    <input type="text" className="form-control" name="zip" required value={shippingData?.zip}/>
                                                 </div>
+                                                {/* Phone */}
                                                 <div className="col-xs-6">
                                                     <label>Phone *</label>
-                                                    <input type="text" className="form-control" name="phone" required />
+                                                    <input type="text" className="form-control" name="phone" required value={shippingData?.phone}/>
                                                 </div>
                                             </div>
-                                            <label>Email Address *</label>
-                                            <input type="text" className="form-control" name="email-address" required />
 
+                                            {/* Email Address */}
+                                            <label>Email Address *</label>
+                                            <input type="text" className="form-control" name="email-address" required value={shippingData?.email} />
+{/* 
                                             <SlideToggle duration={300} collapsed >
                                                 {({ onToggle, setCollapsibleElement }) => (
                                                     <div className="form-checkbox mb-0 pt-0">
@@ -146,22 +190,22 @@ function Checkout(props) {
 
                                                         <div ref={setCollapsibleElement} style={{ overflow: 'hidden' }}>
                                                             <label htmlFor="account_username" className="pt-4">Account username&nbsp;
-                                                                    <abbr className="required" title="required">*</abbr>
+                                                                <abbr className="required" title="required">*</abbr>
                                                             </label>
 
                                                             <input type="text" className="form-control" name="account_username" id="account_username" placeholder="Username" rows="5" />
 
                                                             <label htmlFor="account_password">Create account password&nbsp;
-                                                                    <abbr className="required" title="required">*</abbr>
+                                                                <abbr className="required" title="required">*</abbr>
                                                             </label>
 
                                                             <input type="password" className="form-control mb-3" name="account_password" id="account_password" placeholder="Password" rows="5" />
                                                         </div>
                                                     </div>
                                                 )}
-                                            </SlideToggle>
+                                            </SlideToggle> */}
 
-                                            <SlideToggle duration={300} collapsed >
+                                            {/* <SlideToggle duration={300} collapsed >
                                                 {({ onToggle, setCollapsibleElement }) => (
                                                     <div className="form-checkbox mb-6">
                                                         <input type="checkbox" className="custom-checkbox" id="different-address" name="different-address" onChange={onToggle} />
@@ -217,7 +261,7 @@ function Checkout(props) {
                                                         </div>
                                                     </div>
                                                 )}
-                                            </SlideToggle>
+                                            </SlideToggle> */}
 
                                             <h2 className="title title-simple text-uppercase text-left mt-6">Additional Information</h2>
                                             <label>Order Notes (Optional)</label>
@@ -251,10 +295,10 @@ function Checkout(props) {
                                                                 <td>
                                                                     <h4 className="summary-subtitle">Subtotal</h4>
                                                                 </td>
-                                                                <td className="summary-subtotal-price pb-0 pt-0">AED {toDecimal(getTotalPrice(cartList))}
+                                                                <td className="summary-subtotal-price pb-0 pt-0">AED{toDecimal(getTotalPrice(cartList))}
                                                                 </td>
                                                             </tr>
-                                                            <tr className="sumnary-shipping shipping-row-last">
+                                                            {/* <tr className="sumnary-shipping shipping-row-last">
                                                                 <td colSpan="2">
                                                                     <h4 className="summary-subtitle">Calculate Shipping</h4>
                                                                     <ul>
@@ -286,7 +330,10 @@ function Checkout(props) {
                                                                         </li>
                                                                     </ul>
                                                                 </td>
-                                                            </tr>
+                                                            </tr> */}
+
+
+                                                            
                                                             <tr className="summary-total">
                                                                 <td className="pb-0">
                                                                     <h4 className="summary-subtitle">Total</h4>
@@ -350,7 +397,7 @@ function Checkout(props) {
                                 <p className="return-to-shop mb-0">
                                     <ALink className="button wc-backward btn btn-dark btn-md" href="/shop">
                                         Return to shop
-                                </ALink>
+                                    </ALink>
                                 </p>
                             </div>
                     }

@@ -13,6 +13,12 @@ import "react-phone-input-2/lib/style.css";
 import { toast } from 'react-toastify'; // Import toast
 import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
 
+
+
+
+import { useRouter } from 'next/router';
+
+
 interface CartProps {
     cartList: CartItem[];
     removeFromCart: (item: CartItem) => void;
@@ -44,10 +50,6 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
         }
 
         return true;
-    };
-
-    const update = () => {
-        updateCart(cartItems);
     };
 
 
@@ -135,7 +137,6 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
 
 
 
-
     // function applyDiscount(price: number, qty: number, discount: string) {
     //     const totalPrice = price * qty;
 
@@ -165,19 +166,140 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
 
 
     const [value, setValue] = useState()
-    const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    
+    // const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    //     const countryCode = e.target.value;
+    //     setSelectedCountry(countryCode);
+    //     setStatesList(states[countryCode] || []);
+    // };
+
+
+
+
+
+
+
+
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        address: '',
+        city: '',
+        zip: '',
+        country: '',
+        state: '',
+      });
+      
+    //   const [selectedCountry, setSelectedCountry] = useState('');
+    //   const [statesList, setStatesList] = useState([]);
+      const [loading, setLoading] = useState(false);
+      const [error, setError] = useState(null);
+      const [success, setSuccess] = useState(null);
+    
+      const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+          ...formData,
+          [name]: value,
+        });
+      };
+    
+      const handleCountryChange = (e) => {
         const countryCode = e.target.value;
         setSelectedCountry(countryCode);
-        setStatesList(states[countryCode] || []);
+        setStatesList(states[countryCode] || []);  // Update states based on selected country
+        setFormData({
+          ...formData,
+          country: countryCode,
+          state: '',  // Reset state when country changes
+        });
+      };
+    
+      const handlePhoneChange = (value) => {
+        setFormData({
+          ...formData,
+          phone: value,
+        });
+      };
+    
+
+
+      const router = useRouter();
+
+
+    //   useEffect(() => {
+    //     // Get the saved form data from localStorage if it exists
+    //     const savedData = localStorage.getItem('shippingData');
+    //     if (savedData) {
+    //       setFormData(JSON.parse(savedData)); // Populate form with saved data
+    //     }
+    //   }, []);
+    
+
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError(null);
+        setSuccess(null);
+    
+        try {
+          const response = await fetch('/api/shipping', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+          });
+    
+          if (!response.ok) {
+            throw new Error('All Fields are Required');
+          }
+    
+          const result = await response.json();
+          setSuccess('Shipping details saves successfully!');
+
+ 
+
+             
+    if (response.ok) {
+       
+               localStorage.setItem('shippingData', JSON.stringify(formData));
+               
+    } 
+
+    
+          setFormData({
+            name: '',
+            email: '',
+            phone: '',
+            address: '',
+            city: '',
+            zip: '',
+            country: '',
+            state: '',
+          });
+        } catch (err) {
+          setError(err.message || 'Error occurred while saving data');
+        } finally {
+          setLoading(false);
+        }
+      };
+
+
+
+
+
+      const update = () => {
+        updateCart(cartItems);
     };
-
-
 
 
 
     return (
         <div className="main cart">
             <div className="page-content pt-7 pb-10">
+                
                 <div className="step-by pr-4 pl-4">
                     <h3 className="title title-simple title-step active">
                         <ALink href="#">1. Shopping Cart</ALink>
@@ -211,7 +333,7 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
                                         <tbody>
                                             {cartItems.map(item => (
 
-                                                // console.log(item?.name),     
+                                                // console.log(item?.variation[0]),     
 
                                                 <tr key={'cart' + item.name}>
                                                     <td className="product-thumbnail">
@@ -235,7 +357,7 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
                                                         <span className="amount">AED {toDecimal(item.price)}</span>
                                                     </td>
                                                     <td className="product-quantity">
-                                                        <Quantity qty={item?.qty} max={item?.variation[0]?.stock} onChangeQty={qty => onChangeQty(item?.name, qty)} />
+                                                        <Quantity qty={item?.qty}max={item?.variation?.[0]?.stock || 0} onChangeQty={qty => onChangeQty(item?.name, qty)} />
                                                     </td>
                                                     {/* <td className="product-price">
                                                         <span className="amount">AED {toDecimal(item.price * item.qty)}</span>
@@ -387,44 +509,78 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
 
                                             {/* Delivery Details */}
 
+
                                             <div className="shipping-address">
-                                                <label>Shipping <strong></strong></label>
+                                                <label>Shipping <strong>Details</strong></label>
+
                                                 {/* Name */}
-                                                <input type="text" className="form-control" name="name" placeholder="Enter full name" />
-
-
-
-
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    name="name"
+                                                    placeholder="Enter full name"
+                                                    value={formData.name}
+                                                    onChange={handleChange}
+                                                />
 
                                                 {/* Phone Number */}
                                                 <div className="form-control">
-
                                                     <PhoneInput
                                                         placeholder="Enter phone number"
-                                                        country={"ae"}
-                                                        autoFormat={true}
-                                                        value={value}
-                                                        onChange={setValue}
+                                                        country=""
+                                                        value={formData.phone}
+                                                        onChange={handlePhoneChange}
                                                         onlyCountries={["ae", "sa", "qa", "kw", "bh", "om"]}
+                                                        autoFormat={true}
                                                     />
                                                 </div>
 
                                                 {/* Email */}
-                                                <input type="text" className="form-control" name="email" placeholder="Enter Email" />
-{/* Address */}
+                                                <input
+                                                    type="email"
+                                                    className="form-control"
+                                                    name="email"
+                                                    placeholder="Enter Email"
+                                                    value={formData.email}
+                                                    onChange={handleChange}
+                                                />
 
-                                                <input type="text" className="form-control" name="address" placeholder="Enter address" />
-{/* City */}
-                                                <input type="text" className="form-control" name="city" placeholder="Town / City" />
+                                                {/* Address */}
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    name="address"
+                                                    placeholder="Enter address"
+                                                    value={formData.address}
+                                                    onChange={handleChange}
+                                                />
+
+                                                {/* City */}
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    name="city"
+                                                    placeholder="Town / City"
+                                                    value={formData.city}
+                                                    onChange={handleChange}
+                                                />
+
                                                 {/* Zip */}
-                                                <input type="text" className="form-control" name="zip" placeholder="ZIP" />
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    name="zip"
+                                                    placeholder="ZIP"
+                                                    value={formData.zip}
+                                                    onChange={handleChange}
+                                                />
 
                                                 {/* Country */}
                                                 <div className="select-box">
                                                     <select
                                                         id="country"
                                                         name="country"
-                                                        value={selectedCountry}
+                                                        value={formData.country}
                                                         onChange={handleCountryChange}
                                                         className="form-control"
                                                     >
@@ -437,12 +593,15 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
                                                     </select>
                                                 </div>
 
-
-                                                {/* state */}
+                                                {/* State */}
                                                 <div className="select-box">
-
-                                                    <select id="state" name="state" className="form-control" >
-
+                                                    <select
+                                                        id="state"
+                                                        name="state"
+                                                        value={formData.state}
+                                                        onChange={handleChange}
+                                                        className="form-control"
+                                                    >
                                                         <option value="">Select State</option>
                                                         {statesList.map((state, index) => (
                                                             <option key={index} value={state}>
@@ -452,18 +611,19 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
                                                     </select>
                                                 </div>
 
+                                                {/* Submit Button */}
+                                                <button
+                                                    type="submit"
+                                                    onClick={handleSubmit}
+                                                    className="btn btn-md btn-dark btn-rounded btn-outline"
+                                                    disabled={loading}
+                                                >
+                                                    {loading ? 'Saving...' : 'Save Details'}
+                                                </button>
 
-
-
-
-                                          
-                                                <ALink href="#" className="btn btn-md btn-dark btn-rounded btn-outline">Update Details</ALink>
-
-                                                
+                                                {error && <p style={{ color: 'red' }}>{error}</p>}
+                                                {success && <p style={{ color: 'green' }}>{success}</p>}
                                             </div>
-
-
-
 
 
 
@@ -485,6 +645,7 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
 
 
                                             <ALink href="/pages/checkout" className="btn btn-dark btn-rounded btn-checkout">Proceed to checkout</ALink>
+
                                         </div>
                                     </div>
                                 </aside>
