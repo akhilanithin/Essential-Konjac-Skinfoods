@@ -14,6 +14,8 @@ import { useRouter } from 'next/router';
 function Checkout(props) {
     const { cartList } = props;
 
+  
+
    
     
     const [isFirst, setFirst] = useState(false);
@@ -29,8 +31,11 @@ function Checkout(props) {
         }
     }, []);
 
- console.log(shippingData);
  
+    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+    
+    
 
     return (
         <main className="main checkout">
@@ -181,8 +186,8 @@ function Checkout(props) {
                                             {/* Email Address */}
                                             <label>Email Address *</label>
                                             <input type="text" className="form-control" name="email-address" required value={shippingData?.email} />
-{/* 
-                                            <SlideToggle duration={300} collapsed >
+
+                                            {/* <SlideToggle duration={300} collapsed >
                                                 {({ onToggle, setCollapsibleElement }) => (
                                                     <div className="form-checkbox mb-0 pt-0">
                                                         <input type="checkbox" className="custom-checkbox" id="create-account" name="create-account" onChange={onToggle} />
@@ -267,6 +272,7 @@ function Checkout(props) {
                                             <label>Order Notes (Optional)</label>
                                             <textarea className="form-control pb-2 pt-2 mb-0" cols="30" rows="5"
                                                 placeholder="Notes about your order, e.g. special notes for delivery"></textarea>
+                                            
                                         </div>
 
                                         <aside className="col-lg-5 sticky-sidebar-wrapper">
@@ -298,6 +304,7 @@ function Checkout(props) {
                                                                 <td className="summary-subtotal-price pb-0 pt-0">AED{toDecimal(getTotalPrice(cartList))}
                                                                 </td>
                                                             </tr>
+
                                                             {/* <tr className="sumnary-shipping shipping-row-last">
                                                                 <td colSpan="2">
                                                                     <h4 className="summary-subtitle">Calculate Shipping</h4>
@@ -342,6 +349,8 @@ function Checkout(props) {
                                                                     <p className="summary-total-price ls-s text-primary">AED {toDecimal(getTotalPrice(cartList))}</p>
                                                                 </td>
                                                             </tr>
+
+
                                                         </tbody>
                                                     </table>
                                                     <div className="payment accordion radio-type">

@@ -113,7 +113,6 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
 
 
 
-
     // Helper functions
     const toDecimal = (value: number): string => {
         return value.toFixed(2);
@@ -137,25 +136,59 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
 
 
 
-    // function applyDiscount(price: number, qty: number, discount: string) {
-    //     const totalPrice = price * qty;
+   
 
-    //     if (discount.includes('%')) {
-    //         // Discount is a percentage
-    //         const percentage = parseFloat(discount.replace('%', '').trim());
-    //         return totalPrice - (totalPrice * (percentage / 100));
-    //     } else if (discount.includes('AED')) {
-    //         // Discount is a fixed amount (e.g., AED 10)
-    //         const amount = parseFloat(discount.replace('AED', '').trim());
-    //         return totalPrice - amount;
-    //     }
-
-    //     return totalPrice; // No discount applied if the discount format is not recognized
-    // }
-
-
-
+    const discountValue = discount? toDecimal(getTotalPrice(cartItems) - totalPrice): 0;
+    const vatValue = toDecimal((discount ? totalPrice : getTotalPrice(cartItems)) * 0.05);
     const deliveryCharge = 25.00
+
+
+
+    
+
+    const displayPrice = discount
+        ? toDecimal(totalPrice)
+        : toDecimal(getTotalPrice(cartItems));
+
+
+
+
+
+    const applyDiscounts = (cartItem, displayPrice,discountValue,vatValue,deliveryCharge) => {
+        
+        return {
+          ...cartItem,
+          totalDiscountedPrice:displayPrice,
+          discountValue:discountValue,
+          vatValue:vatValue,
+          deliveryCharge:deliveryCharge
+      };
+
+
+    }
+
+
+
+
+    const updatedCartItem = applyDiscounts(cartItems, displayPrice,discountValue,vatValue,deliveryCharge);
+   
+   const handleCheckoutClick = () => {
+ 
+    const updatedCartItem = applyDiscounts(cartItems, displayPrice,discountValue,vatValue,deliveryCharge);
+    setCartItems(updatedCartItem);
+    localStorage.setItem('cartItems', JSON.stringify(updatedCartItem));
+    router.push('/pages/checkout');
+  
+  
+   
+  };
+    
+
+
+
+
+
+
 
     const calculateTotalPrice = (cartItems, totalPrice, deliveryCharge, discount) => {
         const basePrice = discount ? totalPrice : getTotalPrice(cartItems);
@@ -291,10 +324,11 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
 
 
       const update = () => {
-        updateCart(cartItems);
+        updateCart(cartItems,);
     };
 
 
+console.log(cartItems);
 
     return (
         <div className="main cart">
@@ -644,7 +678,15 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
 
 
 
-                                            <ALink href="/pages/checkout" className="btn btn-dark btn-rounded btn-checkout">Proceed to checkout</ALink>
+                                            {/* <ALink href="/pages/checkout" className="btn btn-dark btn-rounded btn-checkout">Proceed to checkout</ALink> */}
+
+
+                                            <button
+                                                className="btn btn-dark btn-rounded btn-checkout"
+                                                onClick={handleCheckoutClick}
+                                            >
+                                                Proceed to checkout
+                                            </button>
 
                                         </div>
                                     </div>
