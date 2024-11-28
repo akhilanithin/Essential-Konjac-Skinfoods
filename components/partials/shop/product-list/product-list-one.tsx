@@ -6,6 +6,7 @@ import ProductEight from '~/components/features/product/product-eight';
 import Pagination from '~/components/features/pagination';
 import withApollo from '~/server/apollo';
 
+
 interface Product {
     slug: string;
     title: string;
@@ -108,6 +109,7 @@ const ProductListOne: React.FC<ProductListProps> = ({ itemsPerRow = 3, type = "l
 
     return (
         <>
+
             {isToolbox && <ToolBox type={type} />}
 
 
@@ -119,6 +121,9 @@ const ProductListOne: React.FC<ProductListProps> = ({ itemsPerRow = 3, type = "l
                 </div>
             ) : (
                 <>
+                    
+
+
                     {gridType === 'grid' ? (
                         <div className={`row product-wrapper ${gridClasses[itemsPerRow]}`}>
                             {products.data.map(item => (
@@ -136,9 +141,14 @@ const ProductListOne: React.FC<ProductListProps> = ({ itemsPerRow = 3, type = "l
                             ))}
                         </div>
                     )}
+
+
+
+
                     {products.data.length === 0 && !loading &&  (
                         <p className="ml-1">No products were found matching your selection.</p>
                     )}
+
                     {products.total > 0 && (
                         <div className="toolbox toolbox-pagination">
                             <p className="show-info">
@@ -147,6 +157,8 @@ const ProductListOne: React.FC<ProductListProps> = ({ itemsPerRow = 3, type = "l
                             <Pagination totalPage={totalPage} />
                         </div>
                     )}
+
+                    
                 </>
             )}
             {error && <p className="ml-1">{error}</p>}

@@ -130,6 +130,7 @@ const ToolBox: React.FC<ToolBoxProps> = ({ type = "left" }) => {
                         <option value="36">36</option>
                     </select>
                 </div>
+
                 <div className={`toolbox-item toolbox-layout ${type === "right" ? "mr-lg-0" : ''}`}>
                     <ALink href={{ pathname: router.pathname, query: { ...query, type: "list" } }} scroll={false} className={`d-icon-mode-list btn-layout ${gridType === 'list' ? 'active' : ''}`}></ALink>
                     <ALink href={{ pathname: router.pathname, query: { ...query, type: "grid" } }} scroll={false} className={`d-icon-mode-grid btn-layout ${gridType !== 'list' ? 'active' : ''}`}></ALink>
@@ -138,6 +139,7 @@ const ToolBox: React.FC<ToolBoxProps> = ({ type = "left" }) => {
                 {type === "right" && (
                     <ALink href="#" className="toolbox-item right-sidebar-toggle btn btn-sm btn-outline btn-primary btn-rounded btn-icon-right d-lg-none" onClick={showSidebar}>Filter<i className="d-icon-arrow-left"></i></ALink>
                 )}
+                
             </div>
         </nav>
     );

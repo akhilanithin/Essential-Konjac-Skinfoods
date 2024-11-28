@@ -222,6 +222,7 @@ const renderCategories = () => {
                 </div>
 
                 <div className="product-action-vertical">
+                    
                     {variations.length > 1 ? (
                         <ALink
                         href={`/product/default/${product.id}`}

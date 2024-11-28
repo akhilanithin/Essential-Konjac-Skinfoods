@@ -27,10 +27,7 @@ const Order: React.FC<Props> = ({ cartList }) => {
             <div className="page-content pt-7 pb-10 mb-10">
                 <div className="step-by pr-4 pl-4">
                     <h3 className="title title-simple title-step">
-                        <ALink href="/pages/cart">1. Shopping Cart</ALink>
-                    </h3>
-                    <h3 className="title title-simple title-step">
-                        <ALink href="/pages/checkout">2. Checkout</ALink>
+                        <ALink href="#">1. Shopping Cart</ALink>
                     </h3>
                     <h3 className="title title-simple title-step active">
                         <ALink href="#">3. Order Complete</ALink>
@@ -143,7 +140,7 @@ const Order: React.FC<Props> = ({ cartList }) => {
                         <p className="email">mail@riode.com</p>
                     </div>
 
-                    <ALink href="/shop" className="btn btn-icon-left btn-dark btn-back btn-rounded btn-md mb-4">
+                    <ALink href="/aesthetics/" className="btn btn-icon-left btn-dark btn-back btn-rounded btn-md mb-4">
                         <i className="d-icon-arrow-left"></i> Back to List
                     </ALink>
                 </div>

@@ -12,6 +12,9 @@ import { currentDemo } from '~/server/queries';
 
 import "~/public/sass/style.scss";
 
+
+
+
 const App = ({ Component, pageProps }) => {
     const store = useStore();
 

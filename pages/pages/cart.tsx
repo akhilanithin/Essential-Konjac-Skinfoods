@@ -115,7 +115,7 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
 
     // Helper functions
     const toDecimal = (value: number): string => {
-        return value.toFixed(2);
+        return value?.toFixed(2);
     };
 
 
@@ -237,7 +237,9 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
           [name]: value,
         });
       };
-    
+   
+      
+      
       const handleCountryChange = (e) => {
         const countryCode = e.target.value;
         setSelectedCountry(countryCode);
@@ -267,8 +269,10 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
     //     if (savedData) {
     //       setFormData(JSON.parse(savedData)); // Populate form with saved data
     //     }
-    //   }, []);
+    //   }, []);z
     
+
+
 
       const handleSubmit = async (e) => {
         e.preventDefault();
@@ -328,7 +332,6 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
     };
 
 
-console.log(cartItems);
 
     return (
         <div className="main cart">

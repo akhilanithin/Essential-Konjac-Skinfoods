@@ -74,10 +74,10 @@ export const mainMenu = {
         //     "url": "aesthetics/aesthetics"
         // },  
         
-        {
-            "title": "Simpl Product",
-            "url": "aesthetics/bodycare-smooth-perfume"
-        },
+        // {
+        //     "title": "Simpl Product",
+        //     "url": "aesthetics/bodycare-smooth-perfume"
+        // },
     ],
 
 

@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import ALink from '~/components/features/custom-link';
 import Quantity from '~/components/features/quantity';
 import { cartActions } from '~/store/cart';
@@ -9,7 +10,9 @@ import { CartItem } from '~/types'; // Define a type for CartItem
 
 import SlideToggle from 'react-slide-toggle';
 
-import { Container, Row, Col, Image,} from "react-bootstrap";
+import { Container, Row, Col, Image, } from "react-bootstrap";
+
+import { Card, Form } from 'react-bootstrap';
 
 interface CartProps {
     cartList: CartItem[];
@@ -20,34 +23,66 @@ interface CartProps {
 function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
-    const PRODUCT_IMAGE_BASEURL = process.env.NEXT_PUBLIC_PRODUCT_IMAGE_BASEURL;
 
     useEffect(() => {
         setCartItems([...cartList]);
     }, [cartList]);
 
-    const onChangeQty = (name: string, qty: number) => {
-        setCartItems(cartItems.map(item => (
-            item.name === name ? { ...item, qty } : item
-        )));
-    };
-
-    const compareItems = () => {
-        if (cartItems.length !== cartList.length) return false;
-
-        for (let index = 0; index < cartItems.length; index++) {
-            if (cartItems[index].qty !== cartList[index].qty) return false;
-        }
-
-        return true;
-    };
-
-    const update = () => {
-        updateCart(cartItems);
-    };
 
 
-    // console.log(cartItems[0]?.variation[0]?.stock);
+
+
+
+
+    const [bookingDate, setBookingDate] = useState<string>('2024-11-12');
+
+    const router = useRouter();
+    const { query } = router;
+    const [loading, setLoading] = useState(false);
+
+    const [error, setError] = useState('');
+    const [product, setProduct] = useState(null);
+
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const response = await fetch(`https://api.eksfc.com/api/clinic-serice?search=&limit=1000&page=1&sortField=id&sortOrder=DESC&filterName=id&filterValue=${query?.slug}` as string, {
+                    headers: {
+                        Authorization: `Bearer ${process.env.NEXT_PUBLIC_CLINIC_TOKEN}`,
+                        'konjac-version': '1.0.1',
+                    },
+                });
+
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                const data = await response.json();
+
+                setProduct(data.data || []); // Set all posts
+
+            } catch (err) {
+                setError(`An error occurred: ${err.message}`);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []); // Depend on slug so it refetches when it changes
+
+    // Render loading, error, or the product
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>{error}</div>;
+
+
+    const price = product ? product[0]?.price : 0;
+    const fivePercent = price * 0.05;
+    const tax = fivePercent.toFixed(2);
+
+
+    const sum = parseFloat(price) + parseFloat(tax);
+    const total = sum.toFixed(2)
 
 
 
@@ -61,11 +96,9 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
                     <h3 className="title title-simple title-step active">
                         <ALink href="#">1. Shopping Cart</ALink>
                     </h3>
+
                     <h3 className="title title-simple title-step">
-                        <ALink href="/aesthetics/checkout">2. Checkout</ALink>
-                    </h3>
-                    <h3 className="title title-simple title-step">
-                        <ALink href="/aesthetics/order">3. Order Complete</ALink>
+                        <ALink href="/aesthetics/order/">2. Order Complete</ALink>
                     </h3>
                 </div>
 
@@ -83,7 +116,7 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
                                     <div className="row">
                                         <div className="col-lg-7 mb-6 mb-lg-0 pr-lg-4">
                                             <h3 className="title title-simple text-left text-uppercase">Info about you</h3>
-                                  
+
                                             <div className="row">
                                                 <div className="col-12 mb-3">
                                                     <label>First Name *</label>
@@ -110,41 +143,55 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
                                                 </div>
                                             </div>
 
+                                            <div>
+                                                <label>Order Notes (Optional)</label>
+                                                <textarea className="form-control pb-2 pt-2 mb-0" cols="30" rows="5"
+                                                    placeholder="Notes about your order, e.g. special notes for delivery"></textarea>
+                                            </div>
 <br />
 
-                                            <h3 className="title title-simple text-left text-uppercase">Delivery Info</h3>
-                                                         
-                                       
-                                           
-                
-                                            <label>Street Address *</label>
-                                            <input type="text" className="form-control" name="address1" required
-                                                placeholder="House number and street name" />
+                                            {/* datepicker */}
 
-                                        
-                                                
-                                            <div className="row">
-                                                <div className="col-xs-6">
-                                                    <label>Town / City *</label>
-                                                    <input type="text" className="form-control" name="city" placeholder="Enter the City"required />
-                                                </div>
-                                                <div className="col-xs-6">
-                                                    <label>Country *</label>
-                                                    <input type="text" className="form-control" name="state" required placeholder="Enter the Country"  />
-                                                </div>
-                                            </div>
 
-                                         
+                                            <h3 className="title title-simple text-left text-uppercase">Booking Details</h3>
+                                            <Card className="checkout-payment__item active">
+                                                <Card.Body>
+                                                    <Card.Title>Please Select the Date for Your Booking</Card.Title>
+                                                    <div className="box-field" style={{ marginTop: '2rem' }}>
+                                                        <Form.Control
+                                                            type="date"
+                                                            placeholder="Select booking date"
+                                                            value={bookingDate}
+                                                            onChange={(e) => setBookingDate(e.target.value)}
+                                                            className="form-control"
+                                                        />
+                                                    </div>
+                                                </Card.Body>
+                                            </Card>
 
-                                  
+                                            {/* payment Method */}
+                                            <h3 className="title title-simple text-left text-uppercase">Payment Methods</h3>
 
-                                        
 
-                                            <h2 className="title title-simple text-uppercase text-left mt-6">Note</h2>
-                                            <label>Order Notes (Optional)</label>
-                                            <textarea className="form-control pb-2 pt-2 mb-0" cols="30" rows="5"
-                                                placeholder="Notes about your order, e.g. special notes for delivery"></textarea>
-
+                                            <Card className="checkout-payment__item active">
+                                                <Card.Body>
+                                                    <div className="checkout-payment__item-head">
+                                                        <Form.Check
+                                                            type="radio"
+                                                            id="payment-option"
+                                                            name="radio"
+                                                            label="Credit/Debit card AED-30 (Pay 10% to confirm the appointment)"
+                                                            defaultChecked
+                                                            custom
+                                                            className="radio-box"
+                                                        />
+                                                        <div className="radio-box__info">
+                                                            <i className="icon-info"></i>
+                                                            <span className="radio-box__info-content"></span>
+                                                        </div>
+                                                    </div>
+                                                </Card.Body>
+                                            </Card>
 
 
                                         </div>
@@ -153,36 +200,39 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
 
                                 <br />
 
-                                        <ALink href="/aesthetics/checkout" passHref>
-                                            <button type="button" className="btn btn-dark btn-rounded btn-checkout">
-                                               Next
-                                            </button>
-                                        </ALink>
+                                <ALink href="#" passHref>
+                                    <button type="button" className="btn btn-dark btn-rounded btn-checkout">
+                                        Next
+                                    </button>
+                                </ALink>
 
                             </div>
 
                             <aside className="col-lg-5 sticky-sidebar-wrapper">
                                 {/* Order Summary */}
                                 <div className="border" style={{ border: "1px solid #eee", borderRadius: "5px", padding: "15px" }}>
+
+
                                     {/* Your Order */}
                                     <Container className="checkout-order">
                                         <h5>Your Order</h5>
                                         <Row className="checkout-order__item align-items-center" style={{ borderBottom: "1px solid #eee", padding: "10px", borderRadius: "5px" }}>
                                             <Col xs={4} className="checkout-order__item-img">
-                                                <a href="/service-checkout/58">
-                                                    <Image
-                                                        src="https://konjac.s3.me-central-1.amazonaws.com/products/1727778853141-blob"
-                                                        alt="Product Image"
-                                                        fluid
-                                                    />
-                                                </a>
+
+                                                <Image
+                                                    src={`${product ? product[0]?.imageUrls : []}`}
+                                                    alt="Product Image"
+                                                    fluid
+                                                />
+
                                             </Col>
+
                                             <Col xs={8} className="checkout-order__item-info">
-                                                <a className="title6" href="/service-checkout/58">
-                                                    Botox-Bunny line <span>x1</span>
+                                                <a className="title6">
+                                                    {product ? product[0]?.name : []} <span>x1</span>
                                                 </a>
                                                 <br />
-                                                <span className="checkout-order__item-price">AED 300.00</span>
+                                                <span className="checkout-order__item-price">AED price</span>
                                             </Col>
                                         </Row>
                                     </Container>
@@ -204,7 +254,7 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
                                                         <h4 className="summary-subtitle">Subtotal</h4>
                                                     </td>
                                                     <td>
-                                                        <p className="summary-subtotal-price">AED {toDecimal(getTotalPrice(cartItems))}</p>
+                                                        <p className="summary-subtotal-price">AED {toDecimal(price)}</p>
                                                     </td>
                                                 </tr>
                                                 <tr className="summary-subtotal">
@@ -212,7 +262,7 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
                                                         <h4 className="summary-subtitle">VAT (+5%)</h4>
                                                     </td>
                                                     <td>
-                                                        <p className="summary-subtotal-price">AED 15.00</p>
+                                                        <p className="summary-subtotal-price">AED {toDecimal(tax)}</p>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -225,7 +275,7 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
                                                         <h4 className="summary-subtitle">Total</h4>
                                                     </td>
                                                     <td>
-                                                        <p className="summary-total-price ls-s">AED {toDecimal(getTotalPrice(cartItems) + 15)}</p>
+                                                        <p className="summary-total-price ls-s">AED {total} </p>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -235,13 +285,13 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
 
 
 
-                                  
+
                                 </div>
                             </aside>
 
 
 
-                            
+
                         </>
 
 
