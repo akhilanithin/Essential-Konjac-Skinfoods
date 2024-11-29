@@ -98,8 +98,11 @@ function Aesthetics({ type = "left",itemsPerRow = 3,}): JSX.Element {
             <Breadcrumb title="Aesthetics" parentUrl="/elements" />
 
             <div className="page-content">
+
                 <section className="mt-10 pt-4 pb-10">
+
                     <div className="container">
+                        
                         <ToolBox
                             type={type}
                             sortBy={sortBy}
@@ -167,6 +170,8 @@ function Aesthetics({ type = "left",itemsPerRow = 3,}): JSX.Element {
                                 ))}
                             </ul>
                         </div>
+
+
                     </div>
                 </section>
             </div>

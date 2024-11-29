@@ -23,11 +23,16 @@ const ToolBox: React.FC<ToolBoxProps> = ({ sortBy, postsPerPage, onSortChange, o
             );
         }
     };
+
+    console.log(sortBy);
+    
     return (
         <nav className="toolbox sticky-toolbox sticky-content fix-top">
+
+{/*             
             <div className="toolbox-left">
                 <div className="toolbox-item toolbox-sort">
-                    {/* <label>Sort By :</label> */}
+                 
                     <select
                         name="orderby"
                         className="form-control"
@@ -39,7 +44,28 @@ const ToolBox: React.FC<ToolBoxProps> = ({ sortBy, postsPerPage, onSortChange, o
                    
                     </select>
                 </div>
-            </div>
+            </div> */}
+
+            {sortBy ? (
+                <div className="toolbox-left">
+                    <div className="toolbox-item toolbox-sort">
+                        <select
+                            name="orderby"
+                            className="form-control"
+                            value={sortBy}
+                            onChange={(e) => onSortChange(e.target.value)}
+                        >
+                            <option value="popularity">Price low to high</option>
+                            <option value="default">Price high to low</option>
+                        </select>
+                    </div>
+                </div>
+            ) : <div className="toolbox-left">
+             
+            </div>}
+
+
+
 
             <div className="toolbox-right">
                 <div className="toolbox-item toolbox-show">

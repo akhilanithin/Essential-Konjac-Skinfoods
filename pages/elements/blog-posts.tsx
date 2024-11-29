@@ -1,226 +1,144 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Helmet from 'react-helmet';
-import { useLazyQuery } from '@apollo/react-hooks';
 import withApollo from '~/server/apollo';
-import { GET_POSTS } from '~/server/queries';
-
-import OwlCarousel from '~/components/features/owl-carousel';
 import Breadcrumb from '~/components/features/breadcrumb';
-
-import PostFour from '~/components/features/post/post-four';
-import PostFive from '~/components/features/post/post-five';
-import PostSix from '~/components/features/post/post-six';
-import PostSeven from '~/components/features/post/post-seven';
 import PostEight from '~/components/features/post/post-eight';
-import ElementsList from '~/components/partials/elements/elements-list';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import ToolBox from '../aesthetics/toolbox';
 
-import { mainSlider5, mainSlider13, mainSlider14 } from '~/utils/data/carousel';
-
-// Define types for the posts
 interface Post {
-    // Define the structure of a post here based on your data model
-    id: string;
+    id: number;
     title: string;
-    // Add other fields as necessary
+    content: string;
 }
 
-interface PostsData {
-    posts: {
-        data: Post[];
+interface PostsResponse {
+    data: Post[];
+    count: number;
+}
+
+function BlogPosts({ itemsPerRow = 3, type = "left" }) {
+    const [posts, setPosts] = useState<Post[]>([]);
+    const [totalPosts, setTotalPosts] = useState(0);
+    const [error, setError] = useState<Error | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [postsPerPage, setPostsPerPage] = useState(12);
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const token = process.env.NEXT_PUBLIC_BLOG_TOKEN!;
+    const router = useRouter();
+    const { query } = router;
+    const gridType = query?.type || 'grid';
+
+    const totalPages = Math.ceil(totalPosts / postsPerPage);
+
+    const gridClasses: Record<number, string> = {
+        3: "cols-2 cols-sm-3",
+        4: "cols-2 cols-sm-3 cols-md-4",
+        5: "cols-2 cols-sm-3 cols-md-4 cols-xl-5",
+        6: "cols-2 cols-sm-3 cols-md-4 cols-xl-6",
+        7: "cols-2 cols-sm-3 cols-md-4 cols-lg-5 cols-xl-7",
+        8: "cols-2 cols-sm-3 cols-md-4 cols-lg-5 cols-xl-8",
     };
-}
 
-function BlogPosts(): JSX.Element {
-    const [getPosts, { data, loading, error }] = useLazyQuery<PostsData>(GET_POSTS);
-    const posts = data?.posts.data;
+    const fetchPosts = async (page: number, limit: number) => {
+        setLoading(true);
+        try {
+            const response = await axios.get<PostsResponse>(
+                `https://api.eksfc.com/api/blogs/?page=${page}&limit=${limit}&sortField=title&sortOrder=DESC`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                        'konjac-version': '1.0.1',
+                    },
+                }
+            );
+            setPosts(response?.data?.data);
+            setTotalPosts(response.data.count);
+        } catch (err) {
+            setError(err as Error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        getPosts();
-    }, [getPosts]);
+        fetchPosts(currentPage, postsPerPage);
+    }, [currentPage, postsPerPage]);
+
+    const handlePostsPerPageChange = (perPage: number) => {
+        setPostsPerPage(perPage);
+        setCurrentPage(1); // Reset to the first page
+    };
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error.message}</p>;
+
+
+    
 
     return (
         <main className="main skeleton-body">
             <Helmet>
                 <title>Riode React eCommerce Template | Blog</title>
             </Helmet>
-
             <h1 className="d-none">Riode React eCommerce Template - Blog</h1>
-
-            <Breadcrumb subTitle="Elements" title="Element Blog" parentUrl="/elements" />
+            <Breadcrumb title="Blog" parentUrl="/elements" />
 
             <div className="page-content">
-                <section className="mt-10 pt-4 pb-10">
-                    <div className="container">
-                        <h2 className="title title-center">Default</h2>
-
-                        <OwlCarousel adClass="owl-theme" options={mainSlider13}>
-                            {
-                                loading ? (
-                                    new Array(3).fill(1).map((_, index) => (
-                                        <div key={"Skeleton:" + index}>
-                                            <div className="skel-post"></div>
-                                        </div>
-                                    ))
-                                ) : posts && posts.length ? (
-                                    posts.slice(12, 15).map((post, index) => (
-                                        <React.Fragment key={"post-four" + index}>
-                                            <PostFour post={post} isOriginal={true} adClass="text-center" />
-                                        </React.Fragment>
-                                    ))
-                                ) : (
-                                    <div className="info-box with-icon">
-                                        <p className="mt-4">No blogs were found matching your selection.</p>
-                                    </div>
-                                )
-                            }
-                        </OwlCarousel>
-                    </div>
-                </section>
-
-                <section className="grey-section pt-10 pb-10">
+                <section className="pt-10 pb-10">
                     <div className="container mt-4">
-                        <h2 className="title title-center">List</h2>
+                        <ToolBox
+                            type={type}
+                            postsPerPage={postsPerPage}
+                            onPostsPerPageChange={handlePostsPerPageChange}
+                        />
 
-                        <OwlCarousel adClass="owl-theme" options={mainSlider14}>
-                            {
-                                loading ? (
-                                    new Array(2).fill(1).map((_, index) => (
-                                        <div key={"Skeleton:" + index}>
-                                            <div className="skel-post"></div>
+                        {gridType === 'grid' ? (
+                            posts.length ? (
+                                <div className={`row product-wrapper ${gridClasses[itemsPerRow]}`}>
+                                    {posts.map((post, index) => (
+                                        <div className="product-wrap" key={post.id || index}>
+                                            <PostEight post={post} isOriginal={true} />
                                         </div>
-                                    ))
-                                ) : posts && posts.length ? (
-                                    posts.slice(13, 15).map((post, index) => (
-                                        <React.Fragment key={"post-five" + index}>
-                                            <PostFive post={post} />
-                                        </React.Fragment>
-                                    ))
-                                ) : (
-                                    <div className="info-box with-icon">
-                                        <p className="mt-4">No blogs were found matching your selection.</p>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="info-box with-icon">
+                                    <p className="mt-4">No blogs were found matching your selection.</p>
+                                </div>
+                            )
+                        ) : (
+                            posts.map((post, index) => (
+                                <React.Fragment key={post?.id || index}>
+                                    <div className="blog-post">
+                                        <PostEight post={post} isOriginal={true} />
                                     </div>
-                                )
-                            }
-                        </OwlCarousel>
+                                </React.Fragment>
+                            ))
+                        )}
+
+                        <div className="pagination-wrapper">
+                            <ul className="pagination">
+                                {Array.from({ length: totalPages }, (_, index) => (
+                                    <li
+                                        key={index}
+                                        className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}
+                                    >
+                                        <button
+                                            className="page-link"
+                                            onClick={() => setCurrentPage(index + 1)}
+                                        >
+                                            {index + 1}
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
                 </section>
-
-                <section className="mt-10 pt-4 pb-10">
-                    <div className="container">
-                        <h2 className="title title-center">Without description</h2>
-
-                        <OwlCarousel adClass="owl-theme" options={mainSlider13}>
-                            {
-                                loading ? (
-                                    new Array(3).fill(1).map((_, index) => (
-                                        <div key={"Skeleton:" + index}>
-                                            <div className="skel-post"></div>
-                                        </div>
-                                    ))
-                                ) : posts && posts.length ? (
-                                    posts.slice(12, 15).map((post, index) => (
-                                        <React.Fragment key={"post-six" + index}>
-                                            <PostSix post={post} isOriginal={true} />
-                                        </React.Fragment>
-                                    ))
-                                ) : (
-                                    <div className="info-box with-icon">
-                                        <p className="mt-4">No blogs were found matching your selection.</p>
-                                    </div>
-                                )
-                            }
-                        </OwlCarousel>
-                    </div>
-                </section>
-
-                <section className="grey-section pt-10 pb-10">
-                    <div className="container mt-4">
-                        <h2 className="title title-center">4 Columns</h2>
-
-                        <OwlCarousel adClass="owl-theme" options={mainSlider5}>
-                            {
-                                loading ? (
-                                    new Array(3).fill(1).map((_, index) => (
-                                        <div key={"Skeleton:" + index}>
-                                            <div className="skel-post"></div>
-                                        </div>
-                                    ))
-                                ) : posts && posts.length ? (
-                                    posts.slice(4, 8).map((post, index) => (
-                                        <React.Fragment key={"post-four" + index}>
-                                            <PostFour post={post} />
-                                        </React.Fragment>
-                                    ))
-                                ) : (
-                                    <div className="info-box with-icon">
-                                        <p className="mt-4">No blogs were found matching your selection.</p>
-                                    </div>
-                                )
-                            }
-                        </OwlCarousel>
-                    </div>
-                </section>
-
-                <section className="mt-10 pt-4 pb-4 mb-10">
-                    <div className="container">
-                        <h2 className="title title-center">On Image</h2>
-
-                        <OwlCarousel adClass="owl-theme" options={mainSlider13}>
-                            {
-                                loading ? (
-                                    new Array(3).fill(1).map((_, index) => (
-                                        <div key={"Skeleton:" + index}>
-                                            <div className="skel-post"></div>
-                                        </div>
-                                    ))
-                                ) : posts && posts.length ? (
-                                    posts.slice(12, 15).map((post, index) => (
-                                        <React.Fragment key={"post-seven" + index}>
-                                            <PostSeven post={post} isOriginal={true} />
-                                        </React.Fragment>
-                                    ))
-                                ) : (
-                                    <div className="info-box with-icon">
-                                        <p className="mt-4">No blogs were found matching your selection.</p>
-                                    </div>
-                                )
-                            }
-                        </OwlCarousel>
-                    </div>
-                </section>
-                
-
-                <section className="pt-10 pb-10 grey-section">
-                    <div className="container mt-4">
-                        <h2 className="title title-center">Framed</h2>  
-                        <OwlCarousel adClass="owl-theme owl-shadow-carousel" options={mainSlider13}>
-                            {
-                                loading ? (
-                                    new Array(3).fill(1).map((_, index) => (
-                                        <div key={"Skeleton:" + index}>
-                                            <div className="skel-post"></div>
-                                        </div>
-                                    ))
-                                ) : posts && posts.length ? (
-                                    posts.slice(12, 15).map((post, index) => (
-                                        <React.Fragment key={"post-eight" + index}>
-                                            <div className="blog-post">
-                                                <PostEight post={post} isOriginal={true} />
-                                            </div>
-                                        </React.Fragment>
-                                    ))
-                                ) : (
-                                    <div className="info-box with-icon">
-                                        <p className="mt-4">No blogs were found matching your selection.</p>
-                                    </div>
-                                )
-                            }
-                        </OwlCarousel>
-                    </div>
-                </section>
-
-
-                <ElementsList adClass="bg-white" />
             </div>
         </main>
     );

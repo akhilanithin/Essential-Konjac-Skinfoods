@@ -12,14 +12,8 @@ function PostEight(props) {
     const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 
 
-//   console.log(post.thumbnails);
-
-    // console.log(post.image);
-// console.log(post?.id);
 
     
-    
-
     return (
         <div className={`post post-frame ${post.type === 'video' ? 'post-video' : ''} ${adClass}`}>
             {
@@ -29,15 +23,8 @@ function PostEight(props) {
                             isLazy ?
                                 <ALink href={ `/blog/single/${ post?.id }` }>
                                     <LazyLoadImage
-                                        // src={isOriginal ? post.originalImageUrl : post.thumbnailUrl} 
-                                        // src={post.thumbnails[0]}
                                         style={{ backgroundColor: "#DEE6E8", height: "240px", width: "auto" }}
-
-                                        
-                                        // Use src instead of thumbnails
                                         alt="post image"
-                                        // width={320}
-                                        // height={206}
                                         effect="opacity; transform"
                                         style={{ backgroundColor: "#DEE6E8" }}
                                     />
@@ -45,12 +32,8 @@ function PostEight(props) {
                                 :
                                 <ALink href={ `/blog/single/${ post?.id }` }>
                                     <img
-                                        // src={isOriginal ? post.originalImageUrl : post.thumbnailUrl}
-                                        // src={post.thumbnails[0]}
                                         style={{ backgroundColor: "#DEE6E8", height: "240px", width: "auto" }}
                                         alt="post image"
-                                        // width={320}
-                                        // height={100}
                                     />
                                 </ALink>
                         }
@@ -63,56 +46,58 @@ function PostEight(props) {
                         </div>
                     </figure>
                     :
+
+
                     <figure className="post-media">
                         {
                             isLazy ?
                                 <OwlCarousel adClass="owl-theme owl-dot-inner owl-dot-white gutter-no" options={mainSlider20}>
                                     {
-                                        post.thumbnails.map((item, index) =>
+                                        post?.thumbnails.map((item, index) =>
                                             <LazyLoadImage
                                             src={post.thumbnails[0]}
                                             style={{ backgroundColor: "#DEE6E8", height: "240px", width: "auto" }}
-
-
-                                                // src={item.url} // Use src instead of thumbnails
                                                 alt="post gallery abcd"
                                                 key={item.title + '-' + index}
-                                                // width={320}
-                                                // height={206}
                                                 effect="opacity; transform"
-                                                // style={{ backgroundColor: "#DEE6E8" }}
                                             />
                                         )
                                     }
                                 </OwlCarousel>
                                 :
-                                <OwlCarousel adClass="owl-theme owl-dot-inner owl-dot-white gutter-no" options={mainSlider20}>
-                                    {
-                                        post.thumbnails.map((item, index) =>
-                                            <img
-                                            src={post.thumbnails[0]}
-                                            style={{ backgroundColor: "#DEE6E8", height: "240px", width: "auto" }}
 
-                                                // src={item.url} // Use src instead of thumbnails
+
+                                <OwlCarousel adClass="owl-theme owl-dot-inner owl-dot-white gutter-no" options={mainSlider20}>
+
+                                    {
+                                        post?.thumbnails.map((item, index) =>
+                                         
+                                            <img
+                                            src={item}
+                                            style={{ backgroundColor: "#DEE6E8", height: "300px", width: "340px" }}                                             
                                                 alt="post gallery abcd"
                                                 key={item.title + '-' + index}
-                                                // width={320}
-                                                // height={206}
+                                           
                                             />
                                         )
-                                    }
+                                    }                                
                                 </OwlCarousel>
+
+                                
                         }
                         <div className="post-calendar" style={{ backgroundColor: "#d05278" }}>
                             <span className="post-day">{new Date(post.createdAt).getDate()}</span> {/* Fixed day calculation */}
                             <span className="post-month">{months[new Date(post.createdAt).getMonth()]}</span>
                         </div>
                     </figure>
+
+
+
             }
 
             <div className="post-details">
                 <h4 className="post-title">
-                    <ALink href={ `/blog/single/${ post?.id }` }>{post.metaTitle}</ALink>
+                    <ALink href={ `/blog/single/${ post?.id }` }>{post?.title}</ALink>
                 </h4>
                 <p className="post-content">{post.metaDescription}</p>
                 <ALink href={ `/blog/single/${ post?.id }` } className={`btn btn-primary btn-link btn-underline ${btnAdClass}`}>

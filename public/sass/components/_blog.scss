@@ -209,7 +209,7 @@
     // text-overflow: ellipsis;
     @include print_css( post, title );
     display: -webkit-box;
-    -webkit-box-orient: vertical;
+    -webkit-box-orient: horizontal;
     overflow: hidden;
     -webkit-line-clamp: 1;
     word-break: break-all;
