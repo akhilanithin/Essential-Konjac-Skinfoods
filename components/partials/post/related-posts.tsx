@@ -15,6 +15,9 @@ interface RelatedPostsProps {
 }
 
 const RelatedPosts: React.FC<RelatedPostsProps> = ({ posts, loading }) => {
+
+  
+    
     return (
         <div className="related-posts">
             <h3 className="title title-simple text-left text-normal font-weight-bold ls-normal">Related Posts</h3>

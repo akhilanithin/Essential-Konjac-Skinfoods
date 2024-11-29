@@ -1,3 +1,4 @@
+
 import { useQuery } from "@apollo/react-hooks";
 import { useRouter } from 'next/router';
 import StickyBox from 'react-sticky-box';
@@ -6,6 +7,8 @@ import { GET_POST_SIDEBAR_DATA } from '~/server/queries';
 import ALink from '~/components/features/custom-link';
 import Card from '~/components/features/accordion/card';
 import PostTwo from '~/components/features/post/post-two';
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 interface Category {
     id: string;
@@ -27,12 +30,57 @@ interface QueryData {
     postSidebarData: PostSidebarData;
 }
 
-const BlogSidebar: React.FC = () => {
-    const { data, loading, error } = useQuery<QueryData>(GET_POST_SIDEBAR_DATA);
-    const categories = data?.postSidebarData.categories || [];
-    const recent = data?.postSidebarData.recent || [];
+const BlogSidebar: React.FC = ({post}) => {
+    // const { data, loading, error } = useQuery<QueryData>(GET_POST_SIDEBAR_DATA);
+    // const categories = data?.postSidebarData.categories || [];
+    // const recent = data?.postSidebarData.recent || [];
     const router = useRouter();
     const query = router.query;
+
+
+
+
+
+    const [loading, setLoading] = useState(true);
+    const token = process.env.NEXT_PUBLIC_BLOG_TOKEN!;
+    const [error, setError] = useState<Error | null>(null);
+    const [category, setCategory] = useState([]);
+
+
+    const fetchcategories = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(
+                `https://api.eksfc.com/api/blog-categories?search=&count=5&page=1`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'konjac-version': '1.0.1',
+                    },
+                }
+            );
+            setCategory(response?.data?.data);
+
+      
+            
+         
+        } catch (err) {
+            setError(err as Error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+    
+        fetchcategories();
+    }, []);
+
+
+
+
+console.log(post?.seoKeywords);
+
 
     const toggleSidebarHandler = (e: React.MouseEvent) => {
         document.querySelector('body')?.classList.toggle('right-sidebar-active');
@@ -43,6 +91,7 @@ const BlogSidebar: React.FC = () => {
     };
 
     return (
+      
         <div className="col-lg-3 right-sidebar sidebar-fixed sticky-sidebar-wrapper">
             <div className="sidebar-overlay" onClick={hideSidebarHandler}>
                 <ALink className="sidebar-close" href="#">
@@ -57,9 +106,12 @@ const BlogSidebar: React.FC = () => {
             <StickyBox offsetTop={88} className="blog-sidebar-wrapper">
                 <div className="sidebar-content">
                     {
-                        !loading && recent.length > 0 ? (
+                        !loading ? (
                             <>
-                                <div className="widget widget-search border-no mb-2">
+
+                            {/* search box */}
+                                {/* <div className="widget widget-search border-no mb-2">
+
                                     <form action="#" className="input-wrapper input-wrapper-inline btn-absolute">
                                         <input type="text" className="form-control" name="search" autoComplete="off"
                                             placeholder="Search in Blog" required />
@@ -67,8 +119,10 @@ const BlogSidebar: React.FC = () => {
                                             <i className="d-icon-search"></i>
                                         </button>
                                     </form>
-                                </div>
+                                    
+                                </div> */}
 
+{/* categories */}
                                 <div className="widget widget-collapsible border-no">
                                     <Card
                                         title="<h3 class='widget-title border-no'>Blog Categories<span class='toggle-btn p-0 parse-content'></span></h3>"
@@ -76,10 +130,10 @@ const BlogSidebar: React.FC = () => {
                                         expanded={true}
                                     >
                                         <ul className="widget-body filter-items search-ul">
-                                            {categories.map(category => (
-                                                <li key={category.id} className={`${query.category === category.name.toLowerCase() ? 'active' : ''}`}>
+                                            {category?.map(category => (
+                                                <li key={category?.id} className={`${query?.category === category?.name.toLowerCase() ? 'active' : ''}`}>
                                                     <ALink href={{ pathname: '/blog/classic', query: { category: category.name.toLowerCase() } }} scroll={false}>
-                                                        {category.name}
+                                                        {category?.name}
                                                     </ALink>
                                                 </li>
                                             ))}
@@ -87,33 +141,21 @@ const BlogSidebar: React.FC = () => {
                                     </Card>
                                 </div>
 
+
+                             
                                 <div className="widget widget-collapsible">
                                     <Card
-                                        title="<h3 class='widget-title'>Popular Posts<span class='toggle-btn p-0 parse-content'></span></h3>"
+                                        title="<h3 class='widget-title'>About Blog<span class='toggle-btn p-0 parse-content'></span></h3>"
                                         type="parse"
                                         expanded={true}
                                     >
                                         <ul className="widget-body">
-                                            {recent.slice(0, 3).map((post, index) => (
-                                                <div className="post-col" key={`small-post-${index}`}>
-                                                    <PostTwo post={post} />
-                                                </div>
-                                            ))}
+                                            <p style={{ fontWeight: "bold", textDecoration: "underline" }}>{post?.seoTitle}</p>
+                                            <p>{post?.seoDescription}</p>
                                         </ul>
                                     </Card>
                                 </div>
 
-                                <div className="widget widget-collapsible">
-                                    <Card
-                                        title="<h3 class='widget-title'>About us<span class='toggle-btn p-0 parse-content'></span></h3>"
-                                        type="parse"
-                                        expanded={true}
-                                    >
-                                        <ul className="widget-body">
-                                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt.</p>
-                                        </ul>
-                                    </Card>
-                                </div>
 
                                 <div className="widget widget-collapsible widget-posts">
                                     <Card
@@ -122,15 +164,12 @@ const BlogSidebar: React.FC = () => {
                                         expanded={true}
                                     >
                                         <ul className="widget-body">
-                                            <ALink href="#" className="tag">Bag</ALink>
-                                            <ALink href="#" className="tag">Classic</ALink>
-                                            <ALink href="#" className="tag">Converse</ALink>
-                                            <ALink href="#" className="tag">Leather</ALink>
-                                            <ALink href="#" className="tag">Fit</ALink>
-                                            <ALink href="#" className="tag">Green</ALink>
-                                            <ALink href="#" className="tag">Man</ALink>
-                                            <ALink href="#" className="tag">Jeans</ALink>
-                                            <ALink href="#" className="tag">Women</ALink>
+                                          
+
+                                            {post?.seoKeywords?.map((title, index) => (
+                                            <ALink href="#" className="tag" key={index}>{title}</ALink>
+                                            ))}
+
                                         </ul>
                                     </Card>
                                 </div>

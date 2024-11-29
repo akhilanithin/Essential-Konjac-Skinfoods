@@ -10,6 +10,8 @@ import { wishlistActions } from '~/store/wishlist';
 
 import { toDecimal } from '~/utils';
 
+import { useRouter } from 'next/router';
+
 interface Product {
     slug: string;
     name: string;
@@ -83,6 +85,13 @@ const ProductEight: React.FC<ProductEightProps> = (props) => {
       };
       
 
+      const router = useRouter();
+
+      const handleClick = (e) => {
+        e.preventDefault(); 
+        router.push(`/aesthetics/${product?.id}`); // Navigate to the URL
+    };
+
 
     return (
         <div className={`product product-list ${adClass} ${product?.variation?.length > 0 ? 'product-variable' : ''}`}>
@@ -155,8 +164,8 @@ const ProductEight: React.FC<ProductEightProps> = (props) => {
                             <span>Select Options</span>
                         </ALink>
                     ) : (
-                        <a href="#" className="btn-product btn-cart" title="Add to cart"
-                        //  onClick={addToCartHandler}
+                        <a     href={`/aesthetics/${product?.id}`} className="btn-product btn-cart" title="Add to cart"
+                        onClick={handleClick}
                          
                          >
                             <i className="d-icon-bag"></i>

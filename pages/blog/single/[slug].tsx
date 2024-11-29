@@ -23,7 +23,6 @@ import axios from 'axios';
 function PostSingle() {
     const slug = useRouter().query.slug;
 
-    console.log(slug);
     if (!slug) return '';
 
     const [loading, setLoading] = useState(true);
@@ -57,9 +56,11 @@ function PostSingle() {
         fetchPosts();
     }, []);
 
-    console.log(post);
+    // console.log(post);
 
     if (error) return <ErrorPage />;
+
+
 
   
 
@@ -145,174 +146,141 @@ function PostSingle() {
 
 
 
-                                        {/* <div className="post-details">
+                                        <div className="post-details">
+
                                             <div className="post-meta">
-                                                by <ALink href="#" className="post-author">{post.author}</ALink> on <ALink href="#" className="post-date">{new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: "2-digit", timeZone: "UTC" })}</ALink> | <ALink href="#" className="post-comment"><span>{post.comments}</span> Comments</ALink>
+
+                                                by <ALink href="#" className="post-author">{post?.author?.firstName} {post?.author?.lastName}</ALink>  on <ALink href="#" className="post-date"> {new Date(post?.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: "2-digit", timeZone: "UTC" })}</ALink> | <ALink href="#" className="post-comment"><span>{post?.comments?.length}</span> Comments</ALink>
                                             </div>
+                                           
+
+
+
                                             <h4 className="post-title">
                                                 <ALink href="#">{post.title}</ALink>
                                             </h4>
+
+
+                                          
+
                                             <div className="post-body mb-7">
-                                                <p className="mb-5">{post.content}</p>
+                                                <p
+                                                    className="mb-5"
+                                                    dangerouslySetInnerHTML={{ __html: post?.content }}
+                                                ></p>                                          
 
-                                                <p className="mb-6">Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus. Praesent elementum hendrerit tortor. Sed semper lorem at felis. Vestibulum volutpat, lacus a <ALink href="#">ultrices sagittis</ALink>, mi neque euismod dui, eu pulvinar nunc sapien ornare nisl. Phasellus pede arcu, dapibus eu, fermentum et, dapibus sed, urna.</p>
-
-                                                <div className="with-img row align-items-center">
-                                                    <div className="col-md-6 mb-6">
-                                                        <figure>
-                                                            <LazyLoadImage
-                                                                src="./images/blog/1.jpg"
-                                                                alt="post single image"
-                                                                width={336}
-                                                                height={415}
-                                                                effect="opacity"
-                                                                className="float-left"
-                                                                style={{ backgroundColor: "#DEE6E8" }}
-                                                            />
-                                                            <figcaption className="text-left mt-1">
-                                                                Designe by <ALink href="#">Casper Dalin</ALink>
-                                                            </figcaption>
-                                                        </figure>
-                                                    </div>
-                                                    <div className="col-md-6 mb-6">
-                                                        <h4 className="font-weight-semi-bold ls-s">Quisque volutpat mattiseros.</h4>
-                                                        <p className="mb-8 col-lg-11">Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti. </p>
-                                                        <h4 className="font-weight-semi-bold ls-s">More Details</h4>
-                                                        <ul className="list list-type-check mb-6">
-                                                            <li>Praesent id enim sit amet.</li>
-                                                            <li>Tdio vulputate eleifend in in tortor. ellus massa.</li>
-                                                            <li>Massa ristique sit amet condim vel</li>
-                                                            <li>Dilisis Facilisis quis sapien. Praesent id enim sit amet</li>
-                                                            <li>Praesent id enim sit amet.</li>
-                                                            <li>Tdio vulputate eleifend in in tortor. ellus massa.</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-
-                                                <blockquote className="mt-1 mb-6 p-relative">
+                                                {/* <blockquote className="mt-1 mb-6 p-relative">
                                                     <p className="font-weight-semi-bold ls-m">“ Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus. Praesent elementum hendrerit tortor. ”</p>
-                                                </blockquote>
+                                                </blockquote> */}
 
-                                                <p>Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed
-                                                    lectus. Praesent elementum hendrerit tortor. Sed semper lorem at felis.
-                                                    Vestibulum volutpat, lacus a ultrices sagittis, mi neque euismod dui, eu
-                                                    pulvinar nunc sapien ornare nisl. Phasellus pede arcu, dapibus eu, fermentum
-                                                    et, dapibus sed, urna. Morbi interdum mollis sapien. Sed ac risus. Phasellus
-                                                    lacinia, magna a ullamcorper laoreet, lectus arcu pulvinar risus, vitae
-                                                    facilisis libero dolor a purus. </p>
                                             </div>
 
+
                                             <div className="post-author-detail">
+
                                                 <figure className="author-media">
                                                     <ALink href="#">
-                                                        <img src="./images/blog/comments/1.jpg" alt="avatar" width="50" height="50" />
+                                                        <img src={post?.author?.profilePicture} alt="avatar" width="100" height="100" />
                                                     </ALink>
                                                 </figure>
+
                                                 <div className="author-body">
                                                     <div
                                                         className="author-header d-flex justify-content-between align-items-center">
                                                         <div>
                                                             <span className="author-title">AUTHOR</span>
-                                                            <h4 className="author-name font-weight-bold mb-0">John Doe</h4>
+                                                            <h4 className="author-name font-weight-bold mb-0">{post?.author?.firstName} {post?.author?.lastName}</h4>
                                                         </div>
                                                         <div>
                                                             <ALink href="#" className="author-link font-weight-semi-bold">View all posts
-                                                                by John Doe <i className="d-icon-arrow-right"></i></ALink>
+                                                                by {post?.author?.firstName} {post?.author?.lastName} <i className="d-icon-arrow-right"></i></ALink>
                                                         </div>
                                                     </div>
+
+
                                                     <div className="author-content">
-                                                        <p className="mb-0">Praesent dapibus, neque id cursus faucibus, tortor neque
-                                                            egestas auguae, eu vulputate magna eros euerat. Aliquam erat
-                                                            volutpat.</p>
+                                                        <p className="mb-0">{post?.author?.bio}.</p>
                                                     </div>
-                                                </div>
+
+
+                                                </div> 
+
+
                                             </div>
+
 
                                             <div className="post-footer mt-7 mb-3">
-                                                <div className="post-tags">
-                                                    <ALink href="#" className="tag">classic</ALink>
-                                                    <ALink href="#" className="tag">converse</ALink>
-                                                </div>
                                                 <div className="social-icons">
-                                                    <ALink href="#" className="social-icon social-facebook" title="Facebook"><i className="fab fa-facebook-f"></i></ALink>
-                                                    <ALink href="#" className="social-icon social-twitter" title="Twitter"><i className="fab fa-twitter"></i></ALink>
-                                                    <ALink href="#" className="social-icon social-pinterest" title="Pinterest"><i className="fab fa-pinterest-p"></i></ALink>
+                                                    <ALink href="https://www.facebook.com/konjacskinfood/" className="social-icon social-facebook" title="Facebook"><i className="fab fa-facebook-f"></i></ALink>
+                                                    <ALink href="https://twitter.com/KonjacSkin" className="social-icon social-twitter" title="Twitter"><i className="fab fa-twitter"></i></ALink>
+                                                    <ALink className="social- social-instagram fab fa-instagram" href="https://www.instagram.com/konjacskinfood/"></ALink>
+                                                   
                                                 </div>
-                                            </div>
-                                        </div> */}
-
-                                        
+                                            </div>                                           
+                                        </div>                                      
                                     </div >
                             }
+                        
+
+                            {/* <RelatedPosts posts={ post } loading={ loading } /> */}
 
 
 
+{/* Comment Section */}
+                            
 
-
-
-
-
-
-
-
-
-
-
-                            {/* 
-
-                            {
-                                loading ? '' :
-                                    <nav className="page-nav">
-                                        <ALink className="pager-link pager-link-prev" href={ `/blog/single/${ related[ 0 ].slug }` }>
-                                            Previous Post
-                                            <span className="pager-link-title">{ related[ 0 ].title }</span>
-                                        </ALink>
-                                        <ALink className="pager-link pager-link-next" href={ `/blog/single/${ related[ related.length - 1 ].slug }` }>
-                                            Go To Post
-                                            <span className="pager-link-title">{ related[ related.length - 1 ].title }</span>
-                                        </ALink>
-                                    </nav>
-                            } */}
-
-
-
-                            {/* <RelatedPosts posts={ related } loading={ loading } /> */}
-
-                            {/* {
+                       {
                                 loading ? '' :
                                     <div className="comments">
-                                        <h3 className="title title-simple text-left text-normal font-weight-bold">{ post.comments } Comments</h3>
+
+                                        <h3 className="title title-simple text-left text-normal font-weight-bold">{ post?.comments?.length } Comments</h3>
 
                                         {
-                                            post.comments > 0 ? '' :
+                                            post?.comments?.length > 0 ? '' :
                                                 <h3 className="title title-simple text-left text-normal font-weight-normal" style={ { fontSize: "1.8rem" } }>
                                                     {
-                                                        "Be The First To Review “" + post.title + "”"
+                                                        "Be The First To Review “" + post?.title + "”"
                                                     }
                                                 </h3>
                                         }
+
                                         <ul>
+
+
+
+
                                             {
-                                                post.comments > 0 ?
+                                                post?.comments?.length > 0 ?
                                                     <li>
                                                         <div className="comment">
                                                             <figure className="comment-media">
+
                                                                 <ALink href="#">
                                                                     <img src="images/blog/comments/1.jpg" alt="avatar" width="100" height="100" />
                                                                 </ALink>
+
                                                             </figure>
+
                                                             <div className="comment-body">
                                                                 <div className="comment-user">
                                                                     <span className="comment-date">November 9, 2018 at 2:19 pm</span>
                                                                     <h4><ALink href="#">Jimmy Pearson</ALink></h4>
                                                                 </div>
 
+
                                                                 <div className="comment-content mb-2">
                                                                     <p>Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti. </p>
                                                                 </div>
+
                                                                 <ALink href="#" className="btn btn-link btn-reveal-right">REPLY<i className="d-icon-arrow-right"></i></ALink>
                                                             </div>
+
                                                         </div>
+
+
+
+
+
                                                         {
                                                             post.comments > 1 ?
                                                                 <ul>
@@ -340,9 +308,15 @@ function PostSingle() {
                                                         }
                                                     </li>
                                                     : ''
+
+                                                    
                                             }
+
+
+
+
                                             {
-                                                post.comments > 2 ?
+                                                post.comments?.length > 2 ?
                                                     <li>
                                                         <div className="comment">
                                                             <figure className="comment-media">
@@ -365,11 +339,15 @@ function PostSingle() {
                                                         </div>
                                                     </li> : ''
                                             }
+
+
                                         </ul>
                                     </div>
-                            } */}
+                            } 
 
-                            {/* <div className="reply">
+
+
+                            <div className="reply">
                                 <div className="title-wrapper text-left">
                                     <h3 className="title title-simple text-left text-normal">Leave A Reply</h3>
                                     <p>Your email address will not be published. Required fields are marked *</p>
@@ -386,11 +364,15 @@ function PostSingle() {
                                     </div>
                                     <button type="submit" className="btn btn-primary btn-rounded">POST COMMENT<i className="d-icon-arrow-right"></i></button>
                                 </form>
-                            </div> */}
+                            </div> 
+
+
+
+                            
 
                         </div>
 
-                        {/* <BlogSidebar /> */}
+                        <BlogSidebar post={post} />
 
                     </div>
                 </div>
