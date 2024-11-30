@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Helmet from 'react-helmet';
 import CountUp from 'react-countup';
 import Reveal from 'react-awesome-reveal';
@@ -10,7 +10,19 @@ import OwlCarousel from '~/components/features/owl-carousel';
 import { fadeIn, fadeInLeftShorter } from '~/utils/data/keyframes';
 import { mainSlider16 } from '~/utils/data/carousel';
 
+
+
 const AboutUs: React.FC = () => {
+
+
+    const [isPlaying, setIsPlaying] = useState<boolean>(false);
+
+
+    const handlePlayClick = (e: MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        setIsPlaying(true);
+    };
+  
     useEffect(() => {
         countToHandler();
         window.addEventListener('scroll', countToHandler, true);
@@ -38,12 +50,12 @@ const AboutUs: React.FC = () => {
 
 
 
-    const [isPlaying, setIsPlaying] = useState(false);
-
-    const handlePlay = () => {
-      setIsPlaying(true);
-    };
-  
+    const showVideoModalHandler = (e) => {
+        e.preventDefault();
+        let link = e.currentTarget.closest('.btn-play').getAttribute('data');
+        openModal(link);
+       
+    }
 
 
     return (
@@ -51,52 +63,104 @@ const AboutUs: React.FC = () => {
             <Helmet>
                 <title>Riode React eCommerce Template | About Us</title>
             </Helmet>
-
             <h1 className="d-none">Riode React eCommerce Template - About Us</h1>
 
+            {/* About Section */}
+
             <div className="page-header shop" style={{ backgroundImage: `url(https://eksfc.com/assets/img/detail-main-bg.jpg)`, backgroundColor: "#E4EAEA" }}>
-            <h1 className="page-title text-dark ls-m font-weight-bold mb-2">ABOUT</h1>
-            <ul className="breadcrumb">
+                <h1 className="page-title text-dark ls-m font-weight-bold mb-2">ABOUT</h1>
+                <ul className="breadcrumb">
                     <li>
                         <ALink href="/">
                             <i className="d-icon-home"></i>
                         </ALink>
                     </li>
                     <li className="delimiter">/</li>
-                    <li>
-                        <a href="/elements/"></a>
-                    </li>
-                    <li className="delimiter">/</li>
                     <li>About</li>
                 </ul>
-        
-        </div>
 
-  
+            </div>
 
 
-      
 
-            
-
+           
             <div className="page-content mt-10 pt-10">
+
+            <h3 className="section-title lh-2 ls-md font-weight-normal  text-center">Promotion video</h3>
+            <h1 className="section-title lh-1 font-weight-bold text-center mb-5">Welcome to Konjac SkinFood.</h1>
+            <h5 className="section-subtitle lh-2 ls-md font-weight-normal  text-center">Today we can offer our customers exclusive products of 108 <br /> brands marked "only in Konjac SkinFoode"</h5>
+
+
+
+                <div className="container" style={{paddingBottom:'10rem'}}>
+                    <Reveal keyframes={fadeInLeftShorter} delay={500} duration={1000} triggerOnce>
+
+                        <div className="card-description overlay-zoom">
+                            <figure className="p-relative">
+
+
+
+
+                                {!isPlaying && (
+                                    <div className="video-placeholder">
+                                        <img
+                                            className="w-100 d-block"
+                                            src="https://eksfc.com/assets/img/promo-video-img.jpg"
+                                            alt="Product"
+                                            width="550"
+                                            height="550"
+                                        />
+                                        <a className="btn-play btn-iframe" href="#" data="/uploads/video/video-1.mp4" onClick={handlePlayClick}>
+                                            <i className="d-icon-play-solid"></i>
+                                        </a>
+
+                                    </div>
+                                )}
+
+                                    {/* Display the iframe when playing */}
+                                    {isPlaying && (
+
+
+                                    <div className="video-placeholder">
+                                              <iframe width="1140" height="550" src="https://www.youtube.com/embed/K1yp7Q1hH1c" title="Рекламный  ролик, макияж в стиле Fashion" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                                    </div>
+
+                                        )}
+
+                          
+
+                            </figure>
+                        </div>
+                    </Reveal>
+                </div>
+
+             
+
+                     
                 <Reveal keyframes={fadeIn} delay="50" duration="1000" triggerOnce>
                     <section className="about-section pb-10">
                         <div className="container">
                             <div className="row align-items-center">
                                 <div className="col-lg-4 mb-10 mb-lg-4">
-                                    <h5 className="section-subtitle lh-2 ls-md font-weight-normal">01. What We Do</h5>
                                     <h3 className="section-title lh-1 font-weight-bold">Provide perfect and practical services</h3>
-                                    <p className="section-desc">Lorem quis bibendum auctar, nisi elit consequat ipsum, nec sagittis sem nibh id elit.</p>
                                 </div>
+
+
+
                                 <div className="col-lg-8">
                                     <div className="row">
+
+
                                         {[
-                                            { end: 35, title: 'Business Year' },
-                                            { end: 50, title: 'Design Brands' },
-                                            { end: 130, title: 'Team Members' }
+                                            { end: 2300, title: 'Products' },
+                                            { end: 108, title: 'Brands' },
+                                            { end: 32, title: 'partners' },
+                                            { end: 618, title: 'customers' },
+                                          
+                                           
                                         ].map(({ end, title }) => (
-                                            <div className="col-md-4 mb-4" key={title}>
+                                            <div className="col-md-3 mb-4" key={title}>
                                                 <div className="counter text-center text-dark">
                                                     <CountUp start={0} end={end} duration={4}>
                                                         {({ countUpRef, start }) => (
@@ -107,10 +171,12 @@ const AboutUs: React.FC = () => {
                                                         )}
                                                     </CountUp>
                                                     <h5 className="count-title font-weight-bold text-body ls-md">{title}</h5>
-                                                    <p className="text-grey mb-0">Lorem ipsum dolor sit<br />amet, conctetur adipisci elit. viverra erat orci.</p>
+                                                   
                                                 </div>
                                             </div>
                                         ))}
+
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -118,65 +184,10 @@ const AboutUs: React.FC = () => {
                     </section>
                 </Reveal>
 
-                <Reveal keyframes={fadeIn} delay="50" duration="1000" triggerOnce>
-                    <section className="customer-section pb-10">
-                        <div className="container">
-                            <div className="row align-items-center">
-                                <div className="col-md-7 mb-4">
-                                    <figure>
-                                        <LazyLoadImage
-                                            src="./images/subpages/customer.jpg"
-                                            alt="Happy Customer"
-                                            width="580"
-                                            height="507"
-                                            effect="opacity"
-                                            className="banner-radius"
-                                            style={{ backgroundColor: "#BDD0DE" }}
-                                        />
-                                    </figure>
-                                </div>
-                                <div className="col-md-5 mb-4">
-                                    <h5 className="section-subtitle lh-2 ls-md font-weight-normal">02. Happy Customer</h5>
-                                    <h3 className="section-title lh-1 font-weight-bold">Provide fashionable and<br />qualified products</h3>
-                                    <p className="section-desc text-grey">
-                                        Already millions of people are very satisfied by this page builder and the number is growing more and more. Technology developing, requirements are increasing. Riode has brought.
-                                    </p>
-                                    <ALink href="#" className="btn btn-dark btn-link btn-underline ls-m">Visit Our Store<i className="d-icon-arrow-right"></i></ALink>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </Reveal>
 
-                <Reveal keyframes={fadeIn} delay="50" duration="1000" triggerOnce>
-                    <section className="store-section pb-10">
-                        <div className="container">
-                            <div className="row align-items-center">
-                                <div className="col-md-6 order-md-first mb-4">
-                                    <h5 className="section-subtitle lh-2 ls-md font-weight-normal mb-1">03. Our Store</h5>
-                                    <h3 className="section-title lh-1 font-weight-bold">Expect Restless<br />Amazing Support</h3>
-                                    <p className="section-desc text-grey">
-                                        Already millions of people are very satisfied by this page builder and the number is growing more and more. Technology developing, requirements are increasing. Riode has brought.
-                                    </p>
-                                    <ALink href="#" className="btn btn-dark btn-link btn-underline ls-m">Get Our Store<i className="d-icon-arrow-right"></i></ALink>
-                                </div>
-                                <div className="col-md-6 mb-4">
-                                    <figure>
-                                        <LazyLoadImage
-                                            src="./images/subpages/store.jpg"
-                                            alt="Our Store"
-                                            width="580"
-                                            height="507"
-                                            effect="opacity"
-                                            className="banner-radius"
-                                            style={{ backgroundColor: "#DEE6E8" }}
-                                        />
-                                    </figure>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </Reveal>
+
+
+            
 
                 <Reveal keyframes={fadeIn} delay="50" duration="1000" triggerOnce>
                     <section className="brand-section grey-section pt-10 pb-10">
@@ -195,10 +206,12 @@ const AboutUs: React.FC = () => {
                     </section>
                 </Reveal>
 
-                <Reveal keyframes={fadeIn} delay="50" duration="1000" triggerOnce>
+                {/*  Meet our teams*/}
+
+                {/* <Reveal keyframes={fadeIn} delay="50" duration="1000" triggerOnce>
                     <section className="team-section pt-8 mt-10 pb-10 mb-6">
                         <div className="container">
-                            <h5 className="section-subtitle lh-2 ls-md font-weight-normal mb-1 text-center">05. Our Leaders</h5>
+                            <h5 className="section-subtitle lh-2 ls-md font-weight-normal mb-1 text-center"> Our Leaders</h5>
                             <h3 className="section-title lh-1 font-weight-bold text-center mb-5">Meet our team</h3>
                             <div className="row cols-sm-2 cols-md-4">
                                 {[
@@ -232,10 +245,14 @@ const AboutUs: React.FC = () => {
                             </div>
                         </div>
                     </section>
-                </Reveal>
+                </Reveal> */}
+
+
             </div>
         </main>
     );
 };
 
 export default React.memo(AboutUs);
+
+
