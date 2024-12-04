@@ -78,6 +78,38 @@
     box-shadow: 0 5px 30px 0 rgba(0,0,0,0.05);
 }
 
+
+.advantages-items {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    
+  }
+
+
+  .wrapper {
+    max-width: 1220px;
+    padding: 0 40px;
+    margin: 0 auto;
+}
+
+  
+  @media (min-width: 768px) {
+    .advantages-items {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+  
+  .advantages-item {
+    flex: 1;
+    text-align: center;
+  }
+  
+
+
+
+
 @include mq(lg) {
    .about-section .section-desc { max-width: 28rem; }
 }

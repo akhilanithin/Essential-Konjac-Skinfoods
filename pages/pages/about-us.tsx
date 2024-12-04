@@ -11,6 +11,15 @@ import { fadeIn, fadeInLeftShorter } from '~/utils/data/keyframes';
 import { mainSlider16 } from '~/utils/data/carousel';
 
 
+import ErrorPage from '~/pages/pages/404';
+
+
+
+import { mainSlider4, mainSlider6, mainSlider7 } from '~/utils/data/carousel';
+
+
+import axios from 'axios';
+
 
 const AboutUs: React.FC = () => {
 
@@ -50,13 +59,48 @@ const AboutUs: React.FC = () => {
 
 
 
-    const showVideoModalHandler = (e) => {
-        e.preventDefault();
-        let link = e.currentTarget.closest('.btn-play').getAttribute('data');
-        openModal(link);
-       
-    }
 
+
+    const token = process.env.NEXT_PUBLIC_BLOG_TOKEN!;
+    const [brand, setBrand] = useState([]);
+    const [error, setError] = useState(null);
+
+
+    const fetchPosts = async () => {
+   
+        try {
+            const response = await axios.get(
+                `https://api.eksfc.com/api/brands?page=1&limit=50&sortField=id&sortOrder=DESC&filterName=status&filterValue=0`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'konjac-version': '1.0.1',
+                    },
+                }
+            );
+            setBrand(response?.data?.data);
+        } catch (err) {
+            setError(err as Error);
+        } finally {
+           
+        }
+    };
+
+
+    useEffect(() => {
+        fetchPosts();
+    }, []);
+
+    console.log(brand);
+
+    if (error) return <ErrorPage />;
+
+  const  image_url=process.env.NEXT_PUBLIC_PRODUCT_IMAGE_BASEURL
+
+  console.log(image_url);
+  
+
+    
 
     return (
         <main className="main about-us">
@@ -187,24 +231,147 @@ const AboutUs: React.FC = () => {
 
 
 
-            
+{/* mission ,Vision,goal */}
+
+
+
+                <div className="advantages">
+                    <div className="wrapper">
+                        <div className="advantages-items">
+                            <div className="advantages-item">
+                                <div className="advantages-item__icon">
+                                    <i className="icon-natural"></i>
+                                </div>
+                                <h4>Mission</h4>
+                                <p>
+                                    We aim to bring healthy and organic skin care products having all natural
+                                    ingredients which create high quality skin care products that are designed to
+                                    treat, rejuvenate, improve and enhance our customer looks, as well as improve the
+                                    overall lifestyles of our customers by helping them look beautiful and regaining
+                                    their confidence.
+                                </p>
+                            </div>
+
+                            <div className="advantages-item">
+                                <div className="advantages-item__icon">
+                                    <i className="icon-quality"></i>
+                                </div>
+                                <h4>Vision</h4>
+                                <p>
+                                    We aim to bring healthy and organic skin care products having all natural
+                                    ingredients which create high quality skin care products that are designed to
+                                    treat, rejuvenate, improve and enhance our customer looks, as well as improve the
+                                    overall lifestyles of our customers by helping them look beautiful and regaining
+                                    their confidence.
+                                </p>
+                            </div>
+
+                            <div className="advantages-item">
+                                <div className="advantages-item__icon">
+                                    <i className="icon-organic"></i>
+                                </div>
+                                <h4>Goal</h4>
+                                <p>
+                                    Our goal is to educate our customers that will helps them to make a right choices.
+                                    Offer customers suitable and low budget skin treatment plans and products. Keeping
+                                    the customer confident safe and secure.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+{/* testimonials */}
+
+
+                <section className="pt-10 pb-10 parallax" >
+                    <div className="container mt-4 mb-4">
+                        <h2 className="title title-center title-black mb-0">Testimonials</h2>
+
+                        <OwlCarousel adClass="owl-theme owl-dot-black" options={mainSlider4}>
+                            <div className="testimonial testimonial-centered testimonial-bg">
+                                <div className="testimonial-info">
+                                    <figure className="testimonial-author-thumbnail">
+                                        <img src="https://eksfc.com/assets/img/client1.jpeg" alt="user" width={50} height={50} />
+                                    </figure>
+                                    <blockquote>“ The best skincare products i had ever tried in life. I am able to heal my sking like a teenager with in few week by using Cosmetic by Tahera products. ”</blockquote>
+                                    <cite>
+                                    Fatima Alawiaqi
+                                    {/* <span>Investor</span> */}
+                                    </cite>
+                                </div>
+                            </div>
+                            <div className="testimonial testimonial-centered testimonial-bg">
+                                <div className="testimonial-info">
+                                    <figure className="testimonial-author-thumbnail">
+                                        <img src="https://eksfc.com/assets/img/client2.jpeg" alt="user" width={50} height={50} />
+                                    </figure>
+                                    <blockquote>“ My hairs were dull and unhralthy since long time i was trying many haircare products but not getting the desired result than i came to Cosmetic by Tahera i wish i have to came before. Amazing results. ”</blockquote>
+                                    <cite>
+                                    Nouf Al Yafi
+                                        {/* <span>Investor</span> */}
+                                    </cite>
+                                </div>
+                            </div>
+                            <div className="testimonial testimonial-centered testimonial-bg">
+                                <div className="testimonial-info">
+                                    <figure className="testimonial-author-thumbnail">
+                                        <img src="https://eksfc.com/assets/img/client3.jpeg" alt="user" width={50} height={50} />
+                                    </figure>
+                                    <blockquote>“ I am always searching for a best makeup produst in the market and i have found of getting makeup items. Since i got products Cosmetics by tahera literally it change my life. The elegance, the purity and the organic products they provided no one can compete ”</blockquote>
+                                    <cite>
+                                    Tahera Al Redha
+                                        {/* <span>Investor</span> */}
+                                    </cite>
+                                </div>
+                            </div>
+                        </OwlCarousel>
+                    </div>
+                </section>
+
+
+
+
 
                 <Reveal keyframes={fadeIn} delay="50" duration="1000" triggerOnce>
                     <section className="brand-section grey-section pt-10 pb-10">
                         <div className="container mt-8 mb-10">
-                            <h5 className="section-subtitle lh-2 ls-md font-weight-normal mb-1 text-center">04. Our Clients</h5>
+                       
                             <h3 className="section-title lh-1 font-weight-bold text-center mb-5">Popular Brands</h3>
 
                             <OwlCarousel adClass="owl-theme" options={mainSlider16}>
-                                {Array.from({ length: 6 }, (_, index) => (
+                                {/* {Array.from({ length: 6 }, (_, index) => (
                                     <figure className="brand-wrap bg-white banner-radius" key={index}>
                                         <img src={`./images/brands/${index + 1}.png`} alt="Brand" width="180" height="100" />
                                     </figure>
-                                ))}
+                                ))} */}
+
+
+{brand?.map((product, index) => (
+
+
+  <figure className="brand-wrap bg-white banner-radius" key={index}>
+    <img 
+      src={`${image_url}/brands/${product?.img}`} 
+      alt="Brand" 
+      width="180" 
+      height="110" 
+    />
+  </figure>
+))}
+
+
+
                             </OwlCarousel>
                         </div>
                     </section>
                 </Reveal>
+
+
+
+
+
 
                 {/*  Meet our teams*/}
 
