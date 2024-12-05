@@ -61,14 +61,14 @@ const ContactUs: React.FC = () => {
                                             <h4 className="mb-2 text-capitalize">Phone Number</h4>
                                             <p>
                                                 <ALink href="#">+971 4 385 6663</ALink><br />
-                                               
+
                                             </p>
 
                                             <h4 className="mb-2 text-capitalize">Support</h4>
                                             <p className="mb-4">
                                                 <ALink href="#">support@essentialkonjacskinfoods <br /> .com
                                                 </ALink><br />
-                                               
+
                                             </p>
 
                                             <h4 className="mb-2 text-capitalize">service</h4>
@@ -78,14 +78,14 @@ const ContactUs: React.FC = () => {
                                                 <ALink href="#"> 24/7 online available
                                                 </ALink><br />
 
-                                               
-                                               
+
+
                                             </p>
                                         </div>
                                     </div>
                                 </div>
 
-{/* Message Section */}
+                                {/* Message Section */}
 
 
                                 <div className="col-lg-9 col-md-8 col-sm-6 d-flex align-items-center mb-4">
@@ -117,7 +117,7 @@ const ContactUs: React.FC = () => {
 
 
 
-{/* we take care of you  */}
+                {/* we take care of you  */}
 
                 <Reveal keyframes={fadeIn} delay="50" duration="1000" triggerOnce>
                     <section className="contact-section">
@@ -125,15 +125,15 @@ const ContactUs: React.FC = () => {
                             <div className="row">
 
 
-                            <div className="col-lg-12 col-md-8 col-sm-6 d-flex align-items-center mb-4">
+                                <div className="col-lg-12 col-md-8 col-sm-6 d-flex align-items-center mb-4">
 
 
                                     <div className="w-100">
-                                    
-                                            <h4 className="ls-m font-weight-bold">We take care of you</h4>
-                                            <p>Email us if you have any questions, we will be sure to contact you and find a solution. Also, our managers will help you choose the product that suits you best, at the best price. From year to year, the Konjac SkinFood network develops and improves, taking into account all consumer needs and market trends. But for us, the concern remains that when coming to the Konjac SkinFood store, customers do not have questions about the convenience and comfort of shopping, product quality and the level of professionalism of sales consultants.</p>
-                                          
-                                        
+
+                                        <h4 className="ls-m font-weight-bold">We take care of you</h4>
+                                        <p>Email us if you have any questions, we will be sure to contact you and find a solution. Also, our managers will help you choose the product that suits you best, at the best price. From year to year, the Konjac SkinFood network develops and improves, taking into account all consumer needs and market trends. But for us, the concern remains that when coming to the Konjac SkinFood store, customers do not have questions about the convenience and comfort of shopping, product quality and the level of professionalism of sales consultants.</p>
+
+
                                     </div>
                                 </div>
 
@@ -142,21 +142,21 @@ const ContactUs: React.FC = () => {
 
                                 {/* Details section */}
                                 <div className="col-md-4 col-sm-6 ls-m mb-4">
-                                <div className="social-links share-on">
-                                            <h5 className="text-uppercase font-weight-bold mb-0 mr-4 ls-s">Find us here:</h5>
+                                    <div className="social-links share-on">
+                                        <h5 className="text-uppercase font-weight-bold mb-0 mr-4 ls-s">Find us here:</h5>
 
-                                            <ALink href="https://www.facebook.com/konjacskinfood/" className="social-link social-icon social-facebook" title="Facebook"><i className="fab fa-facebook-f"></i></ALink>
+                                        <ALink href="https://www.facebook.com/konjacskinfood/" className="social-link social-icon social-facebook" title="Facebook"><i className="fab fa-facebook-f"></i></ALink>
 
-                                            <ALink href="https://twitter.com/KonjacSkin" className="social-link social-icon social-twitter" title="Twitter"><i className="fab fa-twitter"></i></ALink>
+                                        <ALink href="https://twitter.com/KonjacSkin" className="social-link social-icon social-twitter" title="Twitter"><i className="fab fa-twitter"></i></ALink>
 
-                                            <ALink href="https://www.instagram.com/konjacskinfood/" className="social-link social-icon social-instagram" title="Instagram"><i className="fab fa-instagram"></i></ALink>
+                                        <ALink href="https://www.instagram.com/konjacskinfood/" className="social-link social-icon social-instagram" title="Instagram"><i className="fab fa-instagram"></i></ALink>
 
-                                            <ALink href="https://ae.linkedin.com/company/essential-konjac-skin-food" className="social-link social-icon social-pinterest" title="Linkdin"><i className="fab fa-linkedin-in"></i></ALink>
-                                        </div>
+                                        <ALink href="https://ae.linkedin.com/company/essential-konjac-skin-food" className="social-link social-icon social-pinterest" title="Linkdin"><i className="fab fa-linkedin-in"></i></ALink>
+                                    </div>
                                 </div>
 
 
-                             
+
                             </div>
                         </div>
                     </section>
@@ -182,7 +182,7 @@ const ContactUs: React.FC = () => {
                             <h2 className="title title-center mb-7 text-normal">Our Shop & Office</h2>
                             <div className="row cols-sm-2 ">
                                 {/* Repeat this block for each store */}
-                                {['Shop','Office'].map((city, index) => (
+                                {['Shop', 'Office'].map((city, index) => (
                                     <div className="store" key={index}>
                                         <figure className="banner-radius">
                                             <LazyLoadImage
@@ -195,19 +195,43 @@ const ContactUs: React.FC = () => {
                                             />
                                             <h4 className="overlay-visible">{city}</h4>
                                             <div className="overlay overlay-transparent">
-                                                <ALink className="mt-8" href={`mailto:mail@support@essentialkonjacskinfoods
-                                                .com`}>support@essentialkonjacskinfoods
-                                                .com</ALink>
+                                                <ALink className="mt-8" href="mailto:support@essentialkonjacskinfoods.com">
+                                                    support@essentialkonjacskinfoods.com
+                                                </ALink>
                                                 <ALink href="tel:#">Phone: +971 4 385 6663</ALink>
+                                                <ALink
+                                                    href={
+                                                        city === 'Shop'
+                                                            ? 'https://maps.app.goo.gl/YNFfC6q9b7Zo4TYZ9'
+                                                            : 'https://g.co/kgs/pBi4qBL'
+                                                    }
+                                                    className="contact"
+                                                >
+                                                    <i className="d-icon-map"></i>
+                                                    &nbsp;
+                                                    {city === 'Shop'
+                                                        ? 'G05, Nadd Al Hamar Center, Dubai, UAE'
+                                                        : '201/029 3rd floor, Al gaizi plaza, Garhood,Dubai,UAE'}
+                                                </ALink>
                                                 <div className="social-links mt-1">
-                                                    <ALink href="https://www.facebook.com/konjacskinfood/" className="social-link social-facebook fab fa-facebook-f"></ALink>
-                                                    <ALink href="https://twitter.com/KonjacSkin" className="social-link social-twitter fab fa-twitter"></ALink>
-                                                    <ALink href="https://ae.linkedin.com/company/essential-konjac-skin-food" className="social-link social-linkedin fab fa-linkedin-in"></ALink>
+                                                    <ALink
+                                                        href="https://www.facebook.com/konjacskinfood/"
+                                                        className="social-link social-facebook fab fa-facebook-f"
+                                                    ></ALink>
+                                                    <ALink
+                                                        href="https://twitter.com/KonjacSkin"
+                                                        className="social-link social-twitter fab fa-twitter"
+                                                    ></ALink>
+                                                    <ALink
+                                                        href="https://ae.linkedin.com/company/essential-konjac-skin-food"
+                                                        className="social-link social-linkedin fab fa-linkedin-in"
+                                                    ></ALink>
                                                 </div>
                                             </div>
                                         </figure>
                                     </div>
                                 ))}
+
                             </div>
                         </div>
                     </section>
@@ -243,7 +267,7 @@ const ContactUs: React.FC = () => {
                 </Reveal>
 
 
-                
+
             </div>
         </main>
     );

@@ -185,6 +185,9 @@ const Products: React.FC = () => {
                         )}
                     </section>
 
+
+                    
+
                     <section className="mt-10">
                         <h2 className="title title-center">Modern Style 1</h2>
 

@@ -44,6 +44,8 @@ const PostFour: React.FC<PostFourProps> = ({
 
     return (
         <div className={`post ${post.type === 'gallery' ? '' : 'overlay-zoom'} overlay-dark ${post.type === 'video' ? 'post-video' : ''} ${adClass}`}>
+
+            
             {
                 post.type === 'image' || post.type === 'video' ? (
                     <figure className="post-media">
@@ -161,6 +163,8 @@ const PostFour: React.FC<PostFourProps> = ({
                     {btnText}<i className="d-icon-arrow-right"></i>
                 </ALink>
             </div>
+
+
         </div>
     );
 }
