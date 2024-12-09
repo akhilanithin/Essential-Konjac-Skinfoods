@@ -303,6 +303,8 @@ const renderCategories = () => {
 
                 </div>
             </div>
+
+            
         </div>
     );
 };
