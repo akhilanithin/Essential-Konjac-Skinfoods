@@ -61,7 +61,7 @@ function BlogPosts({ itemsPerRow = 3, type = "left" }) {
             setError(err as Error);
         } finally {
             setLoading(false);
-        }zz
+        }
     };
 
     useEffect(() => {

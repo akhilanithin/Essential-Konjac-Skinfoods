@@ -168,8 +168,8 @@ const ProductEight: React.FC<ProductEightProps> = (props) => {
                         onClick={handleClick}
                          
                          >
-                            <i className="d-icon-bag"></i>
-                            <span>Add to cart</span>
+                            {/* <i className="d-icon-bag"></i> */}
+                            <span>Book Now</span>
                         </a>
                     )}
           
