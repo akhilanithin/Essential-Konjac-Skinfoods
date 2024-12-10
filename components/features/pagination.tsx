@@ -26,6 +26,9 @@ const Pagination: React.FC<PaginationProps> = ({
     indexList[0] = 1;
     indexList[max - min + 2] = totalPage;
 
+
+    
+
     return (
         <>
             {totalPage > 1 && (

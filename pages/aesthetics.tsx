@@ -7,6 +7,7 @@ import ToolBox from './aesthetics/toolbox';
 import { useRouter } from 'next/router';
 
 import ProductEight from './aesthetics/product-eight';
+import ALink from '~/components/features/custom-link';
 
 interface Post {
     id: string;
@@ -89,6 +90,21 @@ function Aesthetics({ type = "left",itemsPerRow = 3,}): JSX.Element {
     };
 
 
+
+    
+
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
     return (
         <main className="main skeleton-body">
             <Helmet>
@@ -150,11 +166,19 @@ function Aesthetics({ type = "left",itemsPerRow = 3,}): JSX.Element {
                     )}
 
 
-
-
-
                         <div className="pagination-wrapper">
                             <ul className="pagination">
+
+                                <li className="page-item">
+                                    <span
+                                        className="page-link"
+                                        onClick={handlePreviousPage}
+                                        aria-disabled={currentPage === 1 ? 'true' : 'false'}
+                                 
+                                    >
+                                       <i className="d-icon-arrow-left"></i>Prev
+                                    </span>
+                                </li>
                                 {Array.from({ length: totalPages }, (_, index) => (
                                     <li
                                         key={index}
@@ -168,6 +192,19 @@ function Aesthetics({ type = "left",itemsPerRow = 3,}): JSX.Element {
                                         </button>
                                     </li>
                                 ))}
+
+                                <li className="page-item">
+                                    <span
+                                        className="page-link"
+                                        onClick={handleNextPage}
+                                        aria-disabled={currentPage === totalPages ? 'true' : 'false'}
+                                      
+                                    >
+                                      Next<i className="d-icon-arrow-right"></i>
+                                    </span>
+                                </li>
+
+
                             </ul>
                         </div>
 

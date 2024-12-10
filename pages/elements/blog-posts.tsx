@@ -61,7 +61,7 @@ function BlogPosts({ itemsPerRow = 3, type = "left" }) {
             setError(err as Error);
         } finally {
             setLoading(false);
-        }
+        }zz
     };
 
     useEffect(() => {
@@ -76,6 +76,17 @@ function BlogPosts({ itemsPerRow = 3, type = "left" }) {
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error.message}</p>;
 
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
 
     
 
@@ -120,8 +131,21 @@ function BlogPosts({ itemsPerRow = 3, type = "left" }) {
                             ))
                         )}
 
+
+{/* Pagination */}
                         <div className="pagination-wrapper">
                             <ul className="pagination">
+
+                                <li className="page-item">
+                                    <span
+                                        className="page-link"
+                                        onClick={handlePreviousPage}
+                                        aria-disabled={currentPage === 1 ? 'true' : 'false'}
+
+                                    >
+                                        <i className="d-icon-arrow-left"></i>Prev
+                                    </span>
+                                </li>
                                 {Array.from({ length: totalPages }, (_, index) => (
                                     <li
                                         key={index}
@@ -135,8 +159,25 @@ function BlogPosts({ itemsPerRow = 3, type = "left" }) {
                                         </button>
                                     </li>
                                 ))}
+
+                                <li className="page-item">
+                                    <span
+                                        className="page-link"
+                                        onClick={handleNextPage}
+                                        aria-disabled={currentPage === totalPages ? 'true' : 'false'}
+
+                                    >
+                                        Next<i className="d-icon-arrow-right"></i>
+                                    </span>
+                                </li>
+
+
                             </ul>
                         </div>
+
+
+
+
                     </div>
                 </section>
             </div>
