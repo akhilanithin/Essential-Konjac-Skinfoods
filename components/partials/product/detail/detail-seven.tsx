@@ -301,13 +301,13 @@ function DetailSeven(props: Props) {
                     <div className="container">
                         <div className="sticky-product-details">
                             <figure className="product-image">
-                                <ALink href={`/product/default/${product.slug}`}>
+                                <ALink href={`/product/${product.slug}`}>
                                     <img src={`${process.env.NEXT_PUBLIC_ASSET_URI}${product.pictures[0].url}`} width="90" height="90" alt="Product" />
                                 </ALink>
                             </figure>
                             <div>
                                 <h4 className="product-title">
-                                    <ALink href={`/product/default/${product.slug}`}>{product.name}</ALink>
+                                    <ALink href={`/product/${product.slug}`}>{product.name}</ALink>
                                 </h4>
                                 <div className="product-info">
                                     <div className="product-price mb-0">

@@ -5,7 +5,7 @@ import Breadcrumb from '~/components/features/breadcrumb';
 import PostEight from '~/components/features/post/post-eight';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import ToolBox from '../aesthetics/toolbox';
+import ToolBox from '~/pages/aesthetics/toolbox';
 
 interface Post {
     id: number;
@@ -26,7 +26,11 @@ function BlogPosts({ itemsPerRow = 3, type = "left" }) {
     const [postsPerPage, setPostsPerPage] = useState(12);
     const [currentPage, setCurrentPage] = useState(1);
 
-    const token = process.env.NEXT_PUBLIC_BLOG_TOKEN!;
+    const [category, setCategory] = useState([]);
+
+    
+
+
     const router = useRouter();
     const { query } = router;
     const gridType = query?.type || 'grid';
@@ -46,17 +50,20 @@ function BlogPosts({ itemsPerRow = 3, type = "left" }) {
         setLoading(true);
         try {
             const response = await axios.get<PostsResponse>(
-                `https://api.eksfc.com/api/blogs/?page=${page}&limit=${limit}&sortField=title&sortOrder=DESC`,
+                `https://api.eksfc.com/api/blogs/public?page=${page}&limit=${limit}&sortField=title&sortOrder=DESC`,
                 {
                     headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json',
                         'konjac-version': '1.0.1',
                     },
                 }
             );
             setPosts(response?.data?.data);
             setTotalPosts(response.data.count);
+
+            const categories = response?.data?.data?.map(item => item.category);
+
+
+            setCategory(categories)
         } catch (err) {
             setError(err as Error);
         } finally {
@@ -88,14 +95,15 @@ function BlogPosts({ itemsPerRow = 3, type = "left" }) {
         }
     };
 
+
     
 
     return (
         <main className="main skeleton-body">
             <Helmet>
-                <title>Riode React eCommerce Template | Blog</title>
+                <title>Blog</title>
             </Helmet>
-            <h1 className="d-none">Riode React eCommerce Template - Blog</h1>
+            <h1 className="d-none">EKSFC - Blog</h1>
             <Breadcrumb title="Blog" parentUrl="/elements" />
 
             <div className="page-content">

@@ -375,7 +375,7 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
                                                 <tr key={'cart' + item.name}>
                                                     <td className="product-thumbnail">
                                                         <figure>
-                                                            <ALink href={'/product/default/' + item?.id}>
+                                                            <ALink href={'/product/' + item?.id}>
                                                                 <img
                                                                     src={`${PRODUCT_IMAGE_BASEURL}/products/${item?.image}`}
                                                                     width="100"
@@ -387,7 +387,7 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
                                                     </td>
                                                     <td className="product-name">
                                                         <div className="product-name-section">
-                                                            <ALink href={'/product/default/' + item.slug}>{item.name}</ALink>
+                                                            <ALink href={'/product/' + item.slug}>{item.name}</ALink>
                                                         </div>
                                                     </td>
                                                     <td className="product-subtotal">

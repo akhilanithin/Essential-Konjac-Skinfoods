@@ -49,7 +49,7 @@ const PostThree: React.FC<PostThreeProps> = ({
                     <figure className={`post-media ${post.type === 'image' ? 'overlay-zoom' : ''}`}>
                         {
                             isLazy ? (
-                                <ALink href={`/blog/single/${post.slug}`}>
+                                <ALink href={`/blog/${post.slug}`}>
                                     {
                                         isOriginal ? (
                                             <LazyLoadImage
@@ -73,7 +73,7 @@ const PostThree: React.FC<PostThreeProps> = ({
                                     }
                                 </ALink>
                             ) : (
-                                <ALink href={`/blog/single/${post.slug}`}>
+                                <ALink href={`/blog/${post.slug}`}>
                                     {
                                         isOriginal ? (
                                             <img
@@ -149,10 +149,10 @@ const PostThree: React.FC<PostThreeProps> = ({
                     on <ALink href="#" className="post-date">{new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: "2-digit", timeZone: "UTC" })}</ALink> | <ALink href="#" className="post-comment"><span>{post.comments}</span> Comments</ALink>
                 </div>
                 <h4 className="post-title">
-                    <ALink href={`/blog/single/${post.slug}`}>{post.title}</ALink>
+                    <ALink href={`/blog/${post.slug}`}>{post.title}</ALink>
                 </h4>
                 <p className="post-content">{post.content}</p>
-                <ALink href={`/blog/single/${post.slug}`} className={`btn btn-link btn-underline btn-primary ${btnAdClass}`}>
+                <ALink href={`/blog/${post.slug}`} className={`btn btn-link btn-underline btn-primary ${btnAdClass}`}>
                     {btnText}<i className="d-icon-arrow-right"></i>
                 </ALink>
             </div>

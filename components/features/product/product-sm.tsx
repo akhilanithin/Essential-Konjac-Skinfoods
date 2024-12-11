@@ -24,7 +24,7 @@ const SmallProduct: React.FC<SmallProductProps> = ({ product, adClass = '', isRe
     return (
         <div className={`product product-list-sm ${adClass}`}>
             <figure className="product-media">
-                <ALink href={`/product/default/${product.slug}`}>
+                <ALink href={`/product/${product.slug}`}>
                     <LazyLoadImage
                         alt="product"
                         src={`${process.env.NEXT_PUBLIC_ASSET_URI}${product.pictures[0].url}`}
@@ -50,7 +50,7 @@ const SmallProduct: React.FC<SmallProductProps> = ({ product, adClass = '', isRe
 
             <div className="product-details">
                 <h3 className="product-name">
-                    <ALink href={`/product/default/${product.slug}`}>{product.name}</ALink>
+                    <ALink href={`/product/${product.slug}`}>{product.name}</ALink>
                 </h3>
 
                 <div className="product-price">
@@ -75,7 +75,7 @@ const SmallProduct: React.FC<SmallProductProps> = ({ product, adClass = '', isRe
                     </div>
 
                     {isReviewCount && (
-                        <ALink href={`/product/default/${product.slug}`} className="rating-reviews">( {product.reviews} reviews )</ALink>
+                        <ALink href={`/product/${product.slug}`} className="rating-reviews">( {product.reviews} reviews )</ALink>
                     )}
                 </div>
             </div>

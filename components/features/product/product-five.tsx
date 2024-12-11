@@ -99,7 +99,7 @@ const ProductFive: React.FC<ProductFiveProps> = (props) => {
     return (
         <div className={`product product-slideup text-center ${adClass} ${product.variants.length > 0 ? 'product-variable' : ''}`}>
             <figure className="product-media">
-                <ALink href={`/product/default/${product.slug}`}>
+                <ALink href={`/product/${product.slug}`}>
                     <LazyLoadImage
                         alt="product"
                         src={`${process.env.NEXT_PUBLIC_ASSET_URI}${product.pictures[0].url}`}
@@ -145,7 +145,7 @@ const ProductFive: React.FC<ProductFiveProps> = (props) => {
                 </div>
 
                 <h3 className="product-name">
-                    <ALink href={`/product/default/${product.slug}`}>{product.name}</ALink>
+                    <ALink href={`/product/${product.slug}`}>{product.name}</ALink>
                 </h3>
 
                 <div className="product-price">
@@ -169,7 +169,7 @@ const ProductFive: React.FC<ProductFiveProps> = (props) => {
                         <span className="tooltiptext tooltip-top">{toDecimal(product.ratings)}</span>
                     </div>
 
-                    <ALink href={`/product/default/${product.slug}`} className="rating-reviews">
+                    <ALink href={`/product/${product.slug}`} className="rating-reviews">
                         ( {product.reviews} reviews )
                     </ALink>
                 </div>
@@ -184,7 +184,7 @@ const ProductFive: React.FC<ProductFiveProps> = (props) => {
                         <i className={isWishlisted ? 'd-icon-heart-full' : 'd-icon-heart'}></i>
                     </a>
                     {product.variants.length > 0 ? (
-                        <ALink href={`/product/default/${product.slug}`} className="btn-product btn-cart" title="Go to product">
+                        <ALink href={`/product/${product.slug}`} className="btn-product btn-cart" title="Go to product">
                             <span>Select Options</span>
                         </ALink>
                     ) : (

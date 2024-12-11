@@ -65,7 +65,7 @@ const ProductOne: React.FC<ProductOneProps> = (props) => {
     return (
         <div className={`product shadow-media ${adClass}`}>
             <figure className="product-media">
-                <ALink href={`/product/default/${product.slug}`}>
+                <ALink href={`/product/${product.slug}`}>
                     <LazyLoadImage
                         alt="product"
                         src={`${process.env.NEXT_PUBLIC_ASSET_URI}${product.pictures[0].url}`}
@@ -98,7 +98,7 @@ const ProductOne: React.FC<ProductOneProps> = (props) => {
 
                 <div className="product-action-vertical">
                     {product.variants.length > 0 ? (
-                        <ALink href={`/product/default/${product.slug}`} className="btn-product-icon btn-cart" title="Go to product">
+                        <ALink href={`/product/${product.slug}`} className="btn-product-icon btn-cart" title="Go to product">
                             <i className="d-icon-arrow-right"></i>
                         </ALink>
                     ) : (
@@ -132,7 +132,7 @@ const ProductOne: React.FC<ProductOneProps> = (props) => {
                 </div>
 
                 <h3 className="product-name">
-                    <ALink href={`/product/default/${product.slug}`}>{product.name}</ALink>
+                    <ALink href={`/product/${product.slug}`}>{product.name}</ALink>
                 </h3>
 
                 <div className="product-price">
@@ -156,7 +156,7 @@ const ProductOne: React.FC<ProductOneProps> = (props) => {
                         <span className="tooltiptext tooltip-top">{toDecimal(product.ratings)}</span>
                     </div>
 
-                    <ALink href={`/product/default/${product.slug}`} className="rating-reviews">
+                    <ALink href={`/product/${product.slug}`} className="rating-reviews">
                         ( {product.reviews} reviews )
                     </ALink>
                 </div>

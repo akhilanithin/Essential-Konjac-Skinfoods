@@ -31,9 +31,6 @@ interface QueryData {
 }
 
 const BlogSidebar: React.FC = ({post}) => {
-    // const { data, loading, error } = useQuery<QueryData>(GET_POST_SIDEBAR_DATA);
-    // const categories = data?.postSidebarData.categories || [];
-    // const recent = data?.postSidebarData.recent || [];
     const router = useRouter();
     const query = router.query;
 
@@ -42,44 +39,43 @@ const BlogSidebar: React.FC = ({post}) => {
 
 
     const [loading, setLoading] = useState(true);
-    const token = process.env.NEXT_PUBLIC_BLOG_TOKEN!;
-    const [error, setError] = useState<Error | null>(null);
-    const [category, setCategory] = useState([]);
+    // const token = process.env.NEXT_PUBLIC_BLOG_TOKEN!;
+    // const [error, setError] = useState<Error | null>(null);
+    // const [category, setCategory] = useState([]);
 
 
-    const fetchcategories = async () => {
-        setLoading(true);
-        try {
-            const response = await axios.get(
-                `https://api.eksfc.com/api/blog-categories?search=&count=5&page=1`,
-                {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'konjac-version': '1.0.1',
-                    },
-                }
-            );
-            setCategory(response?.data?.data);
+    // const fetchcategories = async () => {
+    //     setLoading(true);
+    //     try {
+    //         const response = await axios.get(
+    //             `https://api.eksfc.com/api/blog-categories?search=&count=5&page=1`,
+    //             {
+    //                 headers: {
+    //                     'Authorization': `Bearer ${token}`,
+    //                     'konjac-version': '1.0.1',
+    //                 },
+    //             }
+    //         );
+    //         setCategory(response?.data?.data);
 
       
             
          
-        } catch (err) {
-            setError(err as Error);
-        } finally {
-            setLoading(false);
-        }
-    };
+    //     } catch (err) {
+    //         setError(err as Error);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
 
     useEffect(() => {
     
-        fetchcategories();
+     setLoading(false)
     }, []);
 
 
 
 
-console.log(post?.seoKeywords);
 
 
     const toggleSidebarHandler = (e: React.MouseEvent) => {
@@ -123,7 +119,7 @@ console.log(post?.seoKeywords);
                                 </div> */}
 
 {/* categories */}
-                                <div className="widget widget-collapsible border-no">
+                                {/* <div className="widget widget-collapsible border-no">
                                     <Card
                                         title="<h3 class='widget-title border-no'>Blog Categories<span class='toggle-btn p-0 parse-content'></span></h3>"
                                         type="parse"
@@ -139,10 +135,29 @@ console.log(post?.seoKeywords);
                                             ))}
                                         </ul>
                                     </Card>
+                                </div> */}
+
+
+
+                                <div className="widget widget-collapsible border-no">
+                                    <Card
+                                        title="<h3 class='widget-title border-no'>Blog Categorie<span class='toggle-btn p-0 parse-content'></span></h3>"
+                                        type="parse"
+                                        expanded={true}
+                                    >
+                                        <ul className="widget-body filter-items search-ul">
+                                           
+                                                <li key={post?.category?.id} className={`${query?.category === post?.category?.name.toLowerCase() ? 'active' : ''}`}>
+                                                    <ALink href={{ pathname: '/blog/classic', query: { category: post?.category?.name.toLowerCase() } }} scroll={false}>
+                                                        {post?.category?.name}
+                                                    </ALink>
+                                                </li>
+                                            
+                                        </ul>
+                                    </Card>
                                 </div>
 
 
-                             
                                 <div className="widget widget-collapsible">
                                     <Card
                                         title="<h3 class='widget-title'>About Blog<span class='toggle-btn p-0 parse-content'></span></h3>"

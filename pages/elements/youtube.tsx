@@ -32,7 +32,7 @@ const youtube = ({ itemsPerRow = 3, isToolbox = true, type = "left" }) => {
     const [error, setError] = useState<Error | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [totalPosts, setTotalPosts] = useState(0);
-    const [postsPerPage, setPostsPerPage] = useState(12); // Default to 12
+    const [postsPerPage, setPostsPerPage] = useState(6); // Default to 12
     const [currentPage, setCurrentPage] = useState(1);
     const [playingVideoId, setPlayingVideoId] = useState(null);
 

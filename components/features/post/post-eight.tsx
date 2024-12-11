@@ -21,7 +21,7 @@ function PostEight(props) {
                     <figure className="post-media">
                         {
                             isLazy ?
-                                <ALink href={ `/blog/single/${ post?.id }` }>
+                                <ALink href={ `/blog/${ post?.id }` }>
                                     <LazyLoadImage
                                         style={{ backgroundColor: "#DEE6E8", height: "240px", width: "auto" }}
                                         alt="post image"
@@ -30,7 +30,7 @@ function PostEight(props) {
                                     />
                                 </ALink>
                                 :
-                                <ALink href={ `/blog/single/${ post?.id }` }>
+                                <ALink href={ `/blog/${ post?.id }` }>
                                     <img
                                         style={{ backgroundColor: "#DEE6E8", height: "240px", width: "auto" }}
                                         alt="post image"
@@ -97,10 +97,10 @@ function PostEight(props) {
 
             <div className="post-details">
                 <h4 className="post-title">
-                    <ALink href={ `/blog/single/${ post?.id }` }>{post?.title}</ALink>
+                    <ALink href={ `/blog/${ post?.id }` }>{post?.title}</ALink>
                 </h4>
                 <p className="post-content">{post.metaDescription}</p>
-                <ALink href={ `/blog/single/${ post?.id }` } className={`btn btn-primary btn-link btn-underline ${btnAdClass}`}>
+                <ALink href={ `/blog/${ post?.id }` } className={`btn btn-primary btn-link btn-underline ${btnAdClass}`}>
                     {btnText}<i className="d-icon-arrow-right"></i>
                 </ALink>
             </div>

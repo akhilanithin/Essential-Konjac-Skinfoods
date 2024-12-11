@@ -51,7 +51,7 @@ const PostFour: React.FC<PostFourProps> = ({
                     <figure className="post-media">
                         {
                             isLazy ? (
-                                <ALink href={`/blog/single/${post.slug}`}>
+                                <ALink href={`/blog/${post.slug}`}>
                                     {
                                         isOriginal ? (
                                             <LazyLoadImage
@@ -75,7 +75,7 @@ const PostFour: React.FC<PostFourProps> = ({
                                     }
                                 </ALink>
                             ) : (
-                                <ALink href={`/blog/single/${post.slug}`}>
+                                <ALink href={`/blog/${post.slug}`}>
                                     {
                                         isOriginal ? (
                                             <img
@@ -156,10 +156,10 @@ const PostFour: React.FC<PostFourProps> = ({
 
             <div className="post-details">
                 <h4 className="post-title">
-                    <ALink href={`/blog/single/${post.slug}`}>{post.title}</ALink>
+                    <ALink href={`/blog/${post.slug}`}>{post.title}</ALink>
                 </h4>
                 <p className="post-content">{post.content}</p>
-                <ALink href={`/blog/single/${post.slug}`} className={`btn btn-link btn-underline ${btnAdClass}`}>
+                <ALink href={`/blog/${post.slug}`} className={`btn btn-link btn-underline ${btnAdClass}`}>
                     {btnText}<i className="d-icon-arrow-right"></i>
                 </ALink>
             </div>

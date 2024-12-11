@@ -138,7 +138,7 @@ function MobileMenu() {
                     </li>
 
                     <li>
-                        <Card title="Products" type="mobile" url="/product/default/bodycare-smooth-perfume">
+                        <Card title="Products" type="mobile" url="/product/bodycare-smooth-perfume">
                             <ul>
                                 <li>
                                     <Card title="Product Pages" type="mobile">
@@ -205,7 +205,7 @@ function MobileMenu() {
                         </Card>
                     </li>
 
-                    <li><ALink href="#">Buy Riode!</ALink></li>
+                    {/* <li><ALink href="#">Buy Riode!</ALink></li> */}
                 </ul>
             </div>
         </div>

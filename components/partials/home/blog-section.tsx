@@ -25,15 +25,14 @@ const BlogSection: React.FC = () => {
     const [loading, setLoading] = useState(true);
 
     const url = process.env.NEXT_PUBLIC_BLOG_URL!;
-    const token = process.env.NEXT_PUBLIC_BLOG_TOKEN!;
+
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get<PostsResponse>(url, {
                     headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json',
+                  
                         'konjac-version': '1.0.1',
                     },
                 });
@@ -46,7 +45,10 @@ const BlogSection: React.FC = () => {
         };
 
         fetchData();
-    }, [url, token]);
+    }, [url]);
+
+    console.log(posts);
+    
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error.message}</p>;

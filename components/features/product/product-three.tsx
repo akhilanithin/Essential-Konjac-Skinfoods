@@ -75,7 +75,7 @@ const ProductThree: React.FC<Props & PropsFromRedux> = (props) => {
     return (
         <div className={`product product-classic ${adClass} ${product.variants.length > 0 ? 'product-variable' : ''}`}>
             <figure className="product-media">
-                <ALink href={`/product/default/${product.slug}`}>
+                <ALink href={`/product/${product.slug}`}>
                     <LazyLoadImage
                         alt="product"
                         src={`${process.env.NEXT_PUBLIC_ASSET_URI}${product.pictures[0].url}`}
@@ -124,7 +124,7 @@ const ProductThree: React.FC<Props & PropsFromRedux> = (props) => {
                 </div>
 
                 <h3 className="product-name">
-                    <ALink href={`/product/default/${product.slug}`}>{product.name}</ALink>
+                    <ALink href={`/product/${product.slug}`}>{product.name}</ALink>
                 </h3>
 
                 <div className="product-price">
@@ -148,12 +148,12 @@ const ProductThree: React.FC<Props & PropsFromRedux> = (props) => {
                         <span className="tooltiptext tooltip-top">{toDecimal(product.ratings)}</span>
                     </div>
 
-                    <ALink href={`/product/default/${product.slug}`} className="rating-reviews">( {product.reviews} reviews )</ALink>
+                    <ALink href={`/product/${product.slug}`} className="rating-reviews">( {product.reviews} reviews )</ALink>
                 </div>
 
                 <div className="product-action">
                     {product.variants.length > 0 ? (
-                        <ALink href={`/product/default/${product.slug}`} className="btn-product btn-cart" title="Go to product">
+                        <ALink href={`/product/${product.slug}`} className="btn-product btn-cart" title="Go to product">
                             <span>Select Options</span>
                         </ALink>
                     ) : (

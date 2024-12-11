@@ -39,7 +39,7 @@ function Aesthetics({ type = "left",itemsPerRow = 3,}): JSX.Element {
             try {
                 const response = await fetch(process.env.NEXT_PUBLIC_CLINIC_URL as string, {
                     headers: {
-                        Authorization: `Bearer ${process.env.NEXT_PUBLIC_CLINIC_TOKEN}`,
+                        // Authorization: `Bearer ${process.env.NEXT_PUBLIC_CLINIC_TOKEN}`,
                         'konjac-version': '1.0.1',
                     },
                 });
@@ -108,7 +108,7 @@ function Aesthetics({ type = "left",itemsPerRow = 3,}): JSX.Element {
     return (
         <main className="main skeleton-body">
             <Helmet>
-                <title>Riode React eCommerce Template | Blog</title>
+                <title>EKSFC-Aesthetics</title>
             </Helmet>
 
             <Breadcrumb title="Aesthetics" parentUrl="/elements" />

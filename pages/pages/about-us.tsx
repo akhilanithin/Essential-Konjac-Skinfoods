@@ -60,8 +60,6 @@ const AboutUs: React.FC = () => {
 
 
 
-
-    const token = process.env.NEXT_PUBLIC_BLOG_TOKEN!;
     const [brand, setBrand] = useState([]);
     const [error, setError] = useState(null);
 
@@ -70,15 +68,15 @@ const AboutUs: React.FC = () => {
    
         try {
             const response = await axios.get(
-                `https://api.eksfc.com/api/brands?page=1&limit=50&sortField=id&sortOrder=DESC&filterName=status&filterValue=0`,
+                `https://essentialkonjacskinfoods.com/api/v1/en/shop/0/0/1/0/1000/false/false/true/undefined`,
                 {
                     headers: {
-                        'Authorization': `Bearer ${token}`,
+                      
                         'konjac-version': '1.0.1',
                     },
                 }
             );
-            setBrand(response?.data?.data);
+            setBrand(response?.data?.data?.brands);
         } catch (err) {
             setError(err as Error);
         } finally {
@@ -91,7 +89,7 @@ const AboutUs: React.FC = () => {
         fetchPosts();
     }, []);
 
-    console.log(brand);
+
 
     if (error) return <ErrorPage />;
 

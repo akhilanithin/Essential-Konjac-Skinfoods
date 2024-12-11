@@ -202,7 +202,7 @@ const renderCategories = () => {
             onMouseLeave={() => setIsHovered(false)}
         >
             <figure className="product-media">
-                <ALink href={`/product/default/${product?.id}`}>
+                <ALink href={`/product/${product?.id}`}>
                     <LazyLoadImage
                         alt="product"
                         src={`https://admin.essentialkonjacskinfoods.com/assets/img/products/${product?.image}`}
@@ -225,7 +225,7 @@ const renderCategories = () => {
                     
                     {variations.length > 1 ? (
                         <ALink
-                        href={`/product/default/${product.id}`}
+                        href={`/product/${product.id}`}
                             className="btn-product-icon btn-cart"
                             title="Go to product"
                         >
@@ -272,7 +272,7 @@ const renderCategories = () => {
                 )}
 
                 <h3 className="product-name">
-                    <ALink href={`/product/default/${product.id}`}>{product.name}</ALink>
+                    <ALink href={`/product/${product.id}`}>{product.name}</ALink>
                 </h3>
 
                 <div className="product-price">
@@ -295,7 +295,7 @@ const renderCategories = () => {
                     </div>
 
                     {review.length > 0 && (
-                        <ALink href={`/product/default/${product.id}`} className="rating-reviews">
+                        <ALink href={`/product/${product.id}`} className="rating-reviews">
                             ({review?.length} reviews)
                         </ALink>
                     )}

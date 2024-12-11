@@ -25,7 +25,7 @@ const Buttons: React.FC = () => {
 
             <h1 className="d-none">Riode React eCommerce Template - Buttons</h1>
 
-            <Breadcrumb subTitle="Elements" title="Element Buttons" parentUrl="/elements" />
+            <Breadcrumb subTitle="Elements" title="Element Buttons"/>
 
             <div className="page-content mt-10 pt-10">
                 <section className="section-buttons">

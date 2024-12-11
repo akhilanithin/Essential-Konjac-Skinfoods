@@ -24,23 +24,14 @@ function SearchForm() {
     const timerRef = useRef<NodeJS.Timeout | null>(null);
 
 
-    // console.log(filteredResults);
-    
 
 
-    // const productURL = process.env.NEXT_PUBLIC_PRODUCT_URL || '';
-    // const productToken = process.env.NEXT_PUBLIC_PRODUCT_TOKEN || '';
+    const productURL = process.env.NEXT_PUBLIC_PRODUCT_URL || '';  
+    const productToken = process.env.NEXT_PUBLIC_PRODUCT_TOKEN || '';  
 
-    // const { data, loading, error } = useFetch(productURL, productToken);
-
-
-
-    const productURL = process.env.NEXT_PUBLIC_PRODUCT_URL || '';  // Default to empty string if undefined
-    const productToken = process.env.NEXT_PUBLIC_PRODUCT_TOKEN || '';  // Default to empty string if undefined
-
-    const [data, setData] = useState(null);  // State to hold the fetched data
-    const [loading, setLoading] = useState(true);  // State to handle loading
-    const [error, setError] = useState(null);  // State to handle errors
+    const [data, setData] = useState(null);  
+    const [loading, setLoading] = useState(true);  
+    const [error, setError] = useState(null);  
 
     useEffect(() => {
         const fetchData = async () => {
@@ -48,8 +39,8 @@ function SearchForm() {
                 const response = await fetch(productURL, {
                     method: 'GET',
                     headers: {
-                        'Authorization': `Bearer ${productToken}`,  // Authorization header with token
-                        'konjac-version': '1.0.1',  // Optional custom header, if needed
+                        'Authorization': `Bearer ${productToken}`,  
+                        'konjac-version': '1.0.1', 
                     },
                 });
 
@@ -239,7 +230,7 @@ function SearchForm() {
                    
 
 
-                        <ALink href={`/product/default/${product?.id}`} className="autocomplete-suggestion" key={`search-result-${index}`}>
+                        <ALink href={`/product/${product?.id}`} className="autocomplete-suggestion" key={`search-result-${index}`}>
                             <LazyLoadImage  src={`${PRODUCT_IMAGE_BASEURL}/products/${product.image}`} width={40} height={40} alt="product" />
                             <div className="search-name" dangerouslySetInnerHTML={removeXSSAttacks(matchEmphasize(product.name))}></div>
                             <span className="search-price">

@@ -57,7 +57,7 @@ const HomePage: React.FC = () => {
     return (
         <div className="main home">
             <Helmet>
-                <title>EKSFC - Home</title>
+                <title>Home</title>
             </Helmet>
 
             <h1 className="d-none">Essential Konjac Skin Food - Home</h1>

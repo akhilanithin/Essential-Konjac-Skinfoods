@@ -348,7 +348,7 @@ const DetailOne: React.FC<Props> = ({
                         <span className="tooltiptext tooltip-top">{averageRating.toFixed(1)}</span>
                     </div>
                     {review?.length > 0 && (
-                        <ALink href={`/product/default/${product?.id}`} className="rating-reviews">
+                        <ALink href={`/product/${product?.id}`} className="rating-reviews">
                             ({review?.length} {review?.length > 1 ? 'reviews' : 'review'})
                         </ALink>
                     )}
@@ -419,12 +419,12 @@ const DetailOne: React.FC<Props> = ({
                     <div className="container">
                         <div className="sticky-product-details">
                             <figure className="product-image">
-                                <ALink href={`/product/default/${product.data.slug}`}>
+                                <ALink href={`/product/${product.data.slug}`}>
                                     <img src={`${process.env.NEXT_PUBLIC_ASSET_URI}${product.data.pictures[0].url}`} width="90" height="90" alt="Product" />
                                 </ALink>
                             </figure>
                             <div>
-                                <h4 className="product-title"><ALink href={`/product/default/${product.data.slug}`}>{product.data.name}</ALink></h4>
+                                <h4 className="product-title"><ALink href={`/product/${product.data.slug}`}>{product.data.name}</ALink></h4>
                                 <div className="product-info">
                                     <div className="product-price mb-0">
                                         {product.data.price[0] !== product.data.price[1] ? (

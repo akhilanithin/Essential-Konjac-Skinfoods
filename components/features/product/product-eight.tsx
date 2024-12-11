@@ -104,7 +104,7 @@ const ProductEight: React.FC<ProductEightProps> = (props) => {
 {/* Figure */}
 
             <figure className="product-media">
-                <ALink href={`/product/default/${product?.id}`}>
+                <ALink href={`/product/${product?.id}`}>
                     <LazyLoadImage
                         alt="product"
                         src={`${PRODUCT_IMAGE_BASEURL}/products/${product?.image}`}
@@ -158,7 +158,7 @@ const ProductEight: React.FC<ProductEightProps> = (props) => {
                 </div>
 
                 <h3 className="product-name">
-                    <ALink href={`/product/default/${product?.id}`}>{product?.name}</ALink>
+                    <ALink href={`/product/${product?.id}`}>{product?.name}</ALink>
                 </h3>
 
                 <div className="product-price">
@@ -193,7 +193,7 @@ const ProductEight: React.FC<ProductEightProps> = (props) => {
 
                 <div className="product-action">
                     {product?.variation?.length > 0 ? (
-                        <ALink href={`/product/default/${product?.id}`} className="btn-product btn-cart" title="Go to product">
+                        <ALink href={`/product/${product?.id}`} className="btn-product btn-cart" title="Go to product">
                             <span>Select Options</span>
                         </ALink>
                     ) : (

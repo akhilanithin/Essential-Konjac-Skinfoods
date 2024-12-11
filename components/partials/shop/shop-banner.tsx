@@ -14,7 +14,7 @@ interface ShopBannerProps {
 
 
 
-const ShopBanner: React.FC<ShopBannerProps> = ({ subTitle = '102 Products', title = "Shop", current = "Riode Shop" }) => {
+const ShopBanner: React.FC<ShopBannerProps> = ({ subTitle = '102 Products', title = "Shop", current ="Shop" }) => {
     
     return (
         <div className="page-header shop" style={{ backgroundImage: `url(https://eksfc.com/assets/img/detail-main-bg.jpg)`, backgroundColor: "#E4EAEA" }}>

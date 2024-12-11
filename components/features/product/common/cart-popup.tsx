@@ -26,7 +26,7 @@ const CartPopup: React.FC<CartPopupProps> = ({ product }) => {
 
                 <div className="product product-purchased product-cart mb-0">
                     <figure className="product-media pure-media">
-                        <ALink href={`/product/default/${product?.id}`}>
+                        <ALink href={`/product/${product?.id}`}>
                             <img
                                 src={`${PRODUCT_IMAGE_BASEURL}/products/${product?.image}`}
                                 alt="product"
@@ -36,7 +36,7 @@ const CartPopup: React.FC<CartPopupProps> = ({ product }) => {
                         </ALink>
                     </figure>
                     <div className="product-detail">
-                        <ALink href={`/product/default/${product?.id}`} className="product-name">{product?.name}</ALink>
+                        <ALink href={`/product/${product?.id}`} className="product-name">{product?.name}</ALink>
                         <span className="price-box">
                             <span className="product-quantity">{product?.qty}</span>
                             <span className="product-price">AED{toDecimal(product?.price)}</span>

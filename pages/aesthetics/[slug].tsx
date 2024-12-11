@@ -49,9 +49,9 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`https://api.eksfc.com/api/clinic-serice?search=&limit=1000&page=1&sortField=id&sortOrder=DESC&filterName=id&filterValue=${query?.slug}` as string, {
+                const response = await fetch(`https://api.eksfc.com/api/clinic-serice/public-listing?search=&limit=1000&page=1&sortField=id&sortOrder=DESC&filterName=id&filterValue=${query?.slug}` as string, {
                     headers: {
-                        Authorization: `Bearer ${process.env.NEXT_PUBLIC_CLINIC_TOKEN}`,
+                        // Authorization: `Bearer ${process.env.NEXT_PUBLIC_CLINIC_TOKEN}`,
                         'konjac-version': '1.0.1',
                     },
                 });

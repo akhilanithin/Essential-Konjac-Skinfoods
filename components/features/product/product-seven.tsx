@@ -66,7 +66,7 @@ const ProductSeven: React.FC<ProductSevenProps> = (props) => {
     return (
         <div className={`product ${product.variants.length > 0 ? 'product-variable' : ''} text-center shadow-media product-with-qty ${adClass}`}>
             <figure className="product-media">
-                <ALink href={`/product/default/${product.slug}`}>
+                <ALink href={`/product/${product.slug}`}>
                     <LazyLoadImage
                         alt="product"
                         src={`${process.env.NEXT_PUBLIC_ASSET_URI}${product.pictures[0].url}`}
@@ -112,7 +112,7 @@ const ProductSeven: React.FC<ProductSevenProps> = (props) => {
 
             <div className="product-details">
                 <h3 className="product-name">
-                    <ALink href={`/product/default/${product.slug}`}>{product.name}</ALink>
+                    <ALink href={`/product/${product.slug}`}>{product.name}</ALink>
                 </h3>
 
                 <div className="product-price">
@@ -132,7 +132,7 @@ const ProductSeven: React.FC<ProductSevenProps> = (props) => {
 
                 <div className="product-action">
                     {product.variants.length > 0 ? (
-                        <ALink href={`/product/default/${product.slug}`} className="btn-product btn-cart" title="Go to product">
+                        <ALink href={`/product/${product.slug}`} className="btn-product btn-cart" title="Go to product">
                             <span>Select Options</span>
                         </ALink>
                     ) : (

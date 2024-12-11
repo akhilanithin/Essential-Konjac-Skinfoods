@@ -65,36 +65,6 @@ export const mainMenu = {
     },
 
 
-
-
-
-    "aesthetics": [
-        // {
-        //     "title": "aesthetics",
-        //     "url": "aesthetics/aesthetics"
-        // },  
-        
-        // {
-        //     "title": "Simpl Product",
-        //     "url": "aesthetics/bodycare-smooth-perfume"
-        // },
-    ],
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     "product": {
         "pages": [
             {
@@ -168,14 +138,14 @@ export const mainMenu = {
         ]
     },
     "other": [
-        {
-            "title": "About",
-            "url": "pages/about-us"
-        },
-        {
-            "title": "Contact Us",
-            "url": "pages/contact-us"
-        },
+        // {
+        //     "title": "About",
+        //     "url": "pages/about-us"
+        // },
+        // {
+        //     "title": "Contact Us",
+        //     "url": "pages/contact-us"
+        // },
         {
             "title": "My Account",
             "url": "pages/account"
@@ -271,61 +241,10 @@ export const mainMenu = {
 
 
     "element": [
-        {
-            "title": "Products",
-            "url": "elements/products"
-        },
-        {
-            "title": "Typography",
-            "url": "elements/typography"
-        },
-        {
-            "title": "Titles",
-            "url": "elements/titles"
-        },
-        {
-            "title": "Product Category",
-            "url": "elements/product-category"
-        },
-        {
-            "title": "Buttons",
-            "url": "elements/buttons"
-        },
-        {
-            "title": "Accordions",
-            "url": "elements/accordions"
-        },
-        {
-            "title": "Alert & Notification",
-            "url": "elements/alerts"
-        },
-        {
-            "title": "Tabs",
-            "url": "elements/tabs"
-        },
-        {
-            "title": "Testimonials",
-            "url": "elements/testimonials"
-        },
-        {
-            "title": "Blog Posts",
-            "url": "elements/blog-posts"
-        },
+      
         {
             "title": "Instagrams",
             "url": "elements/instagrams"
-        },
-        {
-            "title": "Call to Action",
-            "url": "elements/cta"
-        },
-        {
-            "title": "Icon Boxes",
-            "url": "elements/icon-boxes"
-        },
-        {
-            "title": "Icons",
-            "url": "elements/icons"
         },
         {
             "title": "youtube",
@@ -432,4 +351,5 @@ export const headerBorderRemoveList = [
     "/elements/cta",
     "/elements/icon-boxes",
     "/elements/icons"
+
 ]

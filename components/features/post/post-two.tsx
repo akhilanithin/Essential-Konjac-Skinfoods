@@ -25,7 +25,7 @@ const PostTwo: React.FC<PostTwoProps> = ({ post, adClass = '', isLazy = false })
             <figure className="post-media">
                 {
                     isLazy ? (
-                        <ALink href={`/blog/single/${post.slug}`}>
+                        <ALink href={`/blog/${post.slug}`}>
                             <LazyLoadImage
                                 src={process.env.NEXT_PUBLIC_ASSET_URI + post.small_picture[0].url}
                                 alt="post image"
@@ -36,7 +36,7 @@ const PostTwo: React.FC<PostTwoProps> = ({ post, adClass = '', isLazy = false })
                             />
                         </ALink>
                     ) : (
-                        <ALink href={`/blog/single/${post.slug}`}>
+                        <ALink href={`/blog/${post.slug}`}>
                             <img
                                 src={process.env.NEXT_PUBLIC_ASSET_URI + post.small_picture[0].url}
                                 alt="post image"
@@ -60,7 +60,7 @@ const PostTwo: React.FC<PostTwoProps> = ({ post, adClass = '', isLazy = false })
                     </ALink>
                 </div>
                 <h4 className="post-title">
-                    <ALink href={`/blog/single/${post.slug}`}>{post.title}</ALink>
+                    <ALink href={`/blog/${post.slug}`}>{post.title}</ALink>
                 </h4>
             </div>
         </div>

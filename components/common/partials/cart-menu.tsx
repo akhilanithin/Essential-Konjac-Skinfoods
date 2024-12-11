@@ -78,7 +78,7 @@ const CartMenu: React.FC<CartMenuProps> = (props) => {
 
                                                 <figure className="product-media pure-media"
                                             >
-                                                    <ALink href={`/product/default/${item?.id}`}>
+                                                    <ALink href={`/product/${item?.id}`}>
                                                         <img
                                                             src={`${PRODUCT_IMAGE_BASEURL}/products/${item?.image}`}
                                                             alt="product"
@@ -95,7 +95,7 @@ const CartMenu: React.FC<CartMenuProps> = (props) => {
 
 
                                                 <div className="product-detail">
-                                                    <ALink href={`/product/default/${item.slug}`} className="product-name">{item.name}</ALink>
+                                                    <ALink href={`/product/${item.slug}`} className="product-name">{item.name}</ALink>
                                                     <div className="price-box">
                                                         <span className="product-quantity">{item.qty}</span>
                                                         <span className="product-price">AED {toDecimal(item?.price)}</span>

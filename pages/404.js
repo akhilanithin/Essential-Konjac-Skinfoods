@@ -15,10 +15,10 @@ function Error404() {
     return (
         <main className="main">
             <Helmet>
-                <title>Riode React eCommerce Template | 404</title>
+                <title>Not found</title>
             </Helmet>
 
-            <h1 className="d-none">Riode React eCommerce Template - 404</h1>
+            <h1 className="d-none">Not Found</h1>
 
             <div className="page-content">
                 <section

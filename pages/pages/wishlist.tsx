@@ -124,7 +124,7 @@ const Wishlist: React.FC<Props> = ({ wishlist, addToCart, removeFromWishlist }) 
 
                                         {/* Product Image */}
                                         <td className="product-thumbnail">
-                                            <ALink href={'/product/default/' + item?.slug}>
+                                            <ALink href={'/product/' + item?.slug}>
                                                 <figure>
                                                     <img src={`${PRODUCT_IMAGE_BASEURL}/products/${item?.image}`} width="100" height="100" alt="product" />
                                                 </figure>
@@ -133,7 +133,7 @@ const Wishlist: React.FC<Props> = ({ wishlist, addToCart, removeFromWishlist }) 
 
                                         {/* Product Name */}
                                         <td className="product-name">
-                                            <ALink href={'/product/default/' + item?.slug}>{item?.name}</ALink>
+                                            <ALink href={'/product/' + item?.slug}>{item?.name}</ALink>
                                         </td>
 
                                         {/* Product Price  */}
@@ -171,7 +171,7 @@ const Wishlist: React.FC<Props> = ({ wishlist, addToCart, removeFromWishlist }) 
                                         <td className="product-add-to-cart">
                                             {item?.variation[0]?.stock > 0 ? (
                                                 item?.variation.length > 0 ? (
-                                                    <ALink href={'/product/default/' + item?.id} className="btn-product btn-primary"><span>Select options</span></ALink>
+                                                    <ALink href={'/product/' + item?.id} className="btn-product btn-primary"><span>Select options</span></ALink>
                                                 ) : (
                                                     <a href="#" className="btn-product btn-primary" onClick={(e) => moveToCart(e, item)}><span>Add to Cart</span></a>
                                                 )

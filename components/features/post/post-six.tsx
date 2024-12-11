@@ -48,7 +48,7 @@ const PostSix: React.FC<PostSixProps> = ({
                     <figure className="post-media">
                         {
                             isLazy ? (
-                                <ALink href={`/blog/single/${post.slug}`}>
+                                <ALink href={`/blog/${post.slug}`}>
                                     {
                                         isOriginal ? (
                                             <LazyLoadImage
@@ -72,7 +72,7 @@ const PostSix: React.FC<PostSixProps> = ({
                                     }
                                 </ALink>
                             ) : (
-                                <ALink href={`/blog/single/${post.slug}`}>
+                                <ALink href={`/blog/${post.slug}`}>
                                     {
                                         isOriginal ? (
                                             <img
@@ -148,9 +148,9 @@ const PostSix: React.FC<PostSixProps> = ({
                     by <ALink href="#" className="post-author">{post.author}</ALink> on <ALink href="#" className="post-date">{new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: "2-digit", timeZone: "UTC" })}</ALink> | <ALink href="#" className="post-comment"><span>{post.comments}</span> Comments</ALink>
                 </div>
                 <h4 className="post-title">
-                    <ALink href={`/blog/single/${post.slug}`}>{post.title}</ALink>
+                    <ALink href={`/blog/${post.slug}`}>{post.title}</ALink>
                 </h4>
-                <ALink href={`/blog/single/${post.slug}`} className={`btn btn-link btn-underline btn-dark ${btnAdClass}`}>
+                <ALink href={`/blog/${post.slug}`} className={`btn btn-link btn-underline btn-dark ${btnAdClass}`}>
                     {btnText}<i className="d-icon-arrow-right"></i>
                 </ALink>
             </div>

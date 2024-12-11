@@ -26,7 +26,7 @@ function PostSingle() {
     if (!slug) return '';
 
     const [loading, setLoading] = useState(true);
-    const token = process.env.NEXT_PUBLIC_BLOG_TOKEN!;
+
     const [post, setPosts] = useState([]);
     const [error, setError] = useState(null);
 
@@ -35,10 +35,10 @@ function PostSingle() {
         setLoading(true);
         try {
             const response = await axios.get(
-                `https://api.eksfc.com/api/blogs/${slug}`,
+                `https://api.eksfc.com/api/blogs/public/detail/${slug}`,
                 {
                     headers: {
-                        'Authorization': `Bearer ${token}`,
+                     
                         'konjac-version': '1.0.1',
                     },
                 }
@@ -56,12 +56,13 @@ function PostSingle() {
         fetchPosts();
     }, []);
 
-    // console.log(post);
+
 
     if (error) return <ErrorPage />;
 
 
 
+  console.log(post);
   
 
     return (
