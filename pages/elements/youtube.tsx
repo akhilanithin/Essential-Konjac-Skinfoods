@@ -98,9 +98,9 @@ const youtube = ({ itemsPerRow = 3, isToolbox = true, type = "left" }) => {
     return (
         <main className="main about-us">
             <Helmet>
-                <title>Riode React eCommerce Template | About Us</title>
+                <title>Youtube</title>
             </Helmet>
-            <h1 className="d-none">Riode React eCommerce Template - About Us</h1>
+            <h1 className="d-none">Youtube</h1>
 
             {/* About Section */}
             <div className="page-header shop" style={{

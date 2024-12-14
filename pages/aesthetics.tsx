@@ -108,7 +108,7 @@ function Aesthetics({ type = "left",itemsPerRow = 3,}): JSX.Element {
     return (
         <main className="main skeleton-body">
             <Helmet>
-                <title>EKSFC-Aesthetics</title>
+                <title>Aesthetics</title>
             </Helmet>
 
             <Breadcrumb title="Aesthetics" parentUrl="/elements" />

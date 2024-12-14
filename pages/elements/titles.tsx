@@ -8,10 +8,10 @@ const Titles: React.FC = () => {
     return (
         <>
             <Helmet>
-                <title>Riode React eCommerce Template | Titles</title>
+                <title>Titles</title>
             </Helmet>
 
-            <h1 className="d-none">Riode React eCommerce Template - Titles</h1>
+            <h1 className="d-none">Titles</h1>
 
             <Breadcrumb subTitle="Elements" title="Element Titles" parentUrl="/elements" />
 

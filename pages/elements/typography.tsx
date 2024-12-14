@@ -8,10 +8,10 @@ const Typography: React.FC = () => {
     return (
         <>
             <Helmet>
-                <title>Riode React eCommerce Template | Typography</title>
+                <title>Typography</title>
             </Helmet>
 
-            <h1 className="d-none">Riode React eCommerce Template - Typography</h1>
+            <h1 className="d-none">Typography</h1>
 
             <Breadcrumb subTitle="Elements" title="Element Typography" parentUrl="/elements" />
 

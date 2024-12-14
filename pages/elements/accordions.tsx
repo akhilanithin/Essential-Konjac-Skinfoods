@@ -11,10 +11,10 @@ const Accordions: React.FC = () => {
     return (
         <>
             <Helmet>
-                <title>Riode React eCommerce Template | Accordions</title>
+                <title>Accordions</title>
             </Helmet>
 
-            <h1 className="d-none">Riode React eCommerce Template - Accordions</h1>
+            <h1 className="d-none">Accordions</h1>
 
             <Breadcrumb subTitle="Elements" title="Element Accordions" parentUrl="/elements" />
 

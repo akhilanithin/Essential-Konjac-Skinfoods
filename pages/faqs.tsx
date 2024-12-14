@@ -12,10 +12,10 @@ const ComingSoon: React.FC = () => {
     return (
         <main className="main faq">
             <Helmet>
-                <title>Riode React eCommerce Template | FAQs</title>
+                <title>FAQs</title>
             </Helmet>
 
-            <h1 className="d-none">Riode React eCommerce Template - FAQs</h1>
+            <h1 className="d-none">FAQs</h1>
 
             <nav className="breadcrumb-nav">
                 <div className="container">

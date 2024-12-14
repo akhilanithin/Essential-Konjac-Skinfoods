@@ -63,10 +63,10 @@ function Classic(): JSX.Element {
     return (
         <main className="main skeleton-body">
             <Helmet>
-                <title>Riode React eCommerce Template | Blog Classic</title>
+                <title>Blog Classic</title>
             </Helmet>
 
-            <h1 className="d-none">Riode React eCommerce Template - Blog Classic</h1>
+            <h1 className="d-none">Blog Classic</h1>
 
             <nav className="breadcrumb-nav">
                 <div className="container">

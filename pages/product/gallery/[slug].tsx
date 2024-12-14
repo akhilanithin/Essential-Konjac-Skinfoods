@@ -57,10 +57,10 @@ const ProductGallery: React.FC = () => {
     return (
         <main className="main single-product product-layout-gallery">
             <Helmet>
-                <title>Riode React eCommerce Template | Product Gallery</title>
+                <title>Product Gallery</title>
             </Helmet>
 
-            <h1 className="d-none">Riode React eCommerce Template - Product Gallery</h1>
+            <h1 className="d-none">Product Gallery</h1>
 
             {product !== undefined ? (
                 <div className={`page-content mb-10 pb-6 ${loaded ? '' : 'd-none'}`}>

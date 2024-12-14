@@ -57,10 +57,10 @@ const ProductFullWidth: React.FC = () => {
     return (
         <main className="main single-product">
             <Helmet>
-                <title>Riode React eCommerce Template | Product Fullwidth</title>
+                <title>Product Fullwidth</title>
             </Helmet>
 
-            <h1 className="d-none">Riode React eCommerce Template - Product Fullwidth</h1>
+            <h1 className="d-none">Product Fullwidth</h1>
 
             {product !== undefined ? (
                 <div className={`page-content mb-10 ${loaded ? '' : 'd-none'}`}>

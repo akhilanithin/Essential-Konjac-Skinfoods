@@ -70,10 +70,10 @@ function PostSingle() {
         <main className="main skeleton-body">
 
             <Helmet>
-                <title>Riode React eCommerce Template | Blog Single</title>
+                <title>Blog Single</title>
             </Helmet>
 
-            <h1 className="d-none">Riode React eCommerce Template - Blog Single</h1>
+            <h1 className="d-none">Blog Single</h1>
 
 
             <nav className="breadcrumb-nav">

@@ -14,10 +14,10 @@ const Instagrams: React.FC = () => {
     return (
         <>
             <Helmet>
-                <title>Riode React eCommerce Template | Instagrams</title>
+                <title>Instagrams</title>
             </Helmet>
 
-            <h1 className="d-none">Riode React eCommerce Template - Instagrams</h1>
+            <h1 className="d-none">Instagrams</h1>
 
             <Breadcrumb subTitle="Elements" title="Element Instagram" parentUrl="/elements" />
 
@@ -95,8 +95,6 @@ const Instagrams: React.FC = () => {
                         </div>
                     </div>
                 </section>
-
-                <ElementsList adClass="mt-9" />
             </div>
         </>
     );

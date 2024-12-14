@@ -58,10 +58,10 @@ const ProductStickyBoth: React.FC = () => {
     return (
         <main className="main single-product product-sticky-both">
             <Helmet>
-                <title>Riode React eCommerce Template | Product Sticky Both</title>
+                <title>Product Sticky Both</title>
             </Helmet>
 
-            <h1 className="d-none">Riode React eCommerce Template - Product Sticky Both</h1>
+            <h1 className="d-none">Product Sticky Both</h1>
 
             {product !== undefined ? (
                 <div className={`page-content mb-10 pb-6 ${loaded ? '' : 'd-none'}`}>

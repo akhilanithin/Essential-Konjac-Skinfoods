@@ -26,10 +26,10 @@ const Account: React.FC = () => {
     return (
         <main className="main account">
             <Helmet>
-                <title>Riode React eCommerce Template | Account</title>
+                <title>Account</title>
             </Helmet>
 
-            <h1 className="d-none">Riode React eCommerce Template - Account</h1>
+            <h1 className="d-none">Account</h1>
 
             <nav className="breadcrumb-nav">
                 <div className="container">

@@ -8,10 +8,10 @@ const Login: React.FC = () => {
     return (
         <main className="main">
             <Helmet>
-                <title>Riode React eCommerce Template | Login</title>
+                <title>Login</title>
             </Helmet>
 
-            <h1 className="d-none">Riode React eCommerce Template - Login</h1>
+            <h1 className="d-none">Login</h1>
             <nav className="breadcrumb-nav">
                 <div className="container">
                     <ul className="breadcrumb">

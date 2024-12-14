@@ -53,10 +53,10 @@ const ProductMasonry: React.FC = () => {
     return (
         <main className="main mt-6 single-product product-layout-masonry">
             <Helmet>
-                <title>Riode React eCommerce Template | Product Masonry</title>
+                <title>Product Masonry</title>
             </Helmet>
 
-            <h1 className="d-none">Riode React eCommerce Template - Product Masonry</h1>
+            <h1 className="d-none">Product Masonry</h1>
 
             {product !== undefined ? (
                 <div className={`page-content mb-10 pb-6 ${loaded ? '' : 'd-none'}`}>

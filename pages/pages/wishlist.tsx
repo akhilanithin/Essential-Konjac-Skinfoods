@@ -81,10 +81,10 @@ const Wishlist: React.FC<Props> = ({ wishlist, addToCart, removeFromWishlist }) 
     return (
         <main className="main">
             <Helmet>
-                <title>Riode React eCommerce Template | Wishlist</title>
+                <title>Wishlist</title>
             </Helmet>
 
-            <h1 className="d-none">Riode React eCommerce Template - Wishlist</h1>
+            <h1 className="d-none">Wishlist</h1>
             <nav className="breadcrumb-nav">
                 <div className="container">
                     <ul className="breadcrumb">

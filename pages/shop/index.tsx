@@ -14,10 +14,10 @@ const ShopNavigationFilter: React.FC = () => {
     return (
         <main className="main navigation-filter">
             <Helmet>
-                <title>Riode React eCommerce Template - Shop Navigation Filter</title>
+                <title>Shop</title>
             </Helmet>
 
-            <h1 className="d-none">Riode React eCommerce Template - Shop Navigation Filter</h1>
+            <h1 className="d-none">Shop</h1>
 
             <ShopBanner />
 

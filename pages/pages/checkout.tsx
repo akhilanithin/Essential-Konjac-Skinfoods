@@ -40,10 +40,10 @@ function Checkout(props) {
     return (
         <main className="main checkout">
             <Helmet>
-                <title>Riode React eCommerce Template | Checkout</title>
+                <title>Checkout</title>
             </Helmet>
 
-            <h1 className="d-none">Riode React eCommerce Template - Checkout</h1>
+            <h1 className="d-none">Checkout</h1>
 
             <div className={`page-content pt-7 pb-10 ${cartList.length > 0 ? 'mb-10' : 'mb-2'}`}>
                 <div className="step-by pr-4 pl-4">

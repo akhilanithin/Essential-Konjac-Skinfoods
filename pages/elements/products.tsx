@@ -38,10 +38,10 @@ const Products: React.FC = () => {
     return (
         <main className="skeleton-body">
             <Helmet>
-                <title>Riode React eCommerce Template | Products</title>
+                <title>Products</title>
             </Helmet>
 
-            <h1 className="d-none">Riode React eCommerce Template - Products</h1>
+            <h1 className="d-none">Products</h1>
 
             <Breadcrumb subTitle="Elements" title="Element Products" parentUrl="/elements" />
 

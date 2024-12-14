@@ -25,10 +25,10 @@ const ContactUs: React.FC = () => {
     return (
         <main className="main contact-us">
             <Helmet>
-                <title>Riode React eCommerce Template | Contact Us</title>
+                <title>Contact</title>
             </Helmet>
 
-            <h1 className="d-none">Riode React eCommerce Template - Contact Us</h1>
+            <h1 className="d-none">Contact</h1>
 
             <nav className="breadcrumb-nav">
                 <div className="container">
@@ -193,8 +193,8 @@ const ContactUs: React.FC = () => {
                                                 effect="opacity"
                                                 style={{ backgroundColor: "#EEE" }}
                                             />
-                                            <h4 className="overlay-visible">{city}</h4>
-                                            <div className="overlay overlay-transparent">
+                                            <h4 className="overlay-visible text-black">{city}</h4>
+                                            <div className="overlay overlay-transparent text-black">
                                                 <ALink className="mt-8" href="mailto:support@essentialkonjacskinfoods.com">
                                                     support@essentialkonjacskinfoods.com
                                                 </ALink>
