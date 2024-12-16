@@ -10,8 +10,6 @@ import withApollo from '~/server/apollo';
 
 import { toDecimal } from '~/utils';
 
-import useFetch from "~/components/partials/shop/hooks/useFetch";
-
 function SearchForm() {
     const router = useRouter();
     const [search, setSearch] = useState("");
@@ -26,44 +24,37 @@ function SearchForm() {
 
 
 
-    const productURL = process.env.NEXT_PUBLIC_PRODUCT_URL || '';  
-    const productToken = process.env.NEXT_PUBLIC_PRODUCT_TOKEN || '';  
-
+    
     const [data, setData] = useState(null);  
     const [loading, setLoading] = useState(true);  
     const [error, setError] = useState(null);  
 
+  
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(productURL, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${productToken}`,  
-                        'konjac-version': '1.0.1', 
-                    },
-                });
+        const fetchProducts = async () => {
+            setLoading(true);
+            setError(null);
 
+            try {
+                const response = await fetch(
+                    `https://essentialkonjacskinfoods.com/api/v1/en/shop/0/0/0/0/5000/false/false/true/undefined/`
+                );
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error(`Error: ${response.status} ${response.statusText}`);
                 }
 
-                const result = await response.json();
-                // Assuming the response has a 'products' field (adjust if needed)
-                setData(result.products || result);  // Adjust if the structure is different
-            } catch (error) {
-                setError(error.message);
+                const data = await response.json();
+                setData(data)
+               
+            } catch (err) {
+                setError(err instanceof Error ? err.message : 'An unknown error occurred');
             } finally {
                 setLoading(false);
             }
         };
 
-        if (productURL && productToken) {
-            fetchData();
-        }
-    }, [productURL, productToken]);  // Only re-run if the URL or token changes
-
-    
+        fetchProducts();
+    }, []); 
 
 
 
@@ -71,8 +62,7 @@ function SearchForm() {
 
 
 
-
-    const products = data?.data || [];
+    const products = data?.data?.products || [];
 
     const filterActiveProducts = (products) => products?.filter(item => !item?.status) || [];
 
@@ -96,29 +86,26 @@ function SearchForm() {
     }, [router.query.slug])
     
 
- 
     useEffect(() => {
         if (search.length > 2) {
-          if (timerRef.current) {
-            clearTimeout(timerRef.current);
-          }
-          
-          timerRef.current = setTimeout(() => {
-            const results = getFilteredResults(search);
-            setFilteredResults(results);
-          }, 50);
+            if (timerRef.current) {
+                clearTimeout(timerRef.current);
+            }
+            timerRef.current = setTimeout(() => {
+                const results = getFilteredResults(search);
+                setFilteredResults(results);
+            }, 50);
         } else {
-          setFilteredResults([]); // Clear results if search term is too short
+            setFilteredResults([]);
         }
     
-        // Clean up the timer when the component is unmounted or when search changes
         return () => {
-          if (timerRef.current) {
-            clearTimeout(timerRef.current);
-          }
+            if (timerRef.current) {
+                clearTimeout(timerRef.current);
+            }
         };
-      }, [search]); 
-
+    }, [search, products]); // Add `products` dependency
+    
 
     useEffect(() => {
         document.querySelector('.header-search.show-results') && document.querySelector('.header-search.show-results').classList.remove('show-results');
@@ -232,7 +219,7 @@ function SearchForm() {
 
                         <ALink href={`/product/${product?.id}`} className="autocomplete-suggestion" key={`search-result-${index}`}>
                             <LazyLoadImage  src={`${PRODUCT_IMAGE_BASEURL}/products/${product.image}`} width={40} height={40} alt="product" />
-                            <div className="search-name" dangerouslySetInnerHTML={removeXSSAttacks(matchEmphasize(product.name))}></div>
+                            <div className="search-name" dangerouslySetInnerHTML={removeXSSAttacks(matchEmphasize(product?.name))}></div>
                             <span className="search-price">
 
 
