@@ -39,7 +39,7 @@ function Aesthetics({ type = "left",itemsPerRow = 3,}): JSX.Element {
             try {
                 const response = await fetch(process.env.NEXT_PUBLIC_CLINIC_URL as string, {
                     headers: {
-                        // Authorization: `Bearer ${process.env.NEXT_PUBLIC_CLINIC_TOKEN}`,
+                        
                         'konjac-version': '1.0.1',
                     },
                 });

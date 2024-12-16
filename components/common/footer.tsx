@@ -38,15 +38,15 @@ const Footer: React.FC = () => {
                             <div className="widget">
                                 <h4 className="widget-title">My Account</h4>
                                 <ul className="widget-body">
-                                    <li><ALink href="/pages/about-us/">About</ALink></li>
-                                    <li><ALink href="/pages/faqs">FAQs</ALink></li>
-                                    <li><ALink href="/shop/">Categories</ALink></li>
+                                    <li><ALink href="/about-us/">About</ALink></li>
+                                    <li><ALink href="/faqs/">FAQs</ALink></li>
+                                    <li><ALink href="/aesthetics/">Aesthetics</ALink></li>
                                     <li><ALink href="/shop/">Shop</ALink></li>
-                                    <li><ALink href="#">Cart</ALink></li>
-                                    <li><ALink href="#">Checkout</ALink></li>
-                                    <li><ALink href="/pages/faqs">Privacy Policy</ALink></li>
-                                    <li><ALink href="/pages/about-us/">Terms and Condition</ALink></li>
-                                    <li><ALink href="/pages/contact-us">Contact Us</ALink></li>
+                                    <li><ALink href="/pages/cart/">Cart</ALink></li>
+                                    <li><ALink href="/blog-posts/">Blogs</ALink></li>
+                                    <li><ALink href="/elements/instagrams/">Instagram</ALink></li>
+                                    <li><ALink href="/elements/youtube/">Youtube</ALink></li>
+                                    <li><ALink href="/contact-us/">Contact Us</ALink></li>
                                 </ul>
                             </div>
                         </div>

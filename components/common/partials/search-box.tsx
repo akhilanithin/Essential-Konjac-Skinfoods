@@ -83,7 +83,7 @@ function SearchForm() {
 
     useEffect(() => {
         setSearch("");
-    }, [router.query.slug])
+    }, [router?.query?.slug])
     
 
     useEffect(() => {

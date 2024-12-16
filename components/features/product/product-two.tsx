@@ -97,85 +97,20 @@ const ProductTwo: React.FC<ProductTwoProps> = ({
         addToCart({ ...product, qty: 1, price: basePrice });
     };
 
-    // const renderCategories = () => {
-    //     if (!product.category) return null;
-    //     const categories = Array.isArray(product.category) ? product.category : [product.category];
-    //     return categories.map((item, index) => (
-    //         <React.Fragment key={`${item.name}-${index}`}>
-    //             <ALink href={{ pathname: '/shop', query: { category: item.name } }}>
-    //                 {item.name}
-    //                 {index < categories.length - 1 ? ', ' : ""}
-    //             </ALink>
-    //         </React.Fragment>
-    //     ));
-    // };
-
-
-    const [category, setCategory] = useState<null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<Error | null>(null);
-
-
-
-    useEffect(() => {
-        const fetchProducts = async () => {
-            setLoading(true);
-            setError(null);
-            try {
-                const response = await fetch(`https://api.eksfc.com/api/categories?page=1&limit=100&sortField=id&sortOrder=DESC&filterName=status&filterValue=0`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_PRODUCT_TOKEN}`,
-                        'konjac-version': '1.0.1'
-                    }
-                });
-
-                if (!response.ok) throw new Error('Failed to fetch products');
-
-                const data= await response.json();
-                const filteredData = data.data.filter(product => product?.status === 0); // Filter active products
-                setCategory(filteredData );
-                setLoading(false);                            
-            } catch (err) {
-                // console.error(err);
-                setError(err.message || 'An error occurred while fetching products. Please try again later.');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchProducts();
-    }, []);
-
-
-
-// console.log(product);
-
-
-
-const renderCategories = () => {
-    if (!product?.c_id) return null; // Ensure `product.c_id` exists
-    const categoriesArray = Array.isArray(category) ? category : [category]; 
-
-    const matchedCategory = categoriesArray.find(cat => cat?.id === product?.c_id); 
-    const categoryName = matchedCategory ? matchedCategory.name : "Category Not Found";
-
-    // console.log(categoryName.replace(/\+/g, "-").toLowerCase());
-    
-
-    // Render category name as a link
-    return (
-        <React.Fragment key={`category-${product?.c_id}`}>
-            {matchedCategory ? (
-                <ALink href={{ pathname: '/shop', query: { category: categoryName } }}>
-                    {categoryName}
+    const renderCategories = () => {
+        if (!product.category) return null;
+        const categories = Array.isArray(product.category) ? product.category : [product.category];
+        return categories.map((item, index) => (
+            <React.Fragment key={`${item.name}-${index}`}>
+                <ALink href={{ pathname: '/shop', query: { category: item.name } }}>
+                    {item.name}
+                    {index < categories.length - 1 ? ', ' : ""}
                 </ALink>
-            ) : (
-                "Category Not Found"
-            )}
-        </React.Fragment>
-    );
-};
+            </React.Fragment>
+        ));
+    };
+
+
 
 
 
@@ -254,7 +189,7 @@ const renderCategories = () => {
 
                 <div className="product-action">
                     <ALink
-                        href=""
+                        href="#"
                         className="btn-product btn-quickview"
                         title="Quick View"
                         onClick={showQuickviewHandler}
@@ -262,6 +197,11 @@ const renderCategories = () => {
                         Quick View
                     </ALink>
                 </div>
+
+
+
+
+
             </figure>
 
             <div className="product-details">

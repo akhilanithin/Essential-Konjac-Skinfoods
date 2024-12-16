@@ -67,7 +67,7 @@ const StickyFooter: React.FC = () => {
             </ALink>
             <ALink href="/shop" className="sticky-link">
                 <i className="d-icon-volume"></i>
-                <span>Categories</span>
+                <span>Shop</span>
             </ALink>
             <ALink href="/pages/wishlist" className="sticky-link">
                 <i className="d-icon-heart"></i>

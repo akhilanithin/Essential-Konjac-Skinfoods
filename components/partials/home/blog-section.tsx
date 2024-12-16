@@ -47,7 +47,7 @@ const BlogSection: React.FC = () => {
         fetchData();
     }, [url]);
 
-    console.log(posts);
+    // console.log(posts);
     
 
     if (loading) return <p>Loading...</p>;

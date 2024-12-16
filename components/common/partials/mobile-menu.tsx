@@ -81,7 +81,8 @@ function MobileMenu() {
             </ALink>
 
             <div className="mobile-menu-container scrollable">
-                <form action="#" className="input-wrapper" onSubmit={onSubmitSearchForm}>
+
+                {/* <form action="#" className="input-wrapper" onSubmit={onSubmitSearchForm}>
                     <input
                         type="text"
                         className="form-control"
@@ -95,7 +96,12 @@ function MobileMenu() {
                     <button className="btn btn-search" type="submit">
                         <i className="d-icon-search"></i>
                     </button>
-                </form>
+                </form> */}
+
+
+
+
+                
 
                 <ul className="mobile-menu mmenu-anim">
 
