@@ -160,6 +160,8 @@ const SidebarFilterTwo: React.FC = () => {
           </div>
 
           <div className="row cols-lg-4">
+
+            
             {/* Category */}
             <div className="widget">
               <h3 className="widget-title border-no">Category</h3>
@@ -179,8 +181,8 @@ const SidebarFilterTwo: React.FC = () => {
                       query: {
                         ...query,
                         page: 1,
-                        category: null, // Clear the category filter to show all items
-                        categoryId: '', // Set categoryId to '' to show all items
+                        category: null, 
+                        categoryId: '', 
                         type: router.query.type || null,
                       },
                     }}
@@ -192,13 +194,13 @@ const SidebarFilterTwo: React.FC = () => {
 
                 {/* Render categories dynamically */}
                 {category?.map((item, index) => {
-                  const isSelected = query?.category === item?.name; // Check if the current category is selected
-                  const isAnySelected = !!query?.category; // Check if any category is selected
+                  const isSelected = query?.category === item?.name; 
+                  const isAnySelected = !!query?.category;
 
                   return (
                     <li
                       key={`${item?.name}-${index}`}
-                      className={isSelected ? 'active' : isAnySelected ? 'disabled' : ''} // Only the active category gets the "active" class
+                      className={isSelected ? 'active' : isAnySelected ? 'disabled' : ''} 
                     >
                       <ALink
                         href={{
@@ -206,8 +208,8 @@ const SidebarFilterTwo: React.FC = () => {
                           query: {
                             ...query,
                             page: 1,
-                            category: isSelected ? null : item?.name, // Toggle the active category on click
-                            categoryId: isSelected ? '' : item?.id.toString(), // Toggle categoryId to '' when deselected
+                            category: isSelected ? null : item?.name, 
+                            categoryId: isSelected ? '' : item?.id.toString(), 
                             type: router.query.type || null,
                           },
                         }}
@@ -220,6 +222,8 @@ const SidebarFilterTwo: React.FC = () => {
                 })}
               </ul>
             </div>
+
+
 
             {/* Price */}
             <div className="widget price-with-count">

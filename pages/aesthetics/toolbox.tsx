@@ -24,7 +24,7 @@ const ToolBox: React.FC<ToolBoxProps> = ({ sortBy, postsPerPage, onSortChange, o
         }
     };
 
-    console.log(sortBy);
+
     
     return (
         <nav className="toolbox sticky-toolbox sticky-content fix-top">

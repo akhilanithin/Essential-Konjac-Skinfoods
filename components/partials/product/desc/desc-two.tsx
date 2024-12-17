@@ -91,14 +91,7 @@ const DescTwo: React.FC<DescTwoProps> = ({ product, adClass = '' }) => {
 
 
 
-    const review = Array.isArray(products.review) ? products.review : [products.review];
-    const calculateAverageRating = () => {
-        const reviews = Array.isArray(products.review) ? products.review : [products.review];
-        const totalRating = reviews.reduce((sum, review) => sum + (review?.star || 0), 0);
-        return totalRating / reviews.length;
-    };
 
-    const averageRating = calculateAverageRating();
 
 
    

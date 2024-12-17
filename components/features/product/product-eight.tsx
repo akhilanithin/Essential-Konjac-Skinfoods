@@ -80,6 +80,8 @@ const ProductEight: React.FC<ProductEightProps> = (props) => {
 
 
     const categories = Array.isArray(product.category) ? product.category : [product.category];
+
+    
     
 
     const review = Array.isArray(product.review) ? product.review : [product.review];
@@ -150,7 +152,7 @@ const ProductEight: React.FC<ProductEightProps> = (props) => {
                 <div className="product-cat">
                 {categories?.map((item, index) => (
                             <React.Fragment key={index}>
-                                <ALink href={{ pathname: '/shop', query: { category: item?.name.toLowerCase().replace(/\s+/g, '-') } }}>
+                                <ALink href='#'>
                                     {item?.name}
                                 </ALink>
                             </React.Fragment>
@@ -174,19 +176,18 @@ const ProductEight: React.FC<ProductEightProps> = (props) => {
 
                 <div className="ratings-container">
                 <div className="ratings-full">
-                        {review.length > 0 && (
-                            <span className="ratings" style={{ width: `${20 * averageRating}%` }}></span>
-                        )}
-                        {/* <span className="tooltiptext tooltip-top">{averageRating.toFixed(1)}</span> */}
-
-                             <span className="tooltiptext tooltip-top"> {averageRating ? toDecimal(averageRating) : 0}</span>
-                    </div>
+                     {review.length > 0 && (
+                                                <span className="ratings" style={{ width: 20 * averageRating + '%' }}></span>
+                                            )}
+                                     
+                                            <span className="tooltiptext tooltip-top">{toDecimal(averageRating)}</span>
+                                        </div>
                     
-                    {/* {review?.length > 0 && (
-                        <ALink href={`/product/${product?.id}`} className="rating-reviews">
-                            ({review?.length} {review.length > 1 ? '' : ''})
+                    {review.length > 0 && (
+                        <ALink href={`/product/${product.id}`} className="rating-reviews">
+                            ({review?.length} reviews)
                         </ALink>
-                    )} */}
+                    )}
                 </div>
 
                 <p className="product-short-desc">{product?.description}</p>

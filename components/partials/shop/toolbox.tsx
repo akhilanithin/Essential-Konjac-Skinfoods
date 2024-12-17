@@ -107,15 +107,17 @@ const ToolBox: React.FC<ToolBoxProps> = ({ type = "left" }) => {
                     {type === "boxed" || type === "banner" && <label>Sort By :</label>}
                     <select name="orderby" className="form-control" defaultValue={sortBy} onChange={e => onChangeAttri(e, 'sortby')}>
                         <option value="default">Default</option>
-                        <option value="popularity">Most Popular</option>
-                        <option value="rating">Average rating</option>
-                        <option value="date">Latest</option>
-                        <option value="price-low">Sort forward price low</option>
-                        <option value="price-high">Sort forward price high</option>
+                        {/* <option value="popularity">Most Popular</option> */}
+                        {/* <option value="rating">Average rating</option> */}
+                        {/* <option value="date">Latest</option> */}
+                        <option value="price-low">Price low to High</option>
+                        <option value="price-high"> Price high to Low</option>
                         <option value="">Clear custom sort</option>
                     </select>
                 </div>
             </div>
+
+           
 
 
 

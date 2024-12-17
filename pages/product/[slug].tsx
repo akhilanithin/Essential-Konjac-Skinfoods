@@ -90,10 +90,10 @@ function ProductMasonry() {
 
         <main className="main mt-6 single-product">
             <Helmet>
-                <title>Product Masonry</title>
+                <title>Product Description</title>
             </Helmet>
 
-            <h1 className="d-none">Product Masonry</h1>
+            <h1 className="d-none">Product Description</h1>
 
             {
                 product !== undefined ?

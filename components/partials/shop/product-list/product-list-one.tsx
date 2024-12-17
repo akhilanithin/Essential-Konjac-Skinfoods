@@ -24,8 +24,6 @@ function ProductListOne({ itemsPerRow = 3, type = "left", isToolbox = true }: Pr
     const { query } = router;
 
 
- console.log(query?.brandID);
- 
    
   
     const [products, setProducts] = useState<Product[]>([]);
@@ -45,6 +43,13 @@ function ProductListOne({ itemsPerRow = 3, type = "left", isToolbox = true }: Pr
    const maximumPrice=query?.max_price ?query?.max_price  : 5000;
    const brandID=query?.brandID ?query?.brandID  : 0;
 
+   
+
+
+
+
+   const sortby = query?.sortby === "price-low" ? true : query?.sortby === "price-high" ? false : true;
+
 
 
 
@@ -55,7 +60,7 @@ function ProductListOne({ itemsPerRow = 3, type = "left", isToolbox = true }: Pr
 
             try {
                 const response = await fetch(
-                    `https://essentialkonjacskinfoods.com/api/v1/en/shop/${categoryId}/${brandID}/${page}/${minimumPrice}/${maximumPrice}/false/false/true/${query?.search || 'undefined'}/`
+                    `https://essentialkonjacskinfoods.com/api/v1/en/shop/${categoryId}/${brandID}/${page}/${minimumPrice}/${maximumPrice}/false/false/${sortby}/${query?.search || 'undefined'}/`
                 );
 
                 if (!response.ok) {
@@ -64,9 +69,11 @@ function ProductListOne({ itemsPerRow = 3, type = "left", isToolbox = true }: Pr
 
                 const data = await response.json();
        
-                
+            
                 setProducts(data?.data?.products || []);
                 setTotalProducts(data?.data?.prodCount || 0);
+              
+                
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'An unknown error occurred');
             } finally {
@@ -75,7 +82,7 @@ function ProductListOne({ itemsPerRow = 3, type = "left", isToolbox = true }: Pr
         };
 
         fetchProducts();
-    }, [categoryId,brandID,page,minimumPrice,maximumPrice,query.search, query.filterId,]); 
+    }, [categoryId,brandID,page,minimumPrice,maximumPrice,sortby,query.search, query.filterId,]); 
 
     // const handlePageChange = (newPage: number) => {
     //     setPage(newPage);
@@ -93,6 +100,7 @@ function ProductListOne({ itemsPerRow = 3, type = "left", isToolbox = true }: Pr
         7: "cols-2 cols-sm-3 cols-md-4 cols-lg-5 cols-xl-7",
         8: "cols-2 cols-sm-3 cols-md-4 cols-lg-5 cols-xl-8"
     };
+
 
 
 

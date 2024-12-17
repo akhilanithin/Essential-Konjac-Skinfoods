@@ -56,6 +56,7 @@ const ProductTwo: React.FC<ProductTwoProps> = ({
     const [isHovered, setIsHovered] = useState(false);
 
     const router = useRouter();
+    const query = router.query;
 
     const variations = Array.isArray(product.variation) ? product.variation : [product.variation];
     const getDiscounts = () => variations.flatMap(variation => variation?.offers || []);
@@ -97,34 +98,64 @@ const ProductTwo: React.FC<ProductTwoProps> = ({
         addToCart({ ...product, qty: 1, price: basePrice });
     };
 
+    // const renderCategories = () => {
+    //     if (!product.category) return null;
+    //     const categories = Array.isArray(product.category) ? product.category : [product.category];
+     
+    //     return categories.map((item, index) => (
+            
+    //         <React.Fragment key={`${item.name}-${index}`}>
+    //             <ALink href={{ pathname: '/shop', query: {   ...query, page: 1, category: item?.name,   categoryId:  item?.id } }}>
+    //                 {item?.name}
+    //                 {index < categories.length - 1 ? ', ' : ""}
+    //             </ALink>
+    //         </React.Fragment>
+    //     ));
+    // };
+
+
+
     const renderCategories = () => {
         if (!product.category) return null;
         const categories = Array.isArray(product.category) ? product.category : [product.category];
+     
         return categories.map((item, index) => (
+            
             <React.Fragment key={`${item.name}-${index}`}>
-                <ALink href={{ pathname: '/shop', query: { category: item.name } }}>
-                    {item.name}
-                    {index < categories.length - 1 ? ', ' : ""}
+                <ALink href='#'>
+                    {item?.name}
+                    
                 </ALink>
             </React.Fragment>
         ));
     };
 
 
+    
 
-
-
+   
 
     const calculateAverageRating = () => {
         const reviews = Array.isArray(product.review) ? product.review : [product.review];
-        const totalRating = reviews.reduce((sum, review) => sum + review?.star, 0);
+        
+      
+        if (reviews.length === 0 || reviews.every(review => review?.star === 0)) {
+            return 0;
+        }
+        
+        const totalRating = reviews.reduce((sum, review) => sum + (review?.star || 0), 0);
         return totalRating / reviews.length;
     };
+    
 
     const averageRating = calculateAverageRating();
+
+
+    
     const review = Array.isArray(product.review) ? product.review : [product.review];
 
     
+
 
 
 
@@ -227,12 +258,23 @@ const ProductTwo: React.FC<ProductTwoProps> = ({
                 </div>
 
                 <div className="ratings-container">
-                    <div className="ratings-full">
+                    {/* <div className="ratings-full">
                         {review.length > 0 && (
                             <span className="ratings" style={{ width: 20 * averageRating + '%' }}></span>
                         )}
                         <span className="tooltiptext tooltip-top">{averageRating.toFixed(1)}</span>
+                    </div> */}
+
+
+                    <div className="ratings-full">
+
+                    {review.length > 0 && (
+                            <span className="ratings" style={{ width: 20 * averageRating + '%' }}></span>
+                        )}
+                 
+                        <span className="tooltiptext tooltip-top">{toDecimal(averageRating)}</span>
                     </div>
+
 
                     {review.length > 0 && (
                         <ALink href={`/product/${product.id}`} className="rating-reviews">
