@@ -45,6 +45,7 @@ const Buttons: React.FC = () => {
                                     </div>
                                 ))}
                             </div>
+                            
                         </div>
 
                         <div className="row">

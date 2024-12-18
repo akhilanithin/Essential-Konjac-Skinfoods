@@ -142,6 +142,7 @@ const DescTwo: React.FC<DescTwoProps> = ({ product, adClass = '' }) => {
 
                             </p>
                         </li>
+                        
                         <br />
 
 
@@ -150,21 +151,6 @@ const DescTwo: React.FC<DescTwoProps> = ({ product, adClass = '' }) => {
 
 
 
-                        {/* colors */}
-
-                        {products?.variation[0]?.colors?.length > 0 && (
-                            <li>
-                                <label>Color:</label>
-                                <p>
-                                    {products?.variation[0]?.colors?.map((item, index) => (
-                                        <React.Fragment key={`${item?.name}-${index}`}>
-                                            {item?.name}
-                                            {index < products?.variation[0]?.colors.length - 1 ? ', ' : ''}
-                                        </React.Fragment>
-                                    ))}
-                                </p>
-                            </li>
-                        )}
 
                     </ul>
 

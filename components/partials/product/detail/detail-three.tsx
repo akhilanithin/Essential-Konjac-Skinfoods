@@ -183,8 +183,20 @@ const DetailOne: React.FC<ProductProps> = (props) => {
     const averageRating = calculateAverageRating();
 
 
+console.log(product?.variation[0]?.stock);
 
-    // console.log(product?.variation[0]?.stock);
+
+    const toggleColorHandler = ( color ) => {
+        if ( !isDisabled( color.name, curSize ) ) {
+            if ( curColor === color.name ) {
+                setCurColor( 'null' );
+            } else {
+                setCurColor( color.name );
+            }
+        }
+    }
+
+    console.log(product?.variation);
     
 
 
@@ -207,25 +219,52 @@ const DetailOne: React.FC<ProductProps> = (props) => {
 
             <h2 className="product-name">{product?.name}</h2>
 
-            <div className='product-meta'>
 
-                SKU: <span className='product-sku'>{product?.data?.sku}</span>
+{/* Status */}
+
+            <div className="wishlist-table">
+
+                <span className="product-stock-status">
+                    <span className={product?.variation[0]?.stock > 0 ? 'wishlist-in-stock' : 'wishlist-out-stock'}>
+                        {product?.variation[0]?.stock > 0 ? 'In Stock' : 'Out of Stock'}
+                    </span>
+                </span>
+
+            </div>
+
+
+            <div className='product-meta'>
+                {/* SKU: <span className='product-sku'>{product?.data?.sku}</span> */}
 
 
 
 {/* Categories */}
 
                 CATEGORIES: <span className='product-brand'>
-                   
-                        <React.Fragment key={`${product?.category?.name}`}>
-                            <ALink href={{ pathname: '/shop', query: { category: product?.category?.name } }}>
+
+                    <React.Fragment key={`${product?.category?.name}`}>
+                        {/* <ALink href={{ pathname: '/shop', query: { category: product?.category?.name } }}>
                                 {product?.category?.name}
-                            </ALink>
-                            {product?.category?.id < product?.category?.length - 1 ? ', ' : ''}
-                        </React.Fragment>
-                
+                            </ALink> */}
+                        {product?.category?.name}
+                        {product?.category?.id < product?.category?.length - 1 ? ', ' : ''}
+                    </React.Fragment>
+
                 </span>
 
+
+           
+           
+            
+                    BRAND:<span className='product-brand'>
+                        <React.Fragment key={`${product?.brand?.id}`}>
+                            {product?.brand?.name}
+
+                            {product?.brand?.id < product?.brand?.length - 1 ? ', ' : ''}
+                        </React.Fragment>
+                        </span>
+                 
+             
             </div>
 
 
@@ -276,79 +315,42 @@ const DetailOne: React.FC<ProductProps> = (props) => {
             <p className="product-short-desc">{product?.description}</p>
 
 
-{/* Size & Color */}
+{/* variations */}
+
+            <hr className="product-divider" />
 
 
-{/* 
-            {
-                product && product.data.variants.length > 0 ?
-                    <>
-                        {
-                            product.data.variants[0].color ?
-                                <div className='product-form product-color'>
-                                    <label>Color:</label>
+            <div className="row">
 
-                                    <div className="product-variations">
-                                        {
-                                            colors.map(item =>
-                                                <ALink href="#" className={`color ${curColor === item.name ? 'active' : ''} ${isDisabled(item.name, curSize) ? 'disabled' : ''}`} key={"color-" + item.name} style={{ backgroundColor: `${item.value}` }} onClick={(e) => toggleColorHandler(item)}></ALink>)
-                                        }
-                                    </div>
-                                </div> : ''
-                        }
-
-                        {
-                            product.data.variants[0].size ?
-                                <div className='product-form product-size mb-0 pb-2'>
-                                    <label>Size:</label>
-
-                                    <div className="product-form-group">
-                                        <div className="product-variations">
-                                            {
-                                                sizes.map(item =>
-                                                    <ALink href="#" className={`size ${curSize === item.name ? 'active' : ''} ${isDisabled(curColor, item.name) ? 'disabled' : ''}`} key={"size-" + item.name} onClick={(e) => toggleSizeHandler(item)}>{item.value}</ALink>)
-                                            }
-                                        </div>
-
-                                        <Collapse in={'null' !== curColor || 'null' !== curSize}>
-                                            <div className="card-wrapper overflow-hidden reset-value-button w-100 mb-0">
-                                                <ALink href='#' className='product-variation-clean' onClick={resetValueHandler}>Clean All</ALink>
-                                            </div>
-                                        </Collapse>
-                                    </div>
-                                </div> : ''
-                        }
-
-                        <div className='product-variation-price'>
-                            <Collapse in={cartActive && curIndex > -1}>
-                                <div className="card-wrapper">
-                                    {
-                                        curIndex > -1 ?
-                                            <div className="single-product-price">
-                                                {
-                                                    product.data.variants[curIndex].price ?
-                                                        product.data.variants[curIndex].sale_price ?
-                                                            <div className="product-price mb-0">
-                                                                <ins className="new-price">${toDecimal(product.data.variants[curIndex].sale_price)}</ins>
-                                                                <del className="old-price">${toDecimal(product.data.variants[curIndex].price)}</del>
-                                                            </div>
-                                                            : <div className="product-price mb-0">
-                                                                <ins className="new-price">${toDecimal(product.data.variants[curIndex].price)}</ins>
-                                                            </div>
-                                                        : ""
-                                                }
-                                            </div> : ''
-                                    }
-                                </div>
-                            </Collapse>
+                <div className="row">
+                    {product?.variation?.length > 1 ? (
+                        product?.variation.map((variation, index) => (
+                            <div className="col-6 col-sm-4 col-md-3 col-lg-2" key={index}>
+                                <ALink
+                                    href="#"
+                                    className="btn btn-primary btn-block"
+                                    style={{ padding: "1rem", fontSize: "1rem", borderRadius: "2rem" }}
+                                >
+                                    {variation?.name}
+                                </ALink>
+                            </div>
+                        ))
+                    ) : (
+                        <div className="col-6 col-sm-4 col-md-3 col-lg-2">
+                            VARIATIONS: <span className='product-brand'></span>
+                            <ALink
+                                href="#"
+                                className="btn btn-primary btn-block"
+                                style={{ padding: "1rem", fontSize: "1.3rem", borderRadius: "2rem" }}
+                            >
+                                {product?.variation[0]?.name}
+                            </ALink>
                         </div>
-
-                    </>
-                    : ''
-            } */}
+                    )}
+                </div>
 
 
-
+            </div>
 
 
 
@@ -356,10 +358,27 @@ const DetailOne: React.FC<ProductProps> = (props) => {
 
 
 
+            
+        
 
+{/* color */}
 
+            <hr className="product-divider" />
+            {
+                product?.variation[0]?.colors?.length > 0 ?
+                    <div className='product-form product-color'>
+                        <label>Color:</label>
 
-
+                        <div className="product-variations">
+                            {
+                                product?.variation[0]?.colors?.map(item =>
+                                    <ALink href="#" className={`color ${curColor === item?.name ? 'active' : ''} `} key={"color-" + item?.id} style={{ backgroundColor: `${item?.name}`,width:'3rem' }} onClick={(e) => toggleColorHandler(item)}></ALink>)
+                            }
+                        </div>
+                    </div> : ''
+            }
+     
+                     
 
 
 
@@ -380,11 +399,25 @@ const DetailOne: React.FC<ProductProps> = (props) => {
                     <Quantity max={product?.variation[0]?.stock} product={product} onChangeQty={changeQty} />
 
                     {/* Add to cart */}
-                    <button className={`btn-product btn-cart text-normal ls-normal font-weight-semi-bold $`} onClick={addToCartHandler}>
+                    {/* <button className={`btn-product btn-cart text-normal ls-normal font-weight-semi-bold $`} onClick={addToCartHandler}>
                         <i className='d-icon-bag'></i>Add to Cart
-                    </button>
-                    
+                    </button> */}
+
+                    {/* Add to Cart */}
+
+<button
+    className={`btn-product btn-cart text-normal ls-normal font-weight-semi-bold ${product?.variation[0]?.colors?.length > 1  ? 'disabled' : ''}`}
+    onClick={addToCartHandler}
+    disabled={product?.variation[0]?.colors?.length > 1 }
+>
+    <i className='d-icon-bag'></i> Add to Cart
+</button>
+
+
+
                 </div>
+
+
             </div>
 
 

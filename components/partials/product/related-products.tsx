@@ -25,7 +25,7 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({ products, adClass = "
     return (
         products?.variation?.length > 1 ? (
             <section className={`${adClass}`}>
-                <h2 className="title justify-content-center">Related Products</h2>
+                <h2 className="title justify-content-center">VARIATIONS</h2>
 
                 <OwlCarousel adClass="owl-carousel owl-theme owl-nav-full" options={mainSlider17}>
                     {
