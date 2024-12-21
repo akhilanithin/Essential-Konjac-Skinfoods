@@ -14,10 +14,13 @@ interface MediaLightBoxProps {
     isOpen: boolean;
     index: number;
     changeOpenState: (isOpen: boolean) => void;
+    filteredProduct: {
+        name: string;
+    };
 }
 
 const MediaLightBox: React.FC<MediaLightBoxProps> = (props) => {
-    const { images, product, isOpen: propIsOpen, index: propIndex, changeOpenState } = props;
+    const { images, product,filteredProduct, isOpen: propIsOpen, index: propIndex, changeOpenState } = props;
     const [isOpen, setOpenState] = useState(false);
     const [index, setIndex] = useState(0);
 
@@ -43,7 +46,9 @@ const MediaLightBox: React.FC<MediaLightBoxProps> = (props) => {
 
 
     
-    const lgImages = product?.variation[0]?.images ? product?.variation[0]?.images : product?.pictures;
+    // const lgImages = product?.variation[0]?.images ? product?.variation[0]?.images : product?.pictures;
+
+    const lgImages = filteredProduct[0]?.images ? filteredProduct[0]?.images : product?.variation[0]?.images;
 
 
     // console.log(lgImages[0]?.image);

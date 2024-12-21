@@ -50,6 +50,8 @@ function ProductMasonry() {
    
     const product=data?.data?.product
 
+    
+
 
 
 
@@ -109,7 +111,7 @@ function ProductMasonry() {
                                 </div>
                             </div>
 
-                            <RelatedProducts products={product} />
+                            {/* <RelatedProducts products={product} /> */}
                         </div>
                     </div> : ''
             }

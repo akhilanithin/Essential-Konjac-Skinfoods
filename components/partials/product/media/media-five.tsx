@@ -10,10 +10,14 @@ import MediaLightBox from '~/components/partials/product/light-box';
 import { mainSlider3 } from '~/utils/data/carousel';
 import products from '~/pages/elements/products';
 
+import { useRouter } from 'next/router';
+
 export default function MediaOne ( props ) {
     const { product, adClass = '' } = props;
 
 
+    const router = useRouter();
+    
   
     const [ index, setIndex ] = useState( 0 );
     const [ mediaIndex, setMediaIndex ] = useState( 0 );
@@ -24,8 +28,22 @@ export default function MediaOne ( props ) {
     //     window.location.pathname = process.env.NEXT_PUBLIC_ASSET_URI + '/pages/404';
     // }
 
+    const variationId=router.query.variationId
+    const ProductId=router.query.slug
 
-    const lgImages = product?.variation[0]?.images ? product?.variation[0]?.images : product?.pictures;
+  
+    
+    
+    
+    
+    const filteredProduct = product?.variation.filter(product => 
+        product.id === parseInt(variationId) && product.p_id === parseInt(ProductId)
+      );
+      
+     
+
+
+    const lgImages = filteredProduct[0]?.images ? filteredProduct[0]?.images : product?.variation[0]?.images;
 
 
     const PRODUCT_IMAGE_BASEURL = process.env.NEXT_PUBLIC_PRODUCT_IMAGE_BASEURL;
@@ -72,6 +90,15 @@ export default function MediaOne ( props ) {
         }
     }
 
+
+
+
+
+
+
+
+  
+    
     return (
         <div className={ `product-gallery product-gallery-vertical product-gallery-sticky ${ adClass }` }>
            <div className="product-label-group">
@@ -122,9 +149,9 @@ export default function MediaOne ( props ) {
 
             <ALink href="#" className="product-image-full" onClick={ openLightBox }><i className="d-icon-zoom"></i></ALink>
 
-            <ThumbTwo product={ product } index={ index } onChangeIndex={ setIndexHandler } />
+            <ThumbTwo product={ product } variationId={variationId} ProductId={ProductId} index={ index } onChangeIndex={ setIndexHandler } />
 
-            <MediaLightBox images={ lgImages } isOpen={ isOpen } changeOpenState={ changeOpenState } index={ index } product={ product } />
+            <MediaLightBox images={ lgImages }  isOpen={ isOpen } changeOpenState={ changeOpenState } index={ index } product={ product } filteredProduct={filteredProduct} />
         </div>
     )
 }

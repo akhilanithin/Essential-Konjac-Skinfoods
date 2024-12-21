@@ -13,8 +13,20 @@ interface ThumbTwoProps {
 }
 
 function ThumbTwo(props: ThumbTwoProps) {
-    const { product, index = 0 } = props;
-    const thumbs =product?.variation[0]?.images
+    const { product, index = 0 ,variationId,ProductId} = props;
+
+    const filteredProduct = product?.variation.filter(product => 
+        product.id === parseInt(variationId) && product.p_id === parseInt(ProductId)
+      );
+      
+
+    
+
+
+    
+    const thumbs =filteredProduct[0]?.images ? filteredProduct[0]?.images : product?.variation[0]?.images;
+
+    
 
     
 

@@ -40,6 +40,7 @@ const Wishlist: React.FC<Props> = ({ wishlist, addToCart, removeFromWishlist }) 
 
 
 
+
     
     const PRODUCT_IMAGE_BASEURL = process.env.NEXT_PUBLIC_PRODUCT_IMAGE_BASEURL;
 
@@ -124,7 +125,7 @@ const Wishlist: React.FC<Props> = ({ wishlist, addToCart, removeFromWishlist }) 
 
                                         {/* Product Image */}
                                         <td className="product-thumbnail">
-                                            <ALink href={'/product/' + item?.slug}>
+                                            <ALink href={'/product/' + item?.id}>
                                                 <figure>
                                                     <img src={`${PRODUCT_IMAGE_BASEURL}/products/${item?.image}`} width="100" height="100" alt="product" />
                                                 </figure>
@@ -133,7 +134,7 @@ const Wishlist: React.FC<Props> = ({ wishlist, addToCart, removeFromWishlist }) 
 
                                         {/* Product Name */}
                                         <td className="product-name">
-                                            <ALink href={'/product/' + item?.slug}>{item?.name}</ALink>
+                                            <ALink href={'/product/' + item?.id}>{item?.name}</ALink>
                                         </td>
 
                                         {/* Product Price  */}

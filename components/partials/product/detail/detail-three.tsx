@@ -15,6 +15,7 @@ import { cartActions } from '~/store/cart';
 
 import { toDecimal } from '~/utils';
 import { log } from 'console';
+import SlideToggle from 'react-slide-toggle';
 
 
 interface ProductVariant {
@@ -61,6 +62,10 @@ const DetailOne: React.FC<ProductProps> = (props) => {
 
 
     const router = useRouter();
+
+
+
+
     const { data, isSticky = false, isDesc = false, adClass = '' } = props;
 
     const { toggleWishlist, addToCart, wishlist } = props;
@@ -118,24 +123,39 @@ const DetailOne: React.FC<ProductProps> = (props) => {
 
 
     const getPrice = () => {
-        // Check if product has variations
+ 
         if (product.variation && product.variation.length > 0) {
             const variation = product.variation[0];
-            // Check if the variation has offers
+     
             if (variation.offers && variation.offers.length > 0) {
                 return variation.offers[0].price;
             }
             return variation.price;
         }
-        return 0; // or another default value
+        return 0; 
     };
+
+    const [selectedVariation, setSelectedVariation] = useState(null);
+    // const [curColor, setCurColor] = useState(null);
+  
+    const toggleVariationHandler = (variation) => {
+      setSelectedVariation(variation);
+      setCurColor(null); // Reset the color when a new variation is selected
+    };
+  
+  
+
+
+    // const addToCartHandler = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    //     e.preventDefault();
+    //     addToCart({ ...product, qty: 1, price: getPrice()});
+    // };
+
+
+
 
     
-    const addToCartHandler = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        e.preventDefault();
-        addToCart({ ...product, qty: 1, price: getPrice() });
-    };
-
+    
     const resetValueHandler = () => {
         setCurColor('null');
         setCurSize('null');
@@ -162,14 +182,51 @@ const DetailOne: React.FC<ProductProps> = (props) => {
 
 
 
+    // console.log(product?.variation[0]?.id);
 
-    const variations = Array.isArray(product?.variation) ? product?.variation : [product?.variation];
+    // const variationId=product?.variation[0]?.id
+
+    // console.log(router.query.variationId);]
+
+    
+    const variationId = router.query.variationId 
+    ? router.query.variationId 
+    : product?.variation?.[0]?.id;
+  
+  const filteredProduct = product?.variation?.filter(
+    variation =>
+      variation.id === parseInt(variationId, 10) &&
+      variation.p_id === parseInt(router.query.slug, 10)
+  );
+     
+    
+
+
+    const variations = Array.isArray(filteredProduct) ? filteredProduct : [filteredProduct];
     const discounts = variations.flatMap(variation => variation?.offers || []);
     const discount = discounts?.length > 0 ? discounts[0] : null;
     const discountValue = discount ? discount?.discount : 0;
     const discountPrice = discount ? discount?.price : null;
     const basePrice = variations[0]?.price || 0;
     const showDiscountedPrice = discountPrice && discountPrice < basePrice;
+
+
+
+    
+    const addToCartHandler = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        
+        const cartItem = { 
+            ...product, 
+            qty: 1, 
+            price: getPrice() 
+        };
+    
+    console.log(cartItem?.price);
+    
+        addToCart(cartItem);
+    };
+    
 
 
     const review = Array.isArray(product?.review) ? product.review : [product?.review];
@@ -183,7 +240,7 @@ const DetailOne: React.FC<ProductProps> = (props) => {
     const averageRating = calculateAverageRating();
 
 
-console.log(product?.variation[0]?.stock);
+
 
 
     const toggleColorHandler = ( color ) => {
@@ -196,9 +253,36 @@ console.log(product?.variation[0]?.stock);
         }
     }
 
-    console.log(product?.variation);
-    
 
+
+    // const [selectedVariation, setSelectedVariation] = useState(null);
+    // // const [curColor, setCurColor] = useState(null);
+  
+    // const toggleVariationHandler = (variation) => {
+    //   setSelectedVariation(variation);
+    //   setCurColor(null); // Reset the color when a new variation is selected
+    // };
+  
+  
+
+
+    const handleVariationClick = (variation) => {
+        toggleVariationHandler(variation);
+    
+        // Pass the selected variation's ID as a query parameter
+        router.push(
+          {
+            pathname: router.pathname,
+            query: {
+              ...router.query,
+              variationId: variation.id, 
+            },
+          },
+          undefined,
+          { shallow: !true } 
+        );
+      };
+    
 
     return (
         <div className={`product-details ${isSticky ? 'sticky' : ''} ${adClass}`}>
@@ -317,11 +401,12 @@ console.log(product?.variation[0]?.stock);
 
 {/* variations */}
 
-            <hr className="product-divider" />
+            {/* <hr className="product-divider" />
 
 
             <div className="row">
-
+            VARIATIONS: <span className='product-brand'></span>
+     <br />
                 <div className="row">
                     {product?.variation?.length > 1 ? (
                         product?.variation.map((variation, index) => (
@@ -351,7 +436,7 @@ console.log(product?.variation[0]?.stock);
 
 
             </div>
-
+ */}
 
 
 
@@ -363,7 +448,7 @@ console.log(product?.variation[0]?.stock);
 
 {/* color */}
 
-            <hr className="product-divider" />
+            {/* <hr className="product-divider" />
             {
                 product?.variation[0]?.colors?.length > 0 ?
                     <div className='product-form product-color'>
@@ -378,12 +463,77 @@ console.log(product?.variation[0]?.stock);
                     </div> : ''
             }
      
-                     
+                      */}
 
 
 
 
 
+
+<div>
+      {/* Variations */}
+
+
+      <hr className="product-divider" />
+
+
+{product?.variation?.length > 0 && product.variation[0].colors?.length > 1 && !selectedVariation && (
+      <SlideToggle expanded={true} >
+      {({ onToggle, setCollapsibleElement }) => (
+          <div ref={setCollapsibleElement} className="overflow-hidden">
+              <div className="alert alert-light alert-danger alert-icon alert-inline mb-4">
+  please select a variation & Color
+
+                  <button type="button" className="btn btn-link btn-close">
+                      <i className="d-icon-times" onClick={onToggle}></i>
+                  </button>
+              </div>
+          </div>
+      )}
+  </SlideToggle >
+
+)}
+      <div className="row">
+        <label>Variations:</label>
+        <div className="row">
+          {product?.variation?.map((variation, index) => (
+            <div
+              className="col-6 col-sm-4 col-md-3 col-lg-2"
+              key={index}
+             
+              onClick={() => handleVariationClick(variation)}
+            >
+              <ALink
+                href="#"
+                className={`btn btn-primary btn-block ${selectedVariation?.name === variation.name ? 'active' : ''}`}
+                style={{ padding: '1rem', fontSize: '1rem', borderRadius: '2rem' }}
+              >
+                {variation.name}
+              </ALink>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Colors */}
+      <hr className="product-divider" />
+      {selectedVariation?.colors?.length > 0 && (
+        <div className="product-form product-color">
+          <label>Color:</label>
+          <div className="product-variations">
+            {selectedVariation.colors.map((color) => (
+              <ALink
+                href="#"
+                className={`color ${curColor === color.name ? 'active' : ''}`}
+                key={`color-${color.id}`}
+                style={{ backgroundColor: color.name, width: '3rem' }}
+                onClick={() => toggleColorHandler(color)}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
 
 
 
@@ -399,19 +549,19 @@ console.log(product?.variation[0]?.stock);
                     <Quantity max={product?.variation[0]?.stock} product={product} onChangeQty={changeQty} />
 
                     {/* Add to cart */}
-                    {/* <button className={`btn-product btn-cart text-normal ls-normal font-weight-semi-bold $`} onClick={addToCartHandler}>
+                    <button className={`btn-product btn-cart text-normal ls-normal font-weight-semi-bold $`} onClick={addToCartHandler}>
                         <i className='d-icon-bag'></i>Add to Cart
-                    </button> */}
+                    </button>
 
                     {/* Add to Cart */}
 
-<button
+{/* <button
     className={`btn-product btn-cart text-normal ls-normal font-weight-semi-bold ${product?.variation[0]?.colors?.length > 1  ? 'disabled' : ''}`}
     onClick={addToCartHandler}
     disabled={product?.variation[0]?.colors?.length > 1 }
 >
     <i className='d-icon-bag'></i> Add to Cart
-</button>
+</button> */}
 
 
 

@@ -22,15 +22,21 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({ products, adClass = "
 
 
     
+    const productColorsLength = products?.variation?.map(variation => variation?.colors?.length);
+    const hasMultipleColors = productColorsLength?.some(length => length > 1);
+  
+  
+    
+    
     return (
-        products?.variation?.length > 1 ? (
+        products?.variation?.length > 1 && !hasMultipleColors? (
             <section className={`${adClass}`}>
                 <h2 className="title justify-content-center">VARIATIONS</h2>
 
                 <OwlCarousel adClass="owl-carousel owl-theme owl-nav-full" options={mainSlider17}>
                     {
                         products?.variation?.slice(0, 5).map((item, index) => (
-                            <ProductTwo product={item} key={`product-two-${index}`} adClass='text-center shadow-media' />
+                            <ProductTwo product={item}  key={`product-two-${index}`} adClass='text-center shadow-media' />
                         ))
                     }
                 </OwlCarousel>
