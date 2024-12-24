@@ -232,7 +232,7 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
                                                     {product ? product[0]?.name : []} <span>x1</span>
                                                 </a>
                                                 <br />
-                                                <span className="checkout-order__item-price">AED price</span>
+                                                <span className="checkout-order__item-price">AED{toDecimal(price)} </span>
                                             </Col>
                                         </Row>
                                     </Container>

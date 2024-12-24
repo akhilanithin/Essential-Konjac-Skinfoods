@@ -258,14 +258,6 @@ const ProductTwo: React.FC<ProductTwoProps> = ({
                 </div>
 
                 <div className="ratings-container">
-                    {/* <div className="ratings-full">
-                        {review.length > 0 && (
-                            <span className="ratings" style={{ width: 20 * averageRating + '%' }}></span>
-                        )}
-                        <span className="tooltiptext tooltip-top">{averageRating.toFixed(1)}</span>
-                    </div> */}
-
-
                     <div className="ratings-full">
 
                     {review.length > 0 && (

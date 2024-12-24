@@ -60,7 +60,8 @@ const ContactUs: React.FC = () => {
 
                                             <h4 className="mb-2 text-capitalize">Phone Number</h4>
                                             <p>
-                                                <ALink href="#">+971 4 385 6663</ALink><br />
+                                                <ALink href="#">+971 43856663</ALink><br />
+                                                <ALink href="#">+971 522000052</ALink><br />
 
                                             </p>
 

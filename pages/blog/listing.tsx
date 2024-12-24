@@ -61,6 +61,8 @@ function Listing(): JSX.Element {
     }, [query, getPosts, perPage, page, isFirst]); // Add dependencies
 
     return (
+
+        
         <main className="main skeleton-body">
             <Helmet>
                 <title>Blog Listing</title>

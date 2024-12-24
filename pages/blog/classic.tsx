@@ -15,6 +15,8 @@ import BlogSidebar from '~/components/partials/post/blog-sidebar';
 
 import { scrollTopHandler } from '~/utils';
 
+import axios from 'axios';
+
 interface Post {
     id: string; // Assuming there's an id field, adjust as necessary
     title: string;
@@ -31,36 +33,67 @@ interface PostsData {
 
 function Classic(): JSX.Element {
     const router = useRouter();
-    const [isFirst, setFirst] = useState<boolean>(true);
+ 
     const query = router.query;
     const showingCount = 8;
-    const [getPosts, { data, loading, error }] = useLazyQuery<PostsData>(GET_POSTS);
+  
     const [perPage, setPerPage] = useState<number>(showingCount);
-    const posts = data && data.posts.data;
-    const totalPage = data ? Math.ceil(data.posts.total / perPage) : 1;
-    const page = query.page ? Number(query.page) : 1;
 
-    useEffect(() => {
-        getPosts({
-            variables: {
-                category: query.category,
-                from: perPage * (page - 1),
-                to: perPage * page,
-            },
-        });
+ 
 
-        const timeoutId = setTimeout(() => {
-            if (isFirst) {
-                setFirst(false);
-            } else {
-                scrollTopHandler();
-            }
-        }, 100);
+ const [loading, setLoading] = useState(true);
 
-        return () => clearTimeout(timeoutId); // Cleanup timeout on unmount
-    }, [query, perPage, page]); // Add perPage and page to the dependency array
+     const [posts, setPosts] = useState<Post[]>([]);
+    const [error, setError] = useState<Error | null>(null);
+ 
+
+
+         
+
+    const fetchPosts = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get<PostsData>(
+                `https://api.eksfc.com/api/blogs/public?page=1&limit=1000&sortField=title&sortOrder=DESC`,
+                {
+                    headers: {
+                        'konjac-version': '1.0.1',
+                    },
+                }
+            );
+            setPosts(response?.data?.data);
+       
+      
+
+        
+        } catch (err) {
+            setError(err as Error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+  useEffect(() => {
+        fetchPosts();
+    }, []);
+
+
+
+const categories=query?.category
+
+const filteredItems = posts.filter(item =>item?.category?.name.toLowerCase()===categories);
+
+
+    
+    
+  
+   
+
+
+
 
     return (
+       
         <main className="main skeleton-body">
             <Helmet>
                 <title>Blog Classic</title>
@@ -90,8 +123,8 @@ function Classic(): JSX.Element {
                                                 <div className="skel-post"></div>
                                             </div>
                                         )) :
-                                        posts && posts.length ? 
-                                            posts.map((post, index) => (
+                                        filteredItems && filteredItems?.length? 
+                                        filteredItems.map((post, index) => (                
                                                 <React.Fragment key={"post-one" + index}>
                                                     <PostOne post={post} />
                                                 </React.Fragment>
@@ -100,7 +133,7 @@ function Classic(): JSX.Element {
                                 }
                             </div>
 
-                            <Pagination totalPage={totalPage} />
+                            {/* <Pagination totalPage={totalPage} /> */}
                         </div>
 
                         <BlogSidebar />

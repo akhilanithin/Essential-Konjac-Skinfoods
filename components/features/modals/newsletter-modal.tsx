@@ -54,37 +54,48 @@ const NewsletterModal: React.FC = () => {
 
     return (
         <Modal
-            isOpen={modalState}
-            style={modalStyles}
-            onRequestClose={closeModal}
-            shouldReturnFocusAfterClose={false}
-            overlayClassName="newsletter-modal-overlay"
-            className="newsletter-popup bg-img"
-        >
-            <div className="newsletter-popup" id="newsletter-popup" style={{ backgroundImage: "url(images/newsletter-popup.jpg)" }}>
-                <div className="newsletter-content">
-                    <h4 className="text-uppercase text-dark">Up to <span className="text-primary">20% Off</span></h4>
-                    <h2 className="font-weight-semi-bold">Sign up to <span>EKSFC</span></h2>
-                    <p className="text-grey">Subscribe to the EKSFC newsletter to receive timely updates from your favorite products.</p>
-                    <form action="#" method="get" className="input-wrapper input-wrapper-inline input-wrapper-round">
-                        <input type="email" className="form-control email" name="email" id="email2" placeholder="Email address here..." required />
-                        <button className="btn btn-dark" type="submit">SUBMIT</button>
-                    </form>
-                    <div className="form-checkbox justify-content-center">
-                        <input 
-                            type="checkbox" 
-                            checked={noMore} 
-                            className="custom-checkbox" 
-                            id="hide-newsletter-popup" 
-                            onChange={handleChange} 
-                            name="hide-newsletter-popup" 
-                        />
-                        <label htmlFor="hide-newsletter-popup">Don't show this popup again</label>
-                    </div>
+        isOpen={modalState}
+        style={modalStyles}
+        onRequestClose={closeModal}
+        shouldReturnFocusAfterClose={false}
+        overlayClassName="newsletter-modal-overlay"
+        className="newsletter-popup bg-img"
+    >
+        <div className="newsletter-popup" id="newsletter-popup">
+            {/* Background image as a separate <img> element */}
+            <img 
+                src="https://eksfc.com/assets/img/subscribe-img.png" 
+                alt="Newsletter Background" 
+                className="newsletter-popup-bg" 
+                
+            />
+            
+            <div className="newsletter-content">
+            {/* <h4 className="text-uppercase text-dark">Up to  */}
+                <span className="text-primary">30% OFF </span><span className="text-dark">On All Products Enter Code:
+                <span className="text-primary"> MC2024</span></span>
+                <h2 className="font-weight-semi-bold">Sign up to <span>EKSFC</span></h2>
+                <p className="text-grey">Subscribe to the EKSFC newsletter to receive timely updates from your favorite products.</p>
+                <form action="#" method="get" className="input-wrapper input-wrapper-inline input-wrapper-round">
+                    <input type="email" className="form-control email" name="email" id="email2" placeholder="Email address here..." required />
+                    <button className="btn btn-dark" type="submit">SUBMIT</button>
+                </form>
+                <div className="form-checkbox justify-content-center">
+                    <input 
+                        type="checkbox" 
+                        checked={noMore} 
+                        className="custom-checkbox" 
+                        id="hide-newsletter-popup" 
+                        onChange={handleChange} 
+                        name="hide-newsletter-popup" 
+                    />
+                    <label htmlFor="hide-newsletter-popup">Don't show this popup again</label>
                 </div>
-                <button title="Close (Esc)" type="button" className="mfp-close" onClick={closeModal}><span>×</span></button>
             </div>
-        </Modal>
+            <button title="Close (Esc)" type="button" className="mfp-close" onClick={closeModal}><span>×</span></button>
+        </div>
+    </Modal>
+    
     );
 };
 

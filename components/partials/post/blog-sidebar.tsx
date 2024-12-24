@@ -39,34 +39,7 @@ const BlogSidebar: React.FC = ({post}) => {
 
 
     const [loading, setLoading] = useState(true);
-    // const token = process.env.NEXT_PUBLIC_BLOG_TOKEN!;
-    // const [error, setError] = useState<Error | null>(null);
-    // const [category, setCategory] = useState([]);
 
-
-    // const fetchcategories = async () => {
-    //     setLoading(true);
-    //     try {
-    //         const response = await axios.get(
-    //             `https://api.eksfc.com/api/blog-categories?search=&count=5&page=1`,
-    //             {
-    //                 headers: {
-    //                     'Authorization': `Bearer ${token}`,
-    //                     'konjac-version': '1.0.1',
-    //                 },
-    //             }
-    //         );
-    //         setCategory(response?.data?.data);
-
-      
-            
-         
-    //     } catch (err) {
-    //         setError(err as Error);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
 
     useEffect(() => {
     
@@ -86,6 +59,12 @@ const BlogSidebar: React.FC = ({post}) => {
         document.querySelector('body')?.classList.remove('right-sidebar-active');
     };
 
+
+
+
+
+
+
     return (
       
         <div className="col-lg-3 right-sidebar sidebar-fixed sticky-sidebar-wrapper">
@@ -104,40 +83,6 @@ const BlogSidebar: React.FC = ({post}) => {
                     {
                         !loading ? (
                             <>
-
-                            {/* search box */}
-                                {/* <div className="widget widget-search border-no mb-2">
-
-                                    <form action="#" className="input-wrapper input-wrapper-inline btn-absolute">
-                                        <input type="text" className="form-control" name="search" autoComplete="off"
-                                            placeholder="Search in Blog" required />
-                                        <button className="btn btn-search btn-link" type="submit">
-                                            <i className="d-icon-search"></i>
-                                        </button>
-                                    </form>
-                                    
-                                </div> */}
-
-{/* categories */}
-                                {/* <div className="widget widget-collapsible border-no">
-                                    <Card
-                                        title="<h3 class='widget-title border-no'>Blog Categories<span class='toggle-btn p-0 parse-content'></span></h3>"
-                                        type="parse"
-                                        expanded={true}
-                                    >
-                                        <ul className="widget-body filter-items search-ul">
-                                            {category?.map(category => (
-                                                <li key={category?.id} className={`${query?.category === category?.name.toLowerCase() ? 'active' : ''}`}>
-                                                    <ALink href={{ pathname: '/blog/classic', query: { category: category.name.toLowerCase() } }} scroll={false}>
-                                                        {category?.name}
-                                                    </ALink>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </Card>
-                                </div> */}
-
-
 
                                 <div className="widget widget-collapsible border-no">
                                     <Card

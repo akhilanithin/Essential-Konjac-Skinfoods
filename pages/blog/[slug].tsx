@@ -62,7 +62,7 @@ function PostSingle() {
 
 
 
-  console.log(post);
+
   
 
     return (
@@ -192,10 +192,10 @@ function PostSingle() {
                                                             <span className="author-title">AUTHOR</span>
                                                             <h4 className="author-name font-weight-bold mb-0">{post?.author?.firstName} {post?.author?.lastName}</h4>
                                                         </div>
-                                                        <div>
+                                                        {/* <div>
                                                             <ALink href="#" className="author-link font-weight-semi-bold">View all posts
                                                                 by {post?.author?.firstName} {post?.author?.lastName} <i className="d-icon-arrow-right"></i></ALink>
-                                                        </div>
+                                                        </div> */}
                                                     </div>
 
 

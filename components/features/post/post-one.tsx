@@ -44,59 +44,38 @@ const PostOne: React.FC<PostOneProps> = ({
     btnAdClass = '',
     isButton = true,
 }) => {
+
+   console.log(post?.author);
+   
+    
     return (
-        <div className={`post post-classic ${post.type === 'video' ? 'post-video' : ''} ${adClass}`}>
+      
+        <div className={`post post-classic  ${adClass}`}>
             {
-                post.type === 'image' || post.type === 'video' ? (
-                    <figure className={`post-media ${post.type === 'image' ? 'overlay-zoom' : ''}`}>
-                        {
-                            isLazy ? (
-                                <ALink href={`/blog/${post.slug}`}>
+                post.images || post.type === 'video' ? (
+                    <figure className={`post-media ${post?.images ? 'overlay-zoom' : ''}`}>                 
+                                <ALink href={`/blog/${post?.id}`}>
                                     {
                                         isOriginal ? (
-                                            <LazyLoadImage
-                                                src={`${process.env.NEXT_PUBLIC_ASSET_URI}${post.large_picture![0].url}`}
+                                            <img
+                                            src={post?.thumbnails[0]}
                                                 alt="post image"
                                                 width={100}
-                                                height={post.large_picture![0].height}
-                                                effect="opacity; transform"
-                                                style={{ backgroundColor: "#DEE6E8" }}
+                                                // height={post.large_picture![0].height}
                                             />
                                         ) : (
-                                            <LazyLoadImage
-                                                src={`${process.env.NEXT_PUBLIC_ASSET_URI}${post.picture[0].url}`}
+                                            <img
+                                            src={post?.thumbnails[0]}
                                                 alt="post image"
-                                                width={post.picture[0].width}
-                                                height={post.picture[0].height}
-                                                effect="opacity; transform"
-                                                style={{ backgroundColor: "#DEE6E8" }}
+                                                width="900"
+                                                height={500}
                                             />
                                         )
                                     }
                                 </ALink>
-                            ) : (
-                                <ALink href={`/blog/${post.slug}`}>
-                                    {
-                                        isOriginal ? (
-                                            <img
-                                                src={`${process.env.NEXT_PUBLIC_ASSET_URI}${post.large_picture![0].url}`}
-                                                alt="post image"
-                                                width={100}
-                                                height={post.large_picture![0].height}
-                                            />
-                                        ) : (
-                                            <img
-                                                src={`${process.env.NEXT_PUBLIC_ASSET_URI}${post.picture[0].url}`}
-                                                alt="post image"
-                                                width={post.picture[0].width}
-                                                height={post.picture[0].height}
-                                            />
-                                        )
-                                    }
-                                </ALink>
-                            )
-                        }
-                        {
+                            
+                        
+                        {/* {
                             post.type === 'video' && (
                                 <>
                                     <span className="video-play" onClick={videoHandler}></span>
@@ -105,63 +84,62 @@ const PostOne: React.FC<PostOneProps> = ({
                                     </video>
                                 </>
                             )
-                        }
+                        } */}
                     </figure>
                 ) : (
                     <figure className="post-media">
-                        {
-                            isLazy ? (
+            
                                 <OwlCarousel adClass="owl-theme owl-dot-inner owl-dot-white gutter-no" options={mainSlider20}>
                                     {
-                                        post.picture.map((item, index) => (
+                                        post.thumbnails.map((item, index) => (
                                             <LazyLoadImage
-                                                src={`${process.env.NEXT_PUBLIC_ASSET_URI}${item.url}`}
+                                                 src={item}
                                                 alt="post gallery"
                                                 key={`${item.title}-${index}`}
-                                                width={item.width}
-                                                height={item.height}
+                                             
                                                 effect="opacity; transform"
                                                 style={{ backgroundColor: "#DEE6E8" }}
                                             />
                                         ))
                                     }
                                 </OwlCarousel>
-                            ) : (
-                                <OwlCarousel adClass="owl-theme owl-dot-inner owl-dot-white gutter-no" options={mainSlider20}>
-                                    {
-                                        post.picture.map((item, index) => (
-                                            <img
-                                                src={`${process.env.NEXT_PUBLIC_ASSET_URI}${item.url}`}
-                                                alt="post gallery"
-                                                key={`${item.title}-${index}`}
-                                                width={item.width}
-                                                height={item.height}
-                                            />
-                                        ))
-                                    }
-                                </OwlCarousel>
-                            )
-                        }
+
                     </figure>
                 )
             }
 
+
             <div className="post-details">
+
+
                 <div className="post-meta">
-                    by <ALink href="#" className="post-author">{post.author}</ALink> on <ALink href="#" className="post-date">{new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: "2-digit", timeZone: "UTC" })}</ALink> | <ALink href="#" className="post-comment"><span>{post.comments}</span> Comments</ALink>
+                    by <ALink href="#" className="post-author">{post?.author?.firstName} {post?.author?.lastName}</ALink> on <ALink href="#" className="post-date">{new Date(post.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: "2-digit", timeZone: "UTC" })}</ALink> | <ALink href="#" className="post-comment"><span>{post?.comments?.length}</span> Comments</ALink>
                 </div>
+
+
                 <h4 className="post-title">
-                    <ALink href={`/blog/${post.slug}`}>{post.title}</ALink>
+                    <ALink href={`/blog/${post.id}`}>{post.title}</ALink>
                 </h4>
-                <p className="post-content">{post.content}</p>
+
+
+                <p
+                    className="mb-5"
+                    dangerouslySetInnerHTML={{ __html:post?. metaDescription }}
+                ></p>   
+
+
                 {
                     isButton && (
-                        <ALink href={`/blog/${post.slug}`} className={`btn btn-link btn-underline btn-primary ${btnAdClass}`}>
+                        <ALink href={`/blog/${post.id}`} className={`btn btn-link btn-underline btn-primary ${btnAdClass}`}>
                             {btnText}<i className="d-icon-arrow-right"></i>
                         </ALink>
                     )
                 }
-            </div>
+
+
+            </div> 
+
+
         </div>
     );
 }

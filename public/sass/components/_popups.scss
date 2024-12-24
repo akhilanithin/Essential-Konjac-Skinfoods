@@ -463,6 +463,9 @@ button.mfp-close {
     border-radius: 1rem;
     display: inline-block;
     width: 100%;
+    position: relative;
+    height: auto;
+    // overflow: hidden;
 
     h4 {
         margin-bottom: .6rem;
@@ -531,7 +534,23 @@ button.mfp-close {
         padding-left: 2.6rem;
     }
 }
+.newsletter-popup-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image covers the container */
+    z-index: -1; /* Places the image behind the content */
+}
+
+
+
+
 .newsletter-content {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
     margin-left: auto;
     max-width: 41.4rem;
     padding: 7.1rem 4.2rem 5rem;
