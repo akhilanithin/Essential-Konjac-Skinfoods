@@ -13,18 +13,22 @@ interface ThumbTwoProps {
 }
 
 function ThumbTwo(props: ThumbTwoProps) {
-    const { product, index = 0 ,variationId,ProductId} = props;
+    const { product, index = 0 ,variationId,ProductId,colorID} = props;
 
     const filteredProduct = product?.variation.filter(product => 
         product.id === parseInt(variationId) && product.p_id === parseInt(ProductId)
       );
-      
+        
+    const filteredProducts = filteredProduct[0]?.colors.filter(product =>    
+       product?.id===parseInt(colorID)
+       
+      );
 
     
 
 
     
-    const thumbs =filteredProduct[0]?.images ? filteredProduct[0]?.images : product?.variation[0]?.images;
+    const thumbs =colorID ? filteredProducts[0]?.colorimages : filteredProduct[0]?.images;
 
     
 
@@ -34,7 +38,7 @@ function ThumbTwo(props: ThumbTwoProps) {
 
     useEffect(() => {
         if (thumbRef !== null && index >= 0) {
-            thumbRef.current.$car.to(index, 300, true);
+            thumbRef.current?.$car.to(index, 300, true);
 
             const thumbsElement = document.querySelector('.product-thumbs');
             if (thumbsElement) {

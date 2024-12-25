@@ -30,20 +30,29 @@ export default function MediaOne ( props ) {
 
     const variationId=router.query.variationId
     const ProductId=router.query.slug
-
+    const colorID=router?.query.colorID
   
     
     
     
     
-    const filteredProduct = product?.variation.filter(product => 
+    const filteredProduct = product?.variation.filter(product =>    
         product.id === parseInt(variationId) && product.p_id === parseInt(ProductId)
       );
+
+
+    
       
-     
+    
+    const filteredProducts = filteredProduct[0]?.colors.filter(product =>    
+       product?.id===parseInt(colorID)
+       
+      );
 
+  
+     const lgImages = colorID ? filteredProducts[0]?.colorimages : filteredProduct[0]?.images;
 
-    const lgImages = filteredProduct[0]?.images ? filteredProduct[0]?.images : product?.variation[0]?.images;
+    // const lgImages = filteredProduct[0]?.images ? filteredProduct[0]?.images : product?.variation[0]?.images;
 
 
     const PRODUCT_IMAGE_BASEURL = process.env.NEXT_PUBLIC_PRODUCT_IMAGE_BASEURL;
@@ -149,9 +158,9 @@ export default function MediaOne ( props ) {
 
             <ALink href="#" className="product-image-full" onClick={ openLightBox }><i className="d-icon-zoom"></i></ALink>
 
-            <ThumbTwo product={ product } variationId={variationId} ProductId={ProductId} index={ index } onChangeIndex={ setIndexHandler } />
+            <ThumbTwo product={ product } variationId={variationId} ProductId={ProductId} colorID={colorID} index={ index } onChangeIndex={ setIndexHandler } />
 
-            <MediaLightBox images={ lgImages }  isOpen={ isOpen } changeOpenState={ changeOpenState } index={ index } product={ product } filteredProduct={filteredProduct} />
+            <MediaLightBox images={ lgImages }  isOpen={ isOpen } changeOpenState={ changeOpenState } index={ index } product={ product } filteredProduct={filteredProduct} filteredProducts={filteredProducts} />
         </div>
     )
 }

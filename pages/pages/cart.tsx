@@ -32,6 +32,9 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
 
     const PRODUCT_IMAGE_BASEURL = process.env.NEXT_PUBLIC_PRODUCT_IMAGE_BASEURL;
 
+
+    
+
     useEffect(() => {
         setCartItems([...cartList]);
     }, [cartList]);
@@ -370,7 +373,7 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
                                         <tbody>
                                             {cartItems.map(item => (
 
-                                                // console.log(item?.variation[0]),     
+                                         
 
                                                 <tr key={'cart' + item.name}>
                                                     <td className="product-thumbnail">

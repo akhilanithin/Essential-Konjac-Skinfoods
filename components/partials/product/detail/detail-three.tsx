@@ -81,6 +81,27 @@ const DetailOne: React.FC<ProductProps> = (props) => {
     const product=data?.data?.product
 
 
+
+
+    useEffect(() => {
+        // Check if the query doesn't contain a variationId
+        if (!router.query.variationId && product?.variation?.[0]?.id) {
+            // If no variationId, update the URL with the first variation's id
+            router.push(
+                {
+                    pathname: router.pathname,
+                    query: {
+                        ...router.query,
+                        variationId: product?.variation?.[0]?.id, // Use the first variation's id
+                    },
+                },
+                undefined,
+                { shallow: true } // Update the URL without reloading the page
+            );
+        }
+    }, [router, product]);
+
+
  
     const isWishlisted = wishlist?.some(item => item?.name === product?.name);
 
@@ -213,20 +234,6 @@ const DetailOne: React.FC<ProductProps> = (props) => {
 
 
     
-    const addToCartHandler = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        e.preventDefault();
-        
-        const cartItem = { 
-            ...product, 
-            qty: 1, 
-            price: getPrice() 
-        };
-    
-    console.log(cartItem?.price);
-    
-        addToCart(cartItem);
-    };
-    
 
 
     const review = Array.isArray(product?.review) ? product.review : [product?.review];
@@ -243,15 +250,15 @@ const DetailOne: React.FC<ProductProps> = (props) => {
 
 
 
-    const toggleColorHandler = ( color ) => {
-        if ( !isDisabled( color.name, curSize ) ) {
-            if ( curColor === color.name ) {
-                setCurColor( 'null' );
-            } else {
-                setCurColor( color.name );
-            }
-        }
-    }
+    // const toggleColorHandler = ( color ) => {
+    //     if ( !isDisabled( color.name, curSize ) ) {
+    //         if ( curColor === color.name ) {
+    //             setCurColor( 'null' );
+    //         } else {
+    //             setCurColor( color.name );
+    //         }
+    //     }
+    // }
 
 
 
@@ -282,6 +289,74 @@ const DetailOne: React.FC<ProductProps> = (props) => {
           { shallow: !true } 
         );
       };
+    
+
+
+
+
+
+
+
+
+      const toggleColorHandler = (color) => {
+        if (!isDisabled(color.name, curSize)) {
+            const newColor = curColor === color.name ? 'null' : color.name;
+            setCurColor(newColor);
+    
+            // Update router query with the selected color ID
+            router.push(
+                {
+                    pathname: router.pathname,
+                    query: {
+                        ...router.query,
+                        colorID: newColor !== 'null' ? color.id : undefined, // Remove if no color selected
+                    },
+                },
+                undefined,
+                { shallow: true } // Keep shallow routing for seamless experience
+            );
+        }
+    };
+    
+
+
+    useEffect(() => {
+        if (router.query.colorID) {
+            const selectedColor = selectedVariation?.colors?.find(
+                (color) => color.id === parseInt(router.query.colorID, 10)
+            );
+            if (selectedColor) {
+                setCurColor(selectedColor.name);
+            }
+        }
+    }, [router.query.colorID, selectedVariation]);
+
+
+
+
+      
+    const colorID = router.query.colorID 
+    ? router.query.colorID 
+    : '';
+
+    
+    
+
+    const addToCartHandler = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+    
+        const cartItem = { 
+            ...product, 
+            qty: 1, 
+            price: getPrice(),
+            variationId: variationId,
+            colorID:colorID
+        };
+    
+      
+    
+        addToCart(cartItem);
+    };
     
 
     return (
@@ -399,73 +474,6 @@ const DetailOne: React.FC<ProductProps> = (props) => {
             <p className="product-short-desc">{product?.description}</p>
 
 
-{/* variations */}
-
-            {/* <hr className="product-divider" />
-
-
-            <div className="row">
-            VARIATIONS: <span className='product-brand'></span>
-     <br />
-                <div className="row">
-                    {product?.variation?.length > 1 ? (
-                        product?.variation.map((variation, index) => (
-                            <div className="col-6 col-sm-4 col-md-3 col-lg-2" key={index}>
-                                <ALink
-                                    href="#"
-                                    className="btn btn-primary btn-block"
-                                    style={{ padding: "1rem", fontSize: "1rem", borderRadius: "2rem" }}
-                                >
-                                    {variation?.name}
-                                </ALink>
-                            </div>
-                        ))
-                    ) : (
-                        <div className="col-6 col-sm-4 col-md-3 col-lg-2">
-                            VARIATIONS: <span className='product-brand'></span>
-                            <ALink
-                                href="#"
-                                className="btn btn-primary btn-block"
-                                style={{ padding: "1rem", fontSize: "1.3rem", borderRadius: "2rem" }}
-                            >
-                                {product?.variation[0]?.name}
-                            </ALink>
-                        </div>
-                    )}
-                </div>
-
-
-            </div>
- */}
-
-
-
-
-
-
-            
-        
-
-{/* color */}
-
-            {/* <hr className="product-divider" />
-            {
-                product?.variation[0]?.colors?.length > 0 ?
-                    <div className='product-form product-color'>
-                        <label>Color:</label>
-
-                        <div className="product-variations">
-                            {
-                                product?.variation[0]?.colors?.map(item =>
-                                    <ALink href="#" className={`color ${curColor === item?.name ? 'active' : ''} `} key={"color-" + item?.id} style={{ backgroundColor: `${item?.name}`,width:'3rem' }} onClick={(e) => toggleColorHandler(item)}></ALink>)
-                            }
-                        </div>
-                    </div> : ''
-            }
-     
-                      */}
-
-
 
 
 
@@ -553,19 +561,9 @@ const DetailOne: React.FC<ProductProps> = (props) => {
                         <i className='d-icon-bag'></i>Add to Cart
                     </button>
 
-                    {/* Add to Cart */}
+               
 
-{/* <button
-    className={`btn-product btn-cart text-normal ls-normal font-weight-semi-bold ${product?.variation[0]?.colors?.length > 1  ? 'disabled' : ''}`}
-    onClick={addToCartHandler}
-    disabled={product?.variation[0]?.colors?.length > 1 }
->
-    <i className='d-icon-bag'></i> Add to Cart
-</button> */}
-
-
-
-                </div>
+          </div>
 
 
             </div>

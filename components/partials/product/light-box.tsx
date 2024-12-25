@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
+import { useRouter } from 'next/router';
+
 
 interface Image {
     url: string;
@@ -20,7 +22,7 @@ interface MediaLightBoxProps {
 }
 
 const MediaLightBox: React.FC<MediaLightBoxProps> = (props) => {
-    const { images, product,filteredProduct, isOpen: propIsOpen, index: propIndex, changeOpenState } = props;
+    const { images, product,filteredProduct,filteredProducts, isOpen: propIsOpen, index: propIndex, changeOpenState } = props;
     const [isOpen, setOpenState] = useState(false);
     const [index, setIndex] = useState(0);
 
@@ -45,20 +47,19 @@ const MediaLightBox: React.FC<MediaLightBoxProps> = (props) => {
     };
 
 
+ 
+
     
-    // const lgImages = product?.variation[0]?.images ? product?.variation[0]?.images : product?.pictures;
+    const router = useRouter();
+    const colorID=router?.query.colorID
 
-    const lgImages = filteredProduct[0]?.images ? filteredProduct[0]?.images : product?.variation[0]?.images;
-
-
-    // console.log(lgImages[0]?.image);
-    
-    // console.log(index);
+    const lgImages = colorID ? filteredProducts[0]?.colorimages : filteredProduct[0]?.images;
+   
 
     const PRODUCT_IMAGE_BASEURL = process.env.NEXT_PUBLIC_PRODUCT_IMAGE_BASEURL;
     
 
-    // {`${PRODUCT_IMAGE_BASEURL}/products/${image?.image}`}
+ 
 
     return (
         <>
