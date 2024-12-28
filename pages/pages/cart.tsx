@@ -17,6 +17,7 @@ import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
 
 
 import { useRouter } from 'next/router';
+import { log } from 'node:console';
 
 
 interface CartProps {
@@ -334,7 +335,9 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
         updateCart(cartItems,);
     };
 
+console.log(cartItems);
 
+    
 
     return (
         <div className="main cart">
@@ -390,8 +393,47 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
                                                     </td>
                                                     <td className="product-name">
                                                         <div className="product-name-section">
-                                                            <ALink href={'/product/' + item.slug}>{item.name}</ALink>
+                                                            <ALink href={'/product/' + item?.id}>{item.name}</ALink>
                                                         </div>
+
+                                                        {item?.selectedColor ? (
+                                                            <>
+
+                                                             
+                                                         
+                                                                    <div className="product-variations mt-3">
+                                                                    <p className="product-short-desc">
+                                                                     Variation: {item?.selectedVariation?.name}</p>
+
+                                                                    </div>
+                                                            
+
+
+
+
+
+                                                                <div className="product-form product-color">
+                                                                    <label>Color:</label>
+                                                                    <div className="product-variations">
+                                                                      
+                                                                            <ALink
+                                                                                href="#"
+                                                                                className={`color`}
+                                                                                key={`color-${item?.selectedColor?.id}`}
+                                                                                style={{ backgroundColor: item?.selectedColor?.name, width: '2rem', height: '2rem' }}
+        
+                                                                            />
+                                                                      
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div>
+                                                       
+                                                            </div>
+                                                            </>
+                                                            
+                                                        ) : ''}
                                                     </td>
                                                     <td className="product-subtotal">
                                                         <span className="amount">AED {toDecimal(item.price)}</span>

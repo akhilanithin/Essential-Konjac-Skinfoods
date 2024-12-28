@@ -28,11 +28,16 @@ export default function MediaOne ( props ) {
     //     window.location.pathname = process.env.NEXT_PUBLIC_ASSET_URI + '/pages/404';
     // }
 
-    const variationId=router.query.variationId
-    const ProductId=router.query.slug
-    const colorID=router?.query.colorID
-  
+    const variationId=router.query.variationId?router.query.variationId:product?.variation[0]?.id
     
+    const ProductId=router.query.slug
+    const colorID=router?.query.colorID?router?.query.colorID:''
+
+    // console.log(product?.variation[0]?.id);
+    
+  
+ 
+  
     
     
     
@@ -52,7 +57,6 @@ export default function MediaOne ( props ) {
   
      const lgImages = colorID ? filteredProducts[0]?.colorimages : filteredProduct[0]?.images;
 
-    // const lgImages = filteredProduct[0]?.images ? filteredProduct[0]?.images : product?.variation[0]?.images;
 
 
     const PRODUCT_IMAGE_BASEURL = process.env.NEXT_PUBLIC_PRODUCT_IMAGE_BASEURL;

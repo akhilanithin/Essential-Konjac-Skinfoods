@@ -62,10 +62,6 @@ const DetailOne: React.FC<ProductProps> = (props) => {
 
 
     const router = useRouter();
-
-
-
-
     const { data, isSticky = false, isDesc = false, adClass = '' } = props;
 
     const { toggleWishlist, addToCart, wishlist } = props;
@@ -79,27 +75,6 @@ const DetailOne: React.FC<ProductProps> = (props) => {
  
 
     const product=data?.data?.product
-
-
-
-
-    useEffect(() => {
-        // Check if the query doesn't contain a variationId
-        if (!router.query.variationId && product?.variation?.[0]?.id) {
-            // If no variationId, update the URL with the first variation's id
-            router.push(
-                {
-                    pathname: router.pathname,
-                    query: {
-                        ...router.query,
-                        variationId: product?.variation?.[0]?.id, // Use the first variation's id
-                    },
-                },
-                undefined,
-                { shallow: true } // Update the URL without reloading the page
-            );
-        }
-    }, [router, product]);
 
 
  
@@ -144,16 +119,16 @@ const DetailOne: React.FC<ProductProps> = (props) => {
 
 
     const getPrice = () => {
- 
+        // Check if product has variations
         if (product.variation && product.variation.length > 0) {
             const variation = product.variation[0];
-     
+            // Check if the variation has offers
             if (variation.offers && variation.offers.length > 0) {
                 return variation.offers[0].price;
             }
             return variation.price;
         }
-        return 0; 
+        return 0; // or another default value
     };
 
     const [selectedVariation, setSelectedVariation] = useState(null);
@@ -167,12 +142,51 @@ const DetailOne: React.FC<ProductProps> = (props) => {
   
 
 
-    // const addToCartHandler = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    //     e.preventDefault();
-    //     addToCart({ ...product, qty: 1, price: getPrice()});
-    // };
+    const addToCartHandler = () => {
+        if ( product?.variation[0]?.stock > 0 ) {
+            if ( product.variation.length > 1 ) {
+                let tmpName = product.name;
+            
+                tmpName += curColor !== '' ? '-' + curColor : '';
+                tmpName += selectedVariation?.name !== product?.variation[0]?.name ? '-' + selectedVariation?.name : '';
+            
 
 
+
+                const getPrice = () => {
+ 
+                    if (product.variation && product.variation.length > 0) {
+                        const variation = product.variation[0];
+                 
+                        if (variation.offers && variation.offers.length > 0) {
+                            return variation.offers[0].price;
+                        }
+                        return variation.price;
+                    }
+                    return 0; 
+                };
+            
+          
+        const selectedvariationname =product?.variation?.filter(
+        (color) => color.id === selectedVariation?.id)
+
+      const price=selectedvariationname[0]?.price
+        
+
+
+   
+
+              
+          
+
+                addToCart( { ...product, name: tmpName, qty: quantity, price: price,         selectedVariation: selectedVariation,
+                    selectedColor:selectedColor } );
+            } else {
+                addToCart( { ...product, qty: 1, price: getPrice(),selectedVariation: selectedVariation,
+                    selectedColor:selectedColor } );
+            }
+        }
+    }
 
 
     
@@ -200,41 +214,26 @@ const DetailOne: React.FC<ProductProps> = (props) => {
         setQuantity(qty);
     };
 
-
-
-
-    // console.log(product?.variation[0]?.id);
-
-    // const variationId=product?.variation[0]?.id
-
-    // console.log(router.query.variationId);]
-
-    
     const variationId = router.query.variationId 
     ? router.query.variationId 
     : product?.variation?.[0]?.id;
-  
-  const filteredProduct = product?.variation?.filter(
-    variation =>
-      variation.id === parseInt(variationId, 10) &&
-      variation.p_id === parseInt(router.query.slug, 10)
-  );
-     
+
+    const filteredProduct = product?.variation?.filter(
+        variation =>
+          variation.id === parseInt(variationId, 10) &&
+          variation.p_id === parseInt(router.query.slug, 10)
+      );
+         
+        
     
-
-
-    const variations = Array.isArray(filteredProduct) ? filteredProduct : [filteredProduct];
-    const discounts = variations.flatMap(variation => variation?.offers || []);
-    const discount = discounts?.length > 0 ? discounts[0] : null;
-    const discountValue = discount ? discount?.discount : 0;
-    const discountPrice = discount ? discount?.price : null;
-    const basePrice = variations[0]?.price || 0;
-    const showDiscountedPrice = discountPrice && discountPrice < basePrice;
-
-
-
     
-
+        const variations = Array.isArray(filteredProduct) ? filteredProduct : [filteredProduct];
+        const discounts = variations.flatMap(variation => variation?.offers || []);
+        const discount = discounts?.length > 0 ? discounts[0] : null;
+        const discountValue = discount ? discount?.discount : 0;
+        const discountPrice = discount ? discount?.price : null;
+        const basePrice = variations[0]?.price || 0;
+        const showDiscountedPrice = discountPrice && discountPrice < basePrice;
 
     const review = Array.isArray(product?.review) ? product.review : [product?.review];
     
@@ -250,15 +249,27 @@ const DetailOne: React.FC<ProductProps> = (props) => {
 
 
 
-    // const toggleColorHandler = ( color ) => {
-    //     if ( !isDisabled( color.name, curSize ) ) {
-    //         if ( curColor === color.name ) {
-    //             setCurColor( 'null' );
-    //         } else {
-    //             setCurColor( color.name );
-    //         }
-    //     }
-    // }
+
+    const toggleColorHandler = (color) => {
+        if (!isDisabled(color.name, curSize)) {
+            const newColor = curColor === color.name ? '' : color.name;
+            setCurColor(newColor);
+    
+            // Update router query with the selected color ID
+            router.push(
+                {
+                    pathname: router.pathname,
+                    query: {
+                        ...router.query,
+                        colorID: newColor !== 'null' ? color.id : undefined, 
+                    },
+                },
+                undefined,
+                { shallow: true } // Keep shallow routing for seamless experience
+            );
+        }
+    };
+    
 
 
 
@@ -286,41 +297,14 @@ const DetailOne: React.FC<ProductProps> = (props) => {
             },
           },
           undefined,
-          { shallow: !true } 
+          { shallow: !true } // Avoids full page reload
         );
       };
     
 
 
 
-
-
-
-
-
-      const toggleColorHandler = (color) => {
-        if (!isDisabled(color.name, curSize)) {
-            const newColor = curColor === color.name ? 'null' : color.name;
-            setCurColor(newColor);
-    
-            // Update router query with the selected color ID
-            router.push(
-                {
-                    pathname: router.pathname,
-                    query: {
-                        ...router.query,
-                        colorID: newColor !== 'null' ? color.id : undefined, // Remove if no color selected
-                    },
-                },
-                undefined,
-                { shallow: true } // Keep shallow routing for seamless experience
-            );
-        }
-    };
-    
-
-
-    useEffect(() => {
+      useEffect(() => {
         if (router.query.colorID) {
             const selectedColor = selectedVariation?.colors?.find(
                 (color) => color.id === parseInt(router.query.colorID, 10)
@@ -332,32 +316,18 @@ const DetailOne: React.FC<ProductProps> = (props) => {
     }, [router.query.colorID, selectedVariation]);
 
 
-
-
-      
+       
     const colorID = router.query.colorID 
     ? router.query.colorID 
     : '';
 
     
-    
+    const selectedColor = selectedVariation?.colors?.find(
+        (color) => color.id === parseInt(router.query.colorID, 10)
+    );
 
-    const addToCartHandler = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        e.preventDefault();
-    
-        const cartItem = { 
-            ...product, 
-            qty: 1, 
-            price: getPrice(),
-            variationId: variationId,
-            colorID:colorID
-        };
-    
-      
-    
-        addToCart(cartItem);
-    };
-    
+
+
 
     return (
         <div className={`product-details ${isSticky ? 'sticky' : ''} ${adClass}`}>
@@ -372,6 +342,10 @@ const DetailOne: React.FC<ProductProps> = (props) => {
 
             {/* Navigation next  */}
                 {/* <ProductNav product={product} /> */}
+
+
+                
+                <div className="title-wrapper mt-3"><a href="/shop/">View All Products<i className="d-icon-arrow-right"></i></a></div>
 
             </div>
             {/* Product Name  */}
@@ -430,6 +404,12 @@ const DetailOne: React.FC<ProductProps> = (props) => {
 
 {/* Product price   */}
 
+
+
+
+
+
+
             <div className="product-price">
                 {showDiscountedPrice ? (
                     <>
@@ -457,7 +437,7 @@ const DetailOne: React.FC<ProductProps> = (props) => {
                     <div className="ratings-full">
 
                         {review.length > 0 && (
-                            <span className="ratings" style={{ width: 20 * averageRating + '%' }}></span>
+                            <span className="ratings" style={{ width: `${20 * averageRating}%` }}></span>
                         )}
                         <span className="tooltiptext tooltip-top">{averageRating.toFixed(1)}</span>
                     </div>
@@ -472,6 +452,73 @@ const DetailOne: React.FC<ProductProps> = (props) => {
 {/* description */}
 
             <p className="product-short-desc">{product?.description}</p>
+
+
+{/* variations */}
+
+            {/* <hr className="product-divider" />
+
+
+            <div className="row">
+            VARIATIONS: <span className='product-brand'></span>
+     <br />
+                <div className="row">
+                    {product?.variation?.length > 1 ? (
+                        product?.variation.map((variation, index) => (
+                            <div className="col-6 col-sm-4 col-md-3 col-lg-2" key={index}>
+                                <ALink
+                                    href="#"
+                                    className="btn btn-primary btn-block"
+                                    style={{ padding: "1rem", fontSize: "1rem", borderRadius: "2rem" }}
+                                >
+                                    {variation?.name}
+                                </ALink>
+                            </div>
+                        ))
+                    ) : (
+                        <div className="col-6 col-sm-4 col-md-3 col-lg-2">
+                            VARIATIONS: <span className='product-brand'></span>
+                            <ALink
+                                href="#"
+                                className="btn btn-primary btn-block"
+                                style={{ padding: "1rem", fontSize: "1.3rem", borderRadius: "2rem" }}
+                            >
+                                {product?.variation[0]?.name}
+                            </ALink>
+                        </div>
+                    )}
+                </div>
+
+
+            </div>
+ */}
+
+
+
+
+
+
+            
+        
+
+{/* color */}
+
+            {/* <hr className="product-divider" />
+            {
+                product?.variation[0]?.colors?.length > 0 ?
+                    <div className='product-form product-color'>
+                        <label>Color:</label>
+
+                        <div className="product-variations">
+                            {
+                                product?.variation[0]?.colors?.map(item =>
+                                    <ALink href="#" className={`color ${curColor === item?.name ? 'active' : ''} `} key={"color-" + item?.id} style={{ backgroundColor: `${item?.name}`,width:'3rem' }} onClick={(e) => toggleColorHandler(item)}></ALink>)
+                            }
+                        </div>
+                    </div> : ''
+            }
+     
+                      */}
 
 
 
@@ -561,9 +608,19 @@ const DetailOne: React.FC<ProductProps> = (props) => {
                         <i className='d-icon-bag'></i>Add to Cart
                     </button>
 
-               
+                    {/* Add to Cart */}
 
-          </div>
+{/* <button
+    className={`btn-product btn-cart text-normal ls-normal font-weight-semi-bold ${product?.variation[0]?.colors?.length > 1  ? 'disabled' : ''}`}
+    onClick={addToCartHandler}
+    disabled={product?.variation[0]?.colors?.length > 1 }
+>
+    <i className='d-icon-bag'></i> Add to Cart
+</button> */}
+
+
+
+                </div>
 
 
             </div>

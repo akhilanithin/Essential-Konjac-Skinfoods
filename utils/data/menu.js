@@ -70,6 +70,8 @@ export const mainMenu = {
             {
                 "title": "Simple Product",
                 "url": "product/default/bodycare-smooth-perfume"
+
+                
             },
             {
                 "title": "Variable Product",
