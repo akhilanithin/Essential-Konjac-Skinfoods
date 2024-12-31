@@ -82,25 +82,7 @@ const itemCount = useSelector(state => state?.wishlist?.data.length);
                             <i className="d-icon-phone"></i>
                             <span>Call us: </span>+(971) 4-385-6663
                         </a>
-                        {/* <ALink href="/pages/wishlist" className="wishlist">
-                            <i className="d-icon-heart"></i>Wishlist  
-                        </ALink>    */}
-
-
-                        {/* <ALink href="/pages/wishlist" className="wishlist">
-                            <i className="d-icon-heart"></i>
-
-                            {itemCount > 0 ? (
-                                <span className="wishlist-count">{itemCount}</span>
-                            ) : (
-                                <span className="wishlist-count" style={{ display: 'none' }}></span>
-                            )}
-
-
-                            Wishlist
-                        </ALink> */}
-
-
+                        
                             <ALink href="/pages/wishlist" className="wishlist">
                                 <i className="d-icon-heart"></i>
                                 {itemCount > 0 && (

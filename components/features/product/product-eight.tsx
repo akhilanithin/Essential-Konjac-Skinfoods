@@ -11,9 +11,10 @@ import { wishlistActions } from '~/store/wishlist';
 import { toDecimal } from '~/utils';
 
 interface Product {
+    id:string;
     slug: string;
     name: string;
-    pictures: { url: string }[];
+    image: string;
     price: number[];
     categories: { name: string; slug: string }[];
     ratings: number;
@@ -22,7 +23,14 @@ interface Product {
     is_new?: boolean;
     is_top?: boolean;
     discount?: number;
-    variants: { price?: number }[];
+    // variants: { price?: number }[];
+    variation:{ price?: number,offers?:number }[];
+    category:string;
+    review:{ star?:number }[];
+    fresharrival:number;
+    description:string;
+
+  
 }
 
 interface ProductEightProps {

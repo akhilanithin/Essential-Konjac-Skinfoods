@@ -104,7 +104,7 @@ function SearchForm() {
                 clearTimeout(timerRef.current);
             }
         };
-    }, [search, products]); // Add `products` dependency
+    }, [search, products]); 
     
 
     useEffect(() => {
@@ -173,9 +173,6 @@ function SearchForm() {
 
     const variations = Array.isArray(eachVariations) ?eachVariations : [eachVariations];
     
-
-    // console.log(filteredResults);
-    // console.log(variations);
 
     const result = variations?.flatMap(group =>
         group.map(item => ({

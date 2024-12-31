@@ -40,14 +40,14 @@ interface Product {
     };
 }
 
-interface Props {
+interface ProductProps {
     data: { product: Product };
     isSticky?: boolean;
     isDesc?: boolean;
     adClass?: string;
     toggleWishlist: (product: Product['data']) => void;
     addToCart: (item: { name: string; qty: number; price: number }) => void;
-    wishlist: { slug: string }[];
+    wishlist: { slug: string,name:string }[];
     category: { name: string; slug: string }[];
     categories: { name: string; slug: string }[];
 
@@ -66,8 +66,8 @@ const DetailOne: React.FC<ProductProps> = (props) => {
 
     const { toggleWishlist, addToCart, wishlist } = props;
 
-    const [curColor, setCurColor] = useState<string>('null');
-    const [curSize, setCurSize] = useState<string>('null');
+    const [curColor, setCurColor] = useState<string>('');
+    const [curSize, setCurSize] = useState<string>('');
     const [curIndex, setCurIndex] = useState<number>(0);
     const [cartActive, setCartActive] = useState<boolean>(false);
     const [quantity, setQuantity] = useState<number>(1);
@@ -131,12 +131,12 @@ const DetailOne: React.FC<ProductProps> = (props) => {
         return 0; // or another default value
     };
 
-    const [selectedVariation, setSelectedVariation] = useState(null);
+    const [selectedVariation, setSelectedVariation] = useState<string | undefined>();
     // const [curColor, setCurColor] = useState(null);
   
     const toggleVariationHandler = (variation) => {
       setSelectedVariation(variation);
-      setCurColor(null); // Reset the color when a new variation is selected
+      setCurColor(''); // Reset the color when a new variation is selected
     };
   
   
@@ -144,40 +144,26 @@ const DetailOne: React.FC<ProductProps> = (props) => {
 
     const addToCartHandler = () => {
         if ( product?.variation[0]?.stock > 0 ) {
+
             if ( product.variation.length > 1 ) {
                 let tmpName = product.name;
             
                 tmpName += curColor !== '' ? '-' + curColor : '';
-                tmpName += selectedVariation?.name !== product?.variation[0]?.name ? '-' + selectedVariation?.name : '';
-            
-
-
-
-                const getPrice = () => {
- 
-                    if (product.variation && product.variation.length > 0) {
-                        const variation = product.variation[0];
-                 
-                        if (variation.offers && variation.offers.length > 0) {
-                            return variation.offers[0].price;
-                        }
-                        return variation.price;
-                    }
-                    return 0; 
-                };
-            
+                tmpName += selectedVariation?.name !== product?.variation[0]?.name ? '-' + selectedVariation?.name : '';           
           
         const selectedvariationname =product?.variation?.filter(
         (color) => color.id === selectedVariation?.id)
 
-      const price=selectedvariationname[0]?.price
+
+
+
         
 
+        
+        
 
-   
-
-              
-          
+      const price=selectedvariationname[0]?.price?selectedvariationname[0]?.price:getPrice()
+            
 
                 addToCart( { ...product, name: tmpName, qty: quantity, price: price,         selectedVariation: selectedVariation,
                     selectedColor:selectedColor } );
@@ -185,6 +171,7 @@ const DetailOne: React.FC<ProductProps> = (props) => {
                 addToCart( { ...product, qty: 1, price: getPrice(),selectedVariation: selectedVariation,
                     selectedColor:selectedColor } );
             }
+
         }
     }
 
@@ -192,12 +179,12 @@ const DetailOne: React.FC<ProductProps> = (props) => {
     
     
     const resetValueHandler = () => {
-        setCurColor('null');
-        setCurSize('null');
+        setCurColor('');
+        setCurSize('');
     };
 
     const isDisabled = (color: string, size: string) => {
-        if (color === 'null' || size === 'null') return false;
+        if (color === '' || size === '') return false;
 
         if (sizes.length === 0) {
             return product?.data.variants.findIndex(item => item.color?.name === curColor) === -1;
@@ -261,7 +248,7 @@ const DetailOne: React.FC<ProductProps> = (props) => {
                     pathname: router.pathname,
                     query: {
                         ...router.query,
-                        colorID: newColor !== 'null' ? color.id : undefined, 
+                        colorID: newColor !== '' ? color.id : undefined, 
                     },
                 },
                 undefined,
@@ -610,13 +597,13 @@ const DetailOne: React.FC<ProductProps> = (props) => {
 
                     {/* Add to Cart */}
 
-{/* <button
+ {/* <button
     className={`btn-product btn-cart text-normal ls-normal font-weight-semi-bold ${product?.variation[0]?.colors?.length > 1  ? 'disabled' : ''}`}
     onClick={addToCartHandler}
     disabled={product?.variation[0]?.colors?.length > 1 }
 >
     <i className='d-icon-bag'></i> Add to Cart
-</button> */}
+</button>  */}
 
 
 

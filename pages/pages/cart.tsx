@@ -335,8 +335,9 @@ function Cart({ cartList, removeFromCart, updateCart }: CartProps) {
         updateCart(cartItems,);
     };
 
-console.log(cartItems);
 
+
+    
     
 
     return (
@@ -396,21 +397,15 @@ console.log(cartItems);
                                                             <ALink href={'/product/' + item?.id}>{item.name}</ALink>
                                                         </div>
 
+
+                                                        <div className="product-variations mt-3">
+                                                            <p className="product-short-desc">
+                                                                Variation: {item?.selectedVariation?.name?item?.selectedVariation?.name:item?.variation[0]?.name}</p>
+
+                                                        </div>
+
                                                         {item?.selectedColor ? (
                                                             <>
-
-                                                             
-                                                         
-                                                                    <div className="product-variations mt-3">
-                                                                    <p className="product-short-desc">
-                                                                     Variation: {item?.selectedVariation?.name}</p>
-
-                                                                    </div>
-                                                            
-
-
-
-
 
                                                                 <div className="product-form product-color">
                                                                     <label>Color:</label>

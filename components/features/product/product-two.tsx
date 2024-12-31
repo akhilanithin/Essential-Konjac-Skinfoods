@@ -23,7 +23,7 @@ interface Review {
 }
 
 interface Product {
-    id: string;
+    id: number;
     name: string;
     image: string;
     variation: Variation[];
@@ -31,6 +31,8 @@ interface Product {
     review?: Review[];
     fresharrival?: number;
     slug?: string;
+    price:string;
+  
 }
 
 interface ProductTwoProps {

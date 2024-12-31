@@ -35,6 +35,7 @@ interface Product {
     reviews: number;
     ratings: number;
     name: string;
+    data:{ product?: string }[];
 }
 
 interface DescTwoProps {

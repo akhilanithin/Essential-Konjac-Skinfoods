@@ -15,7 +15,7 @@ interface CartPopupProps {
 }
 
 const CartPopup: React.FC<CartPopupProps> = ({ product }) => {
-    // console.log(product?.price);
+   
 
     const PRODUCT_IMAGE_BASEURL = process.env.NEXT_PUBLIC_PRODUCT_IMAGE_BASEURL;
 

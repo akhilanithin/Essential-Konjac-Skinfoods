@@ -12,11 +12,14 @@ interface CartItem {
     name: string;
     slug: string;
     qty: number;
+    price:number;
+ 
 }
 
 interface CartMenuProps {
     cartList: CartItem[];
     removeFromCart: (item: CartItem) => void;
+    
 }
 
 const CartMenu: React.FC<CartMenuProps> = (props) => {

@@ -44,7 +44,7 @@ interface Product {
 }
 
 interface Props {
-    data: { product: Product };
+    data: { product: Product, };
     isStickyCart?: boolean;
     adClass?: string;
     isNav?: boolean;

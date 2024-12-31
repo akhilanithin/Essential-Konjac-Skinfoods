@@ -7,6 +7,7 @@ import Quantity from '~/components/features/quantity';
 import { wishlistActions } from '~/store/wishlist';
 import { cartActions } from '~/store/cart';
 import { toDecimal } from '~/utils';
+import React from 'react';
 
 const SlideToggle = dynamic(() => import('react-slide-toggle').then(module => module.SlideToggle), {
     ssr: false,
@@ -31,6 +32,7 @@ interface Product {
     reviews: number;
     short_description: string;
     pictures: { url: string }[];
+    slug:string;
 }
 
 interface Props {

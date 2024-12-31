@@ -23,11 +23,13 @@ interface ProductData {
     name: string;
     slug: string;
     variants: Variant[];
-    stock: number;
+
 }
 
 interface Product {
     data: ProductData;
+    stock: number;
+    
 }
 
 interface Props {

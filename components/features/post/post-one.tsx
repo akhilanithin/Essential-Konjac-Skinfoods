@@ -23,7 +23,16 @@ interface Post {
     picture: Picture[];
     large_picture?: Picture[];
     video?: { url: string };
+    images:string;
+    id:string;
+    thumbnails:string;
+    firstName:string;
+    lastName:string;
+    createdAt:string;
+    metaDescription:string;
 }
+
+
 
 interface PostOneProps {
     post: Post;
@@ -45,9 +54,7 @@ const PostOne: React.FC<PostOneProps> = ({
     isButton = true,
 }) => {
 
-   console.log(post?.author);
-   
-    
+  
     return (
       
         <div className={`post post-classic  ${adClass}`}>
@@ -85,6 +92,7 @@ const PostOne: React.FC<PostOneProps> = ({
                                 </>
                             )
                         } */}
+                        
                     </figure>
                 ) : (
                     <figure className="post-media">

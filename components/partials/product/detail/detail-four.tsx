@@ -35,6 +35,7 @@ interface ProductData {
     reviews: number;
     short_description: string;
     variants: ProductVariant[];
+    slug:string;
 }
 
 interface Product {

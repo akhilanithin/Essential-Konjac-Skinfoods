@@ -145,13 +145,6 @@ export default function MediaOne ( props ) {
                         mouseActivation="hover"
                         cursorStyleActive="crosshair"
                         className="product-image large-image"
-                        // style={{
-                        //     width: '100%', 
-                        //     display: 'inline-block',
-                        //     height: '570px', 
-                        //     objectFit: 'cover', 
-                      
-                        // }}
                     />
   
                 </div>
