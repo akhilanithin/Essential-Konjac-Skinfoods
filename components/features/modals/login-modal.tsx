@@ -22,7 +22,21 @@ const LoginModal: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [registerEmail, setRegisterEmail] = useState('');
+    const [registerPhone, setRegisterPhone] = useState('');
     const [registerPassword, setRegisterPassword] = useState('');
+    const [registerFirstName, setRegisterFirstName] = useState('');
+    const [registerLastName, setRegisterLastName] = useState('');
+    const [registerConfirmPsw, setRegisterConfirmPsw] = useState('');
+    const [registerAddress, setRegisterAddress] = useState('');
+    const [registerCity, setRegisterCity] = useState('');
+    const [registercountry, setRegistercountry] = useState('');
+
+    
+
+    
+    
+
+
     const router = useRouter();
 
     const closeModal = () => {
@@ -48,14 +62,14 @@ const LoginModal: React.FC = () => {
                 body: JSON.stringify({ email, password }),
             });
             const data = await response.json();
-          
-                
+
+
             if (response.ok) {
                 // Save token and user data (localStorage or cookies)
                 localStorage.setItem('token', data?.token);
                 localStorage.setItem('user', JSON.stringify(data?.user));
 
-          
+
 
                 // Redirect to the account page
                 router.push('/pages/account/');
@@ -63,28 +77,44 @@ const LoginModal: React.FC = () => {
                 showWarningToast(data.message || 'Login failed!');
             }
 
-            
+
         } catch (error) {
             // console.error('Error logging in:', error);
             showInfoToast('Something went wrong. Please try again.');
         }
     };
 
+
+
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await fetch('/api/auth/register/', {
+            const response = await fetch('https://essentialkonjacskinfoods.com/api/v1/en/customer/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email: registerEmail, password: registerPassword }),
+                body: JSON.stringify({
+                    phone: registerPhone,
+                    email: registerEmail,
+                    password: registerPassword,
+                    firstName: registerFirstName,
+                    lastName: registerLastName,
+                    confirmPassword:registerConfirmPsw,
+                    address:registerAddress,
+                    city:registerCity,
+                    country:registercountry
+                }),
+
+
             });
+
             const data = await response.json();
             if (response.ok) {
-                showSuccessToast('Registration successful! Please log in.');
+                showSuccessToast(data.message || 'Registration successful! Please log in.');
                 index = 0; // Switch to login tab
-                setEmail(registerEmail); // Prefill email
+                setEmail(registerEmail);
+
             } else {
                 showWarningToast(data.message || 'Registration failed!');
             }
@@ -93,6 +123,7 @@ const LoginModal: React.FC = () => {
             showInfoToast('Something went wrong. Please try again.');
         }
     };
+
 
     return (
         <>
@@ -127,6 +158,7 @@ const LoginModal: React.FC = () => {
                                 <div className="tab-content">
                                     <TabPanel className="tab-pane">
                                         <form onSubmit={handleLogin}>
+
                                             <div className="form-group mb-3">
                                                 <input
                                                     type="text"
@@ -147,6 +179,7 @@ const LoginModal: React.FC = () => {
                                                     required
                                                 />
                                             </div>
+
                                             <button className="btn btn-dark btn-block btn-rounded" type="submit">
                                                 Login
                                             </button>
@@ -155,8 +188,25 @@ const LoginModal: React.FC = () => {
 
                                     <TabPanel className="tab-pane">
                                         <form onSubmit={handleRegister}>
+
+                                            {/* Phone number */}
+
                                             <div className="form-group">
-                                                <label>Your email address:</label>
+                                                <label>Your Phone number *:</label>
+                                                <input
+                                                    type="phonenumber"
+                                                    className="form-control"
+                                                    placeholder="Your Phone number with code *"
+                                                    value={registerPhone}
+                                                    onChange={(e) => setRegisterPhone(e.target.value)}
+                                                    required
+                                                />
+                                            </div>
+
+                                            {/* Email */}
+
+                                            <div className="form-group">
+                                                <label>Your email address *:</label>
                                                 <input
                                                     type="email"
                                                     className="form-control"
@@ -166,17 +216,124 @@ const LoginModal: React.FC = () => {
                                                     required
                                                 />
                                             </div>
+
+                                            {/* Password */}
+
+                                            <div className="row">
+                                                <div className="col-xs-6">
+                                                    <div className="form-group">
+                                                        <label>Password:</label>
+                                                        <input
+                                                            type="password"
+                                                            className="form-control"
+                                                            placeholder="Password"
+                                                            value={registerPassword}
+                                                            onChange={(e) => setRegisterPassword(e.target.value)}
+                                                        
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                {/* Confirm Password */}
+
+                                                <div className="col-xs-6">
+                                                    <div className="form-group">
+                                                        <label htmlFor="email-address">Confirm Password : </label>
+                                                        <input
+                                                            type="password"
+                                                            className="form-control"
+                                                            placeholder="Confirm Password"
+                                                            value={registerConfirmPsw}
+                                                            onChange={(e) => setRegisterConfirmPsw(e.target.value)}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* First Name */}
+
+                                            <div className="row">
+                                                <div className="col-xs-6">
+                                                    <div className="form-group">
+                                                        <label>FirstName:</label>
+                                                        <input
+                                                            type="text"
+                                                            className="form-control"
+                                                            placeholder="FirstName"
+                                                            value={registerFirstName}
+                                                            onChange={(e) => setRegisterFirstName(e.target.value)}
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                {/* Last Name */}
+
+
+                                                <div className="col-xs-6">
+                                                    <div className="form-group">
+                                                        <label htmlFor="email-address">LastName : </label>
+                                                        <input
+                                                            type="text"
+                                                            className="form-control"
+                                                            placeholder="LastName"
+                                                            value={registerLastName}
+                                                            onChange={(e) => setRegisterLastName(e.target.value)}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+{/* Address */}
                                             <div className="form-group">
-                                                <label>Password:</label>
+                                                <label>Address:</label>
                                                 <input
-                                                    type="password"
+                                                    type="text"
                                                     className="form-control"
-                                                    placeholder="Password *"
-                                                    value={registerPassword}
-                                                    onChange={(e) => setRegisterPassword(e.target.value)}
-                                                    required
+                                                    placeholder="Address"
+                                                    value={registerAddress}
+                                                    onChange={(e) => setRegisterAddress(e.target.value)}
+                                               
                                                 />
                                             </div>
+
+
+
+{/* city */}
+
+
+                                            <div className="row">
+                                                <div className="col-xs-6">
+                                                    <div className="form-group">
+                                                        <label>City:</label>
+                                                        <input
+                                                            type="text"
+                                                            className="form-control"
+                                                            placeholder="City"
+                                                            value={registerCity}
+                                                            onChange={(e) => setRegisterCity(e.target.value)}
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                {/* country */}
+
+
+                                                <div className="col-xs-6">
+                                                    <div className="form-group">
+                                                        <label htmlFor="email-address">Country : </label>
+                                                        <input
+                                                            type="text"
+                                                            className="form-control"
+                                                            placeholder="Country"
+                                                            value={registercountry}
+                                                            onChange={(e) => setRegistercountry(e.target.value)}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
                                             <button className="btn btn-dark btn-block btn-rounded" type="submit">
                                                 Register
                                             </button>
